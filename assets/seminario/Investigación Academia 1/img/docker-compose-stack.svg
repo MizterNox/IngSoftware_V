@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" fill="none">
+  <defs>
+    <linearGradient id="dcBg" x1="0" y1="0" x2="640" y2="270" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#071829"/>
+      <stop offset="55%" stop-color="#0B2239"/>
+      <stop offset="100%" stop-color="#071222"/>
+    </linearGradient>
+    <linearGradient id="dockerBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2496ED"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="4" y="4" width="632" height="262" rx="20" fill="url(#dcBg)" stroke="#38BDF8" stroke-opacity="0.4" stroke-width="1.5"/>
+
+  <!-- Left: Single YAML File -->
+  <rect x="22" y="40" width="186" height="190" rx="16" fill="#0B1628" stroke="url(#dockerBlue)" stroke-width="2"/>
+  <text x="115" y="68" text-anchor="middle" fill="#7DD3FC" font-family="monospace" font-size="11.5" font-weight="700">docker-compose.yml</text>
+  <rect x="38" y="82" width="154" height="92" rx="10" fill="#07101E" stroke="#38BDF8" stroke-opacity="0.3"/>
+  <text x="48" y="101" fill="#38BDF8" font-family="monospace" font-size="10.5">services:</text>
+  <text x="56" y="118" fill="#E2E8F0" font-family="monospace" font-size="10.5">frontend: ...</text>
+  <text x="56" y="135" fill="#E2E8F0" font-family="monospace" font-size="10.5">backend: ...</text>
+  <text x="56" y="152" fill="#E2E8F0" font-family="monospace" font-size="10.5">db: postgres</text>
+  <rect x="38" y="186" width="154" height="30" rx="8" fill="#0284C7"/>
+  <text x="115" y="205" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="11" font-weight="700">$ docker-compose up</text>
+
+  <!-- Arrow from YAML to Internal Network -->
+  <path d="M208 135 H248" stroke="#38BDF8" stroke-width="2.8"/>
+  <path d="M241 129 L249 135 L241 141" stroke="#38BDF8" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- Right: Automatic Internal Network Box -->
+  <rect x="252" y="28" width="364" height="214" rx="18" fill="#0A192E" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <text x="434" y="52" text-anchor="middle" fill="#7DD3FC" font-family="monospace" font-size="11" font-weight="700">RED INTERNA AUTOMÁTICA · DEPENDENCIAS CONECTADAS</text>
+
+  <!-- Container 1: Frontend -->
+  <rect x="272" y="72" width="324" height="44" rx="11" fill="#0F243D" stroke="#38BDF8" stroke-width="1.6"/>
+  <text x="292" y="99" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13.5" font-weight="800">1. Frontend Web</text>
+  <text x="578" y="99" text-anchor="end" fill="#67E8F9" font-family="monospace" font-size="11">puerto :3000</text>
+
+  <!-- Container 2: Backend Node.js -->
+  <rect x="272" y="128" width="324" height="44" rx="11" fill="#0F243D" stroke="#34D399" stroke-width="1.6"/>
+  <text x="292" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13.5" font-weight="800">2. Backend en Node.js</text>
+  <text x="578" y="155" text-anchor="end" fill="#6EE7B7" font-family="monospace" font-size="11">depends_on: db</text>
+
+  <!-- Container 3: Database -->
+  <rect x="272" y="184" width="324" height="44" rx="11" fill="#0F243D" stroke="#A78BFA" stroke-width="1.6"/>
+  <text x="292" y="211" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13.5" font-weight="800">3. Base de Datos</text>
+  <text x="578" y="211" text-anchor="end" fill="#C4B5FD" font-family="monospace" font-size="11">puerto :5432</text>
+
+  <!-- Vertical dependency links -->
+  <path d="M434 116 V128 M434 172 V184" stroke="#38BDF8" stroke-width="2.2"/>
+</svg>
