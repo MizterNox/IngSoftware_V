@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070b19">
+  <meta name="description" content="Investigación Académica — Grupo 5: GraphQL, gRPC, Kubernetes (k8s), Docker Compose y WebSockets / Socket.io. Ingeniería de Software con Inteligencia Artificial.">
+  <title>Investigación Académica · Grupo 5 | Seminario Fullstack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body data-active-theme="cover">
+  <!-- Barra sutil de progreso superior -->
+  <div class="top-progress" aria-hidden="true">
+    <span class="top-progress__bar" id="progressBar"></span>
+  </div>
+
+  <!-- Fondo dinámico multicapa con gradientes animados (carga instantánea, GPU-only) -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb ambient-orb--a"></div>
+    <div class="ambient-orb ambient-orb--b"></div>
+    <div class="ambient-orb ambient-orb--c"></div>
+    <div class="ambient-grid"></div>
+    <canvas id="constellationCanvas"></canvas>
+  </div>
+
+  <!-- Barra superior limpia con acceso directo a las demás presentaciones -->
+  <header class="topbar">
+    <button class="brand-home" id="goCoverBtn" type="button" title="Ir a la portada de esta presentación">
+      <span class="brand-badge">G5</span>
+      <span class="brand-copy">
+        <strong>GRUPO 05 · SEMESTRE V</strong>
+        <small>Ingeniería de Software con IA</small>
+      </span>
+    </button>
+
+    <div class="topbar-actions" aria-label="Regresar al portafolio y otras presentaciones">
+      <a class="back-btn back-btn--ghost" href="../../../index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 10.5 12 3l9 7.5"></path>
+          <path d="M5 9.5V20h14V9.5"></path>
+        </svg>
+        <span>Portafolio</span>
+      </a>
+      <a class="back-btn back-btn--primary" href="../../../index.html#seminario">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <span>Otras presentaciones</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Escenario principal de diapositivas -->
+  <main class="deck" id="deck" aria-live="polite">
+
+    <!-- ================================================================
+         DIAPOSITIVA 01 · PORTADA ACADÉMICA
+         ================================================================ -->
+    <section class="slide is-active" id="slide-1" data-theme="cover" aria-labelledby="cover-heading">
+      <div class="slide-inner cover-grid">
+        <div class="cover-main">
+          <div class="course-pill">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span>Seminario de Complementación Práctica · <strong>FULLSTACK DEVELOPER SOFTWARE</strong></span>
+          </div>
+
+          <h1 class="cover-title" id="cover-heading">
+            Investigación <span class="text-gradient">Académica</span>
+          </h1>
+
+          <p class="cover-subtitle">
+            Tecnologías modernas de consulta de APIs, comunicación de microservicios, orquestación de contenedores y tiempo real.
+          </p>
+
+          <!-- 5 Chips Interactivos solicitados debajo del título -->
+          <div class="topic-chips" role="navigation" aria-label="Temas de la investigación">
+            <button class="topic-chip topic-chip--gql" type="button" data-goto="1">
+              <span class="topic-chip__num">01</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polygon points="12 2 20.66 7 20.66 17 12 22 3.34 17 3.34 7"></polygon>
+                <polygon points="12 2 20.66 17 3.34 17"></polygon>
+              </svg>
+              <span>GraphQL</span>
+            </button>
+
+            <button class="topic-chip topic-chip--grpc" type="button" data-goto="2">
+              <span class="topic-chip__num">02</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg>
+              <span>gRPC</span>
+            </button>
+
+            <button class="topic-chip topic-chip--k8s" type="button" data-goto="3">
+              <span class="topic-chip__num">03</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"></circle>
+                <path d="M12 2v5M12 17v5M2 12h5M17 12h5M4.93 4.93l3.54 3.54M15.53 15.53l3.54 3.54M19.07 4.93l-3.54 3.54M8.47 15.53l-3.54 3.54"></path>
+              </svg>
+              <span>Kubernetes (k8s)</span>
+            </button>
+
+            <button class="topic-chip topic-chip--dc" type="button" data-goto="4">
+              <span class="topic-chip__num">04</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="10" width="6" height="5" rx="1"></rect>
+                <rect x="10" y="10" width="6" height="5" rx="1"></rect>
+                <rect x="6.5" y="4" width="6" height="5" rx="1"></rect>
+                <path d="M2 18h19"></path>
+              </svg>
+              <span>Docker Compose</span>
+            </button>
+
+            <button class="topic-chip topic-chip--ws" type="button" data-goto="5">
+              <span class="topic-chip__num">05</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 9h16l-4-4M20 15H4l4 4"></path>
+              </svg>
+              <span>WebSockets / Socket.io</span>
+            </button>
+          </div>
+
+          <!-- Datos académicos clave -->
+          <div class="academic-meta-grid">
+            <article class="grad-card meta-box">
+              <span class="meta-box__label">CARRERA PROFESIONAL</span>
+              <strong class="meta-box__value">Ingeniería de Software con Inteligencia Artificial</strong>
+            </article>
+            <article class="grad-card meta-box">
+              <span class="meta-box__label">INSTRUCTOR</span>
+              <strong class="meta-box__value">Fernando Miguel Pisfil Ortiz</strong>
+            </article>
+          </div>
+        </div>
+
+        <aside class="cover-side">
+          <figure class="grad-card hero-diagram-card">
+            <img src="img/cover-fullstack.svg" alt="Mapa arquitectónico de GraphQL, gRPC, Kubernetes, Docker Compose y WebSockets / Socket.io" width="640" height="460">
+          </figure>
+
+          <section class="grad-card team-panel" aria-label="Integrantes del Grupo 5">
+            <div class="team-panel__head">
+              <span class="badge-pill">GRUPO 5</span>
+              <span class="badge-pill badge-pill--cyan">SEMESTRE V</span>
+            </div>
+            <h2 class="team-panel__title">Integrantes del Equipo</h2>
+            <ul class="team-members">
+              <li>
+                <span class="member-avatar">LR</span>
+                <span>ROJAS CORONADO LUZ DANIELA</span>
+              </li>
+              <li>
+                <span class="member-avatar">LC</span>
+                <span>CARLOS ROJAS LETICIA IVETT</span>
+              </li>
+              <li>
+                <span class="member-avatar">JV</span>
+                <span>VALERIO LOPEZ JARED PETER</span>
+              </li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DIAPOSITIVA 02 · TEMA 1: GRAPHQL
+         ================================================================ -->
+    <section class="slide" id="slide-2" data-theme="graphql" aria-labelledby="gql-heading" hidden>
+      <div class="slide-inner topic-layout">
+        <div class="topic-copy">
+          <div class="topic-kicker topic-kicker--gql">
+            <span class="topic-kicker__num">TEMA 01</span>
+            <span>LENGUAJE DE CONSULTAS PARA APIs · FACEBOOK</span>
+          </div>
+
+          <h2 class="topic-title" id="gql-heading">
+            GraphQL: <span class="accent-gql">Datos exactos</span> en un único endpoint
+          </h2>
+
+          <p class="topic-lead">
+            Creado por <strong>Facebook</strong>, es un lenguaje de consultas para APIs y una moderna <strong>alternativa a REST</strong>. Utiliza un <strong>único endpoint flexible</strong> donde el cliente solicita exactamente los datos que necesita.
+          </p>
+
+          <div class="feature-stack">
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--gql" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </div>
+              <div>
+                <h3>Único Endpoint Flexible</h3>
+                <p>Toda consulta viaja a una sola ruta (ej. <code>/graphql</code>), adaptándose a cualquier vista del cliente sin crear decenas de rutas fijas.</p>
+              </div>
+            </article>
+
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--gql" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Adiós al Over-fetching</h3>
+                <p>Evita la transferencia excesiva de información al descartar campos que la interfaz no va a mostrar.</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="grad-card example-banner example-banner--gql">
+            <span class="example-tag">EJEMPLO PRÁCTICO</span>
+            <p>
+              Pedir exclusivamente el <strong>nombre</strong> y <strong>correo</strong> de un usuario en una sola petición a una red social, en lugar de recibir el perfil completo predefinido por el servidor.
+            </p>
+          </article>
+        </div>
+
+        <div class="topic-visual">
+          <figure class="grad-card diagram-frame">
+            <img src="img/graphql-flow.svg" alt="Diagrama técnico de consulta exacta en GraphQL frente al over-fetching en REST" width="640" height="270">
+          </figure>
+
+          <!-- Simulador interactivo del ejemplo de la red social -->
+          <div class="grad-card interactive-box">
+            <div class="interactive-head">
+              <div>
+                <span class="interactive-kicker">DEMO INTERACTIVA · RED SOCIAL</span>
+                <h3>Selecciona los campos de tu consulta</h3>
+              </div>
+              <span class="payload-badge" id="gqlSavingBadge">Ligero · Sin over-fetching</span>
+            </div>
+
+            <div class="field-toggles" role="group" aria-label="Campos disponibles del usuario">
+              <label class="field-pill is-checked">
+                <input type="checkbox" value="nombre" checked data-gql-field>
+                <span>nombre</span>
+              </label>
+              <label class="field-pill is-checked">
+                <input type="checkbox" value="correo" checked data-gql-field>
+                <span>correo</span>
+              </label>
+              <label class="field-pill">
+                <input type="checkbox" value="biografia" data-gql-field>
+                <span>biografia</span>
+              </label>
+              <label class="field-pill">
+                <input type="checkbox" value="seguidores" data-gql-field>
+                <span>seguidores</span>
+              </label>
+              <label class="field-pill">
+                <input type="checkbox" value="publicaciones" data-gql-field>
+                <span>publicaciones</span>
+              </label>
+            </div>
+
+            <div class="code-split">
+              <div class="code-pane">
+                <span class="code-pane__label">Petición Cliente → POST /graphql</span>
+                <pre id="gqlQueryOutput"><code>query {
+  usuario(id: "05") {
+    nombre
+    correo
+  }
+}</code></pre>
+              </div>
+              <div class="code-pane">
+                <span class="code-pane__label">Respuesta Exacta del Servidor</span>
+                <pre id="gqlResponseOutput"><code>{
+  "usuario": {
+    "nombre": "Luz Daniela",
+    "correo": "daniela@redsocial.pe"
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DIAPOSITIVA 03 · TEMA 2: gRPC
+         ================================================================ -->
+    <section class="slide" id="slide-3" data-theme="grpc" aria-labelledby="grpc-heading" hidden>
+      <div class="slide-inner topic-layout">
+        <div class="topic-copy">
+          <div class="topic-kicker topic-kicker--grpc">
+            <span class="topic-kicker__num">TEMA 02</span>
+            <span>REMOTE PROCEDURE CALL · DESARROLLADO POR GOOGLE</span>
+          </div>
+
+          <h2 class="topic-title" id="grpc-heading">
+            gRPC: <span class="accent-grpc">Alto rendimiento</span> entre servicios
+          </h2>
+
+          <p class="topic-lead">
+            Framework de <strong>Llamada a Procedimiento Remoto (RPC)</strong> de código abierto y alto rendimiento desarrollado por <strong>Google</strong>. Funciona en cualquier entorno conectando servicios de manera sumamente eficiente.
+          </p>
+
+          <div class="feature-stack">
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--grpc" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M14 2v6h6M8 13h8M8 17h6"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Contratos con Protocol Buffers</h3>
+                <p>Emplea archivos de definición de interfaz (<code>.proto</code>) para generar automáticamente la API y serializar datos en formato binario ultracompacto.</p>
+              </div>
+            </article>
+
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--grpc" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="6" r="3"></circle>
+                  <circle cx="18" cy="18" r="3"></circle>
+                  <path d="m8.7 10.7 6.6-3.4M8.7 13.3l6.6 3.4"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Multi-entorno y Políglota</h3>
+                <p>Permite invocar funciones remotas como si fueran locales entre sistemas escritos en distintos lenguajes de programación.</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="grad-card example-banner example-banner--grpc">
+            <span class="example-tag">EJEMPLO PRÁCTICO</span>
+            <p>
+              Comunicar internamente múltiples microservicios backend (ej. <strong>pagos</strong> e <strong>inventario</strong>) programados en distintos lenguajes con <strong>muy baja latencia</strong>.
+            </p>
+          </article>
+        </div>
+
+        <div class="topic-visual">
+          <figure class="grad-card diagram-frame">
+            <img src="img/grpc-microservices.svg" alt="Diagrama técnico de gRPC y Protocol Buffers comunicando microservicios de Pagos e Inventario" width="640" height="270">
+          </figure>
+
+          <div class="grad-card interactive-box">
+            <div class="interactive-head">
+              <div>
+                <span class="interactive-kicker">SIMULADOR RPC · PROTOCOL BUFFERS</span>
+                <h3>Comunicación Pagos ↔ Inventario</h3>
+              </div>
+              <button class="action-btn action-btn--grpc" id="grpcCallBtn" type="button">
+                ▶ Invocar RPC
+              </button>
+            </div>
+
+            <div class="code-split">
+              <div class="code-pane">
+                <span class="code-pane__label">Definición interfaz: comercio.proto</span>
+                <pre><code>syntax = "proto3";
+
+service Inventario {
+  rpc DescontarStock (OrdenPago)
+      returns (Confirmacion);
+}</code></pre>
+              </div>
+              <div class="code-pane">
+                <span class="code-pane__label">Traza Binaria entre Microservicios</span>
+                <div class="rpc-status-panel" id="grpcLogOutput">
+                  <div class="rpc-row">
+                    <span class="rpc-pill">Pagos (Python)</span>
+                    <span class="rpc-arrow">→</span>
+                    <span class="rpc-pill rpc-pill--dest">Inventario (Go)</span>
+                  </div>
+                  <p class="rpc-result" id="grpcResultText">
+                    Listo: contrato <code>.proto</code> compilado. Pulsa <strong>Invocar RPC</strong> para medir latencia.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DIAPOSITIVA 04 · TEMA 3: KUBERNETES (k8s)
+         ================================================================ -->
+    <section class="slide" id="slide-4" data-theme="k8s" aria-labelledby="k8s-heading" hidden>
+      <div class="slide-inner topic-layout">
+        <div class="topic-copy">
+          <div class="topic-kicker topic-kicker--k8s">
+            <span class="topic-kicker__num">TEMA 03</span>
+            <span>ORQUESTACIÓN DE CONTENEDORES · ALTA DISPONIBILIDAD</span>
+          </div>
+
+          <h2 class="topic-title" id="k8s-heading">
+            Kubernetes (k8s): <span class="accent-k8s">Orquestación</span> y auto-escalado
+          </h2>
+
+          <p class="topic-lead">
+            Plataforma para la <strong>orquestación de contenedores</strong> que automatiza el <strong>despliegue, escalado y gestión</strong> de aplicaciones modernas en producción.
+          </p>
+
+          <div class="feature-stack">
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--k8s" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Alta Disponibilidad y Balanceo Integrado</h3>
+                <p>Distribuye inteligentemente las solicitudes entrantes entre múltiples réplicas activas para evitar cuellos de botella.</p>
+              </div>
+            </article>
+
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--k8s" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+                  <path d="M16 16h5v5"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Auto-recuperación (Self-healing)</h3>
+                <p>Supervisa continuamente la salud del clúster y <strong>reemplaza automáticamente</strong> instancias o <em>pods</em> que fallan.</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="grad-card example-banner example-banner--k8s">
+            <span class="example-tag">EJEMPLO PRÁCTICO</span>
+            <p>
+              Configurar un sistema para que <strong>incremente dinámicamente las réplicas</strong> de un servidor web durante un pico de tráfico masivo (como un <strong>Black Friday</strong>) y las reduzca al terminar.
+            </p>
+          </article>
+        </div>
+
+        <div class="topic-visual">
+          <figure class="grad-card diagram-frame">
+            <img src="img/k8s-orchestration.svg" alt="Diagrama de Kubernetes con balanceador de carga, auto-escalado y auto-recuperación de pods" width="640" height="270">
+          </figure>
+
+          <div class="grad-card interactive-box">
+            <div class="interactive-head">
+              <div>
+                <span class="interactive-kicker">CLÚSTER INTERACTIVO · PODS WEB</span>
+                <h3 id="k8sClusterStatus">Tráfico Estándar · 2 Réplicas Activas</h3>
+              </div>
+              <div class="btn-group">
+                <button class="action-btn action-btn--k8s" id="k8sPeakBtn" type="button">
+                  ⚡ Pico Black Friday
+                </button>
+                <button class="action-btn action-btn--warn" id="k8sCrashBtn" type="button">
+                  ✕ Fallo de Pod
+                </button>
+              </div>
+            </div>
+
+            <div class="pods-grid" id="k8sPodsGrid" aria-live="polite">
+              <!-- Generado/actualizado dinámicamente por app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DIAPOSITIVA 05 · TEMA 4: DOCKER COMPOSE
+         ================================================================ -->
+    <section class="slide" id="slide-5" data-theme="compose" aria-labelledby="dc-heading" hidden>
+      <div class="slide-inner topic-layout">
+        <div class="topic-copy">
+          <div class="topic-kicker topic-kicker--dc">
+            <span class="topic-kicker__num">TEMA 04</span>
+            <span>ENTORNOS MULTICONTENEDOR · CONFIGURACIÓN DECLARATIVA</span>
+          </div>
+
+          <h2 class="topic-title" id="dc-heading">
+            Docker Compose: <span class="accent-dc">Múltiples contenedores</span> en un comando
+          </h2>
+
+          <p class="topic-lead">
+            Herramienta diseñada para <strong>definir y ejecutar aplicaciones en Docker que requieren múltiples contenedores</strong> coordinados entre sí.
+          </p>
+
+          <div class="feature-stack">
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--dc" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M10 13l-2 2 2 2M14 13l2 2-2 2"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Archivo Único YAML (<code>docker-compose.yml</code>)</h3>
+                <p>Centraliza servicios, puertos, variables y orden de arranque mediante directivas de dependencia como <code>depends_on</code>.</p>
+              </div>
+            </article>
+
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--dc" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="6" height="6" rx="1"></rect>
+                  <rect x="16" y="3" width="6" height="6" rx="1"></rect>
+                  <rect x="9" y="15" width="6" height="6" rx="1"></rect>
+                  <path d="M8 6h8M5 9v4a2 2 0 0 0 2 2h2M19 9v4a2 2 0 0 1-2 2h-2"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Red Interna Automática</h3>
+                <p>Crea una red virtual aislada donde los contenedores se descubren y comunican directamente usando su nombre de servicio.</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="grad-card example-banner example-banner--dc">
+            <span class="example-tag">EJEMPLO PRÁCTICO</span>
+            <p>
+              Levantar un <strong>frontend web</strong>, un <strong>backend en Node.js</strong> y una <strong>base de datos</strong> de manera simultánea e interconectada ejecutando un solo comando (<code>docker-compose up</code>).
+            </p>
+          </article>
+        </div>
+
+        <div class="topic-visual">
+          <figure class="grad-card diagram-frame">
+            <img src="img/docker-compose-stack.svg" alt="Diagrama de docker-compose.yml levantando Frontend Web, Backend Node.js y Base de Datos en una red interna" width="640" height="270">
+          </figure>
+
+          <div class="grad-card interactive-box">
+            <div class="interactive-head">
+              <div>
+                <span class="interactive-kicker">CONSOLA DOCKER COMPOSE</span>
+                <h3>Orquestación Local de 3 Servicios</h3>
+              </div>
+              <button class="action-btn action-btn--dc" id="composeRunBtn" type="button">
+                ▶ docker-compose up
+              </button>
+            </div>
+
+            <div class="code-split">
+              <div class="code-pane">
+                <span class="code-pane__label">docker-compose.yml</span>
+                <pre><code>services:
+  db:
+    image: postgres:16
+  backend:
+    build: ./api-node
+    depends_on: [db]
+  frontend:
+    build: ./web
+    depends_on: [backend]</code></pre>
+              </div>
+              <div class="code-pane">
+                <span class="code-pane__label">Estado de Red Interna: app_default</span>
+                <ul class="compose-services" id="composeStatusList">
+                  <li data-service="db">
+                    <span class="svc-dot"></span>
+                    <strong>db (Base de Datos)</strong>
+                    <em>Detenido</em>
+                  </li>
+                  <li data-service="backend">
+                    <span class="svc-dot"></span>
+                    <strong>backend (Node.js)</strong>
+                    <em>Detenido</em>
+                  </li>
+                  <li data-service="frontend">
+                    <span class="svc-dot"></span>
+                    <strong>frontend (Web UI)</strong>
+                    <em>Detenido</em>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DIAPOSITIVA 06 · TEMA 5: WEBSOCKETS / SOCKET.IO
+         ================================================================ -->
+    <section class="slide" id="slide-6" data-theme="ws" aria-labelledby="ws-heading" hidden>
+      <div class="slide-inner topic-layout">
+        <div class="topic-copy">
+          <div class="topic-kicker topic-kicker--ws">
+            <span class="topic-kicker__num">TEMA 05</span>
+            <span>COMUNICACIÓN EN TIEMPO REAL · FULL-DUPLEX</span>
+          </div>
+
+          <h2 class="topic-title" id="ws-heading">
+            WebSockets / Socket.io: <span class="accent-ws">Tiempo real</span> bidireccional
+          </h2>
+
+          <p class="topic-lead">
+            Protocolo estándar (<strong>WebSockets</strong>) y biblioteca de JavaScript (<strong>Socket.io</strong>) que habilitan la <strong>comunicación bidireccional y continua</strong> entre el cliente y el servidor en tiempo real.
+          </p>
+
+          <div class="feature-stack">
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--ws" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 2.1l4 4-4 4"></path>
+                  <path d="M3 12.2v-2a4 4 0 0 1 4-4h14"></path>
+                  <path d="M7 21.9l-4-4 4-4"></path>
+                  <path d="M21 11.8v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Supera el Modelo Petición-Respuesta de HTTP</h3>
+                <p>Mantiene un canal TCP persistente abierto para que el servidor envíe eventos instantáneos sin esperar nuevas consultas del navegador.</p>
+              </div>
+            </article>
+
+            <article class="grad-card feature-item">
+              <div class="feature-icon feature-icon--ws" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Socket.io Basado en Eventos</h3>
+                <p>Facilita salas (<em>rooms</em>), reconexión automática y emisión de eventos en vivo con <code>socket.emit()</code> y <code>socket.on()</code>.</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="grad-card example-banner example-banner--ws">
+            <span class="example-tag">EJEMPLOS PRÁCTICOS</span>
+            <p>
+              Aplicaciones de <strong>chat en vivo</strong>, <strong>documentos colaborativos simultáneos</strong> o <strong>tableros financieros con actualización de precios en tiempo real</strong>.
+            </p>
+          </article>
+        </div>
+
+        <div class="topic-visual">
+          <figure class="grad-card diagram-frame">
+            <img src="img/websockets-realtime.svg" alt="Diagrama de canal persistente bidireccional WebSockets / Socket.io frente a HTTP tradicional" width="640" height="270">
+          </figure>
+
+          <div class="grad-card interactive-box">
+            <div class="interactive-head">
+              <div>
+                <span class="interactive-kicker">CANAL SOCKET.IO ACTIVO · WS://</span>
+                <h3>Casos en Tiempo Real</h3>
+              </div>
+              <div class="ws-tabs" role="tablist" aria-label="Ejemplos de WebSockets">
+                <button class="ws-tab is-active" type="button" data-ws-mode="chat">Chat en vivo</button>
+                <button class="ws-tab" type="button" data-ws-mode="docs">Docs colaborativos</button>
+                <button class="ws-tab" type="button" data-ws-mode="finance">Tablero financiero</button>
+              </div>
+            </div>
+
+            <div class="ws-stage" id="wsStage" aria-live="polite">
+              <!-- Actualizado dinámicamente por app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DIAPOSITIVA 07 · REFERENCIAS BIBLIOGRÁFICAS
+         ================================================================ -->
+    <section class="slide" id="slide-7" data-theme="refs" aria-labelledby="refs-heading" hidden>
+      <div class="slide-inner refs-layout">
+        <header class="refs-header">
+          <div>
+            <div class="topic-kicker topic-kicker--refs">
+              <span class="topic-kicker__num">CIERRE ACADÉMICO</span>
+              <span>DOCUMENTACIÓN OFICIAL · FORMATO APA 7.ª EDICIÓN</span>
+            </div>
+            <h2 class="topic-title" id="refs-heading">
+              Referencias <span class="text-gradient">Bibliográficas</span>
+            </h2>
+          </div>
+
+          <a class="back-btn back-btn--large" href="../../../index.html#seminario">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7"></path>
+            </svg>
+            <span>Volver a mis otras presentaciones</span>
+          </a>
+        </header>
+
+        <ol class="refs-grid">
+          <li class="grad-card ref-card">
+            <span class="ref-num ref-num--gql">01 · GraphQL</span>
+            <p>
+              GraphQL Foundation. (2025). <em>Introduction to GraphQL: Query language for your API</em>. Documentación oficial de GraphQL.
+            </p>
+            <a href="https://graphql.org/learn/" target="_blank" rel="noopener noreferrer">https://graphql.org/learn/</a>
+          </li>
+
+          <li class="grad-card ref-card">
+            <span class="ref-num ref-num--grpc">02 · gRPC &amp; Protobuf</span>
+            <p>
+              gRPC Authors &amp; Google. (2025). <em>Introduction to gRPC and Protocol Buffers</em>. gRPC Official Documentation.
+            </p>
+            <a href="https://grpc.io/docs/what-is-grpc/introduction/" target="_blank" rel="noopener noreferrer">https://grpc.io/docs/what-is-grpc/introduction/</a>
+          </li>
+
+          <li class="grad-card ref-card">
+            <span class="ref-num ref-num--k8s">03 · Kubernetes (k8s)</span>
+            <p>
+              Cloud Native Computing Foundation [CNCF]. (2025). <em>Overview of Kubernetes: Container orchestration, scaling, and self-healing</em>. Kubernetes Documentation.
+            </p>
+            <a href="https://kubernetes.io/es/docs/concepts/overview/" target="_blank" rel="noopener noreferrer">https://kubernetes.io/es/docs/concepts/overview/</a>
+          </li>
+
+          <li class="grad-card ref-card">
+            <span class="ref-num ref-num--dc">04 · Docker Compose</span>
+            <p>
+              Docker Inc. (2025). <em>Docker Compose overview: Define and run multi-container applications</em>. Docker Docs.
+            </p>
+            <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener noreferrer">https://docs.docker.com/compose/</a>
+          </li>
+
+          <li class="grad-card ref-card">
+            <span class="ref-num ref-num--ws">05 · WebSockets (RFC 6455)</span>
+            <p>
+              Fette, I., &amp; Melnikov, A. (2011). <em>The WebSocket Protocol</em> (RFC 6455). Internet Engineering Task Force (IETF) / MDN Web Docs.
+            </p>
+            <a href="https://datatracker.ietf.org/doc/html/rfc6455" target="_blank" rel="noopener noreferrer">https://datatracker.ietf.org/doc/html/rfc6455</a>
+          </li>
+
+          <li class="grad-card ref-card">
+            <span class="ref-num ref-num--ws">06 · Socket.io</span>
+            <p>
+              Socket.IO Maintainers. (2025). <em>How Socket.IO works: Bidirectional and low-latency communication for every platform</em>. Socket.IO Documentation.
+            </p>
+            <a href="https://socket.io/docs/v4/" target="_blank" rel="noopener noreferrer">https://socket.io/docs/v4/</a>
+          </li>
+        </ol>
+
+        <footer class="grad-card refs-closing">
+          <div class="refs-closing__left">
+            <span class="badge-pill">GRUPO 5 · SEMESTRE V</span>
+            <strong>Seminario de Complementación Práctica (FULLSTACK DEVELOPER SOFTWARE)</strong>
+            <span>Rojas Coronado Luz Daniela · Carlos Rojas Leticia Ivett · Valerio Lopez Jared Peter — Instructor: Fernando Miguel Pisfil Ortiz</span>
+          </div>
+          <div class="refs-closing__actions">
+            <a class="back-btn back-btn--ghost" href="../../../index.html">Ir al Portafolio Principal</a>
+          </div>
+        </footer>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
