@@ -13,6 +13,10 @@
     assets/empleabilidad/<carpeta>/index.html
     assets/seminario/<carpeta>/index.html
 
+  El curso de Inglés es la excepción: es una SPA autocontenida.
+
+    Curso_Ingles/index.html
+
   Si algún día mueves las carpetas a la raíz (empleabilidad/ y seminario/),
   solo debes quitar el prefijo "assets/" de los atributos href de las tarjetas.
 
@@ -20,6 +24,7 @@
   · Datos del estudiante ......... buscar "DATOS DEL ESTUDIANTE"
   · Enlaces de Empleabilidad ..... buscar "PRESENTACIONES DE EMPLEABILIDAD"
   · Enlaces de Seminario ......... buscar "PRESENTACIONES DE SEMINARIO"
+  · Curso de Inglés .............. buscar "CURSO 03 · INGLÉS TÉCNICO"
 
   Para agregar una presentación: copia el bloque <a class="deck-card"> ... </a>
   de una tarjeta existente, pégalo dentro de la cuadrícula del curso y cambia
@@ -33,12 +38,12 @@
   <meta name="theme-color" content="#05070f">
 
   <title>Jared Peter Valerio Lopez · Portafolio Académico</title>
-  <meta name="description" content="Portafolio académico de Jared Peter Valerio Lopez, estudiante de Ingeniería de Software con Inteligencia Artificial (V Semestre). Presentaciones de Empleabilidad y Seminario.">
+  <meta name="description" content="Portafolio académico de Jared Peter Valerio Lopez, estudiante de Ingeniería de Software con Inteligencia Artificial (V Semestre). Presentaciones de Empleabilidad, Seminario e Inglés Técnico.">
   <meta name="author" content="Jared Peter Valerio Lopez">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Jared Peter Valerio Lopez · Portafolio Académico">
-  <meta property="og:description" content="Presentaciones de Empleabilidad y Seminario · Ingeniería de Software con Inteligencia Artificial · V Semestre.">
+  <meta property="og:description" content="Presentaciones de Empleabilidad, Seminario e Inglés Técnico · Ingeniería de Software con Inteligencia Artificial · V Semestre.">
   <meta property="og:locale" content="es_PE">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='white' text-anchor='middle'%3EJV%3C/text%3E%3C/svg%3E">
@@ -866,6 +871,22 @@
       --accent-soft: rgba(13, 148, 136, .085);
       --accent-line: rgba(13, 148, 136, .3);
     }
+    .course--eng {
+      --accent: #38bdf8;
+      --accent-ink: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, .14);
+      --accent-line: rgba(56, 189, 248, .42);
+    }
+    [data-theme="light"] .course--eng {
+      --accent: #0284c7;
+      --accent-ink: #0369a1;
+      --accent-soft: rgba(2, 132, 199, .075);
+      --accent-line: rgba(2, 132, 199, .28);
+    }
+    /* Una sola presentación: que la tarjeta no se estire en pantallas grandes. */
+    .course--eng .deck-grid {
+      grid-template-columns: minmax(0, 560px);
+    }
 
     .course-head {
       position: relative;
@@ -1371,6 +1392,7 @@
         <a href="#cursos">Cursos</a>
         <a href="#empleabilidad">Empleabilidad</a>
         <a href="#seminario">Seminario</a>
+        <a href="#ingles">Inglés</a>
       </nav>
 
       <div class="nav-actions">
@@ -1424,9 +1446,10 @@
           </p>
 
           <p class="hero-lead">
-            Dos cursos del <strong>V Semestre</strong> que conectan las habilidades
+            Tres cursos del <strong>V Semestre</strong> que conectan las habilidades
             profesionales con la tecnología. Explora las presentaciones interactivas
-            de <strong>Empleabilidad</strong> y <strong>Seminario</strong>.
+            de <strong>Empleabilidad</strong>, <strong>Seminario</strong> e
+            <strong>Inglés Técnico</strong>.
           </p>
 
           <div class="hero-meta">
@@ -1503,14 +1526,14 @@
                 <path d="m3 12 9 5 9-5"></path>
                 <path d="m3 17 9 5 9-5"></path>
               </svg>
-              <span><strong data-total-courses>02</strong> cursos</span>
+              <span><strong data-total-courses>03</strong> cursos</span>
             </span>
 
             <span class="float-chip float-chip--b" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2l2.2 5.8L20 10l-5.8 2.2L12 18l-2.2-5.8L4 10l5.8-2.2L12 2Z"></path>
               </svg>
-              <span><strong data-total-presentations>07</strong> presentaciones</span>
+              <span><strong data-total-presentations>08</strong> presentaciones</span>
             </span>
           </div>
 
@@ -1520,11 +1543,11 @@
       <!-- Resumen general. Los números se recalculan con JavaScript. -->
       <section class="stats reveal" style="--d:220ms" aria-label="Resumen del portafolio">
         <div class="stat">
-          <strong data-total-courses>02</strong>
+          <strong data-total-courses>03</strong>
           <span>Cursos</span>
         </div>
         <div class="stat">
-          <strong data-total-presentations>07</strong>
+          <strong data-total-presentations>08</strong>
           <span>Presentaciones</span>
         </div>
         <div class="stat">
@@ -1902,6 +1925,66 @@
           -->
         </div>
       </section>
+
+      <!-- ========================================================
+           CURSO 03 · INGLÉS TÉCNICO
+           ======================================================== -->
+      <section class="course course--eng reveal" id="ingles" aria-labelledby="ingles-title">
+        <header class="course-head">
+          <span class="course-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M3 12h18"></path>
+              <path d="M12 3c2.4 2.6 3.7 5.7 3.7 9S14.4 18.4 12 21c-2.4-2.6-3.7-5.7-3.7-9S9.6 5.6 12 3Z"></path>
+            </svg>
+          </span>
+          <div class="course-info">
+            <p class="course-kicker">Curso 03 · English</p>
+            <h2 class="course-title" id="ingles-title">Inglés Técnico</h2>
+            <p class="course-desc">
+              Requisitos de software en inglés técnico: definiciones y tipos, funcionales
+              y no funcionales, con traducción al español, ejemplos y un reto interactivo.
+            </p>
+          </div>
+          <span class="course-count">
+            <strong data-course-count="ingles">01</strong>
+            <span data-course-word="ingles">presentación</span>
+          </span>
+        </header>
+
+        <div class="deck-grid" data-course="ingles">
+          <a class="deck-card" href="Curso_Ingles/index.html">
+            <div class="deck-top">
+              <span class="deck-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 11l3 3L22 4"></path>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                  <path d="M7 15h4"></path>
+                </svg>
+              </span>
+              <span class="deck-meta">
+                <span class="deck-num">Tema 01</span>
+              </span>
+            </div>
+            <h3 class="deck-title">Software Requirements</h3>
+            <p class="deck-desc">
+              Requisitos funcionales y no funcionales explicados paso a paso, con ideas
+              clave, ilustraciones y un reto de cuatro preguntas. Disponible en inglés y español.
+            </p>
+            <div class="deck-bottom">
+              <span class="deck-tag">Inglés técnico · Bilingüe</span>
+              <span class="deck-cta">
+                Abrir
+                <span class="circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6"></path>
+                  </svg>
+                </span>
+              </span>
+            </div>
+          </a>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -1919,8 +2002,9 @@
           </span>
         </a>
         <p>
-          Presentaciones de Empleabilidad y Seminario · Ingeniería de Software con
-          Inteligencia Artificial · V Semestre. Instructor: Fernando Miguel Pisfil Ortiz.
+          Presentaciones de Empleabilidad, Seminario e Inglés Técnico · Ingeniería de
+          Software con Inteligencia Artificial · V Semestre. Instructores: Fernando Miguel
+          Pisfil Ortiz y Henrry Pascual Cabrejos Costales.
         </p>
       </div>
 
