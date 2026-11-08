@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <rect width="600" height="400" rx="20" fill="#0a1226"/>
+  <g transform="translate(300,200)">
+    <!-- platform -->
+    <path d="M -160 30 L 0 -60 L 160 30 L 0 120 Z" fill="#13254a" stroke="rgba(255,255,255,.12)"/>
+    <path d="M -160 30 L -160 52 L 0 142 L 0 120 Z" fill="#0b1a33"/><path d="M 160 30 L 160 52 L 0 142 L 0 120 Z" fill="#061022"/>
+    <!-- Block -->
+    <g transform="translate(-80,0)"><path d="M -42 0 L 0 -24 L 42 0 L 0 24 Z" fill="#ff002b"/><path d="M -42 0 L -42 34 L 0 58 L 0 24 Z" fill="#7a0a14"/><path d="M 42 0 L 42 34 L 0 58 L 0 24 Z" fill="#4d060c"/><circle cx="0" cy="-10" r="5" fill="white"/></g>
+    <!-- Sphere -->
+    <g transform="translate(80,0)"><ellipse cx="0" cy="8" rx="38" ry="12" fill="rgba(0,0,0,.3)"/><circle cx="0" cy="-6" r="32" fill="#00a2ff"/><ellipse cx="-10" cy="-16" rx="12" ry="8" fill="white" opacity="0.9"/><ellipse cx="8" cy="2" rx="8" ry="6" fill="white" opacity="0.5"/></g>
+    <!-- Wedge -->
+    <g transform="translate(0,-60)"><path d="M -36 12 L 0 -18 L 36 12 L 0 12 Z" fill="#ffd600"/><path d="M -36 12 L -36 32 L 0 32 L 0 12 Z" fill="#8a5a00"/><path d="M 36 12 L 36 32 L 0 32 L 0 12 Z" fill="#5a3c00"/></g>
+  </g>
+  <text x="300" y="365" fill="white" opacity="0.6" font-size="9" font-weight="700" text-anchor="middle">Parts & Models — Block · Sphere · Wedge · Mesh</text>
+</svg>
