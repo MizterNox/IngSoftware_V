@@ -8,27 +8,27 @@
 
   <title>Software Requirements · English V · Group 5</title>
   <meta name="description" content="An interactive, bilingual lesson on functional and non-functional software requirements: definitions, types, examples and a quiz. English V · Group 5 · Software Engineering with AI.">
-  <meta name="author" content="Group 5 · Rojas Coronado Luz Daniela, Carlos Rojas Leticia Ivett, Valerio Lopez Jared Peter">
+  <meta name="author" content="Group 5 · Rojas Coronado Luz Daniela, Mora Damian Christian Alfredo, Valerio Lopez Jared Peter">
   <meta name="theme-color" content="#f8fafc">
 
-  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Software Requirements · English V · Group 5">
   <meta property="og:description" content="Definitions, types, examples and a quiz about functional and non-functional requirements. Switch between English and Spanish.">
-  <meta property="og:image" content="https://mizternox.github.io/IngSoftware_V/Curso_Ingles/assets/img/og-cover.jpg">
+  <meta property="og:image" content="https://mizternox.github.io/IngSoftware_V/assets/ingles/img/og-cover.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://mizternox.github.io/IngSoftware_V/Curso_Ingles/">
+  <meta property="og:url" content="https://mizternox.github.io/IngSoftware_V/assets/ingles/">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="es_PE">
 
-  <link rel="preload" href="assets/fonts/fredoka-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/nunito-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/fredoka-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/nunito-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Capa propia primero; Tailwind después para que las utilidades puedan ajustar componentes. -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/tailwind.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/tailwind.css">
 </head>
 
 <body class="bg-indigo-50/50 text-slate-600 antialiased">
@@ -87,54 +87,38 @@
   <div class="scroll-progress no-print" aria-hidden="true"><span id="scrollProgress"></span></div>
 
   <!-- ============================================================
-       HEADER
+       PRESENTATION CHROME
+       Barra mínima: marca + XP + idioma. Sin menú de navegación.
        ============================================================ -->
-  <header class="sticky top-0 z-40 px-3 pt-3 sm:px-5">
-    <div class="mx-auto flex max-w-7xl items-center gap-2 rounded-full border border-white/70 bg-white/85 px-2.5 py-2 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl sm:gap-3 sm:px-4">
+  <header class="deck-top sticky top-0 z-40 px-3 pt-3 sm:px-5">
+    <div class="mx-auto flex max-w-7xl items-center gap-2">
 
-      <a href="#top" class="flex flex-none items-center gap-2.5 rounded-full" aria-label="English V · Software Requirements">
-        <span class="clay-chip flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
-          <svg class="h-6 w-6" aria-hidden="true"><use href="#ph-book-open-text"></use></svg>
+      <a href="#top" class="clay-card-sm flex flex-none items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-3" aria-label="English V · Software Requirements">
+        <span class="clay-chip flex h-9 w-9 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
+          <svg class="h-5 w-5" aria-hidden="true"><use href="#ph-book-open-text"></use></svg>
         </span>
         <span class="block leading-tight">
-          <strong class="font-display block text-sm font-bold text-slate-800">English V</strong>
-          <small class="hidden text-[9px] font-extrabold uppercase tracking-[0.18em] text-slate-500 sm:block">Software Requirements</small>
+          <strong class="font-display block text-[13px] font-bold text-slate-800">English V</strong>
+          <small class="hidden text-[8px] font-extrabold uppercase tracking-[0.18em] text-slate-500 sm:block">Software Requirements</small>
         </span>
       </a>
 
-      <nav class="ml-auto hidden items-center gap-0.5 md:flex" aria-label="Sections" data-i18n-aria="nav.label">
-        <a class="nav-link" href="#topics" data-i18n="nav.topics">Topics</a>
-        <a class="nav-link" href="#compare" data-i18n="nav.compare">Compare</a>
-        <a class="nav-link" href="#challenge" data-i18n="nav.quiz">Quiz</a>
-        <a class="nav-link" href="#about" data-i18n="nav.team">Team</a>
-      </nav>
+      <div class="ml-auto flex flex-none items-center gap-2">
 
-      <div class="ml-auto flex flex-none items-center gap-2 md:ml-2">
+        <div class="clay-card-sm flex items-center gap-2 rounded-full px-3 py-2" role="status" aria-label="Experience points">
+          <svg class="h-4 w-4 flex-none text-amber-500" aria-hidden="true"><use href="#ph-trophy"></use></svg>
+          <span class="hidden text-[9px] font-extrabold uppercase tracking-[0.16em] text-slate-500 sm:inline" data-i18n="hud.xp">XP</span>
+          <strong class="font-display whitespace-nowrap text-[12px] font-bold text-slate-800"><span id="xpValue">0</span><span class="text-slate-500"> / 500</span></strong>
+          <span class="deck-xp-bar flex-none"><span id="xpBar"></span></span>
+        </div>
 
         <div class="lang-switch" role="group" aria-label="Language / Idioma" data-i18n-aria="lang.label">
           <button type="button" class="lang-btn" data-lang="en" aria-pressed="true" lang="en">EN</button>
           <button type="button" class="lang-btn" data-lang="es" aria-pressed="false" lang="es">ES</button>
         </div>
 
-        <a href="#topics" class="clay-btn hidden bg-sky-700 px-5 py-2.5 text-white sm:inline-flex">
-          <span data-i18n="nav.start">Start</span>
-          <svg aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
-        </a>
-
-        <button type="button" id="menuBtn" class="clay-chip flex h-10 w-10 items-center justify-center rounded-full bg-white text-slate-600 md:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav" data-i18n-aria="nav.menu">
-          <svg class="h-5 w-5" aria-hidden="true"><use href="#ph-list"></use></svg>
-        </button>
       </div>
     </div>
-
-    <!-- Menú móvil -->
-    <nav id="mobileNav" class="mx-auto mt-2 hidden max-w-7xl rounded-3xl border border-white/70 bg-white/95 p-2 shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl md:hidden" aria-label="Mobile sections" data-i18n-aria="nav.label">
-      <a class="nav-link block" href="#topics" data-i18n="nav.topics">Topics</a>
-      <a class="nav-link block" href="#compare" data-i18n="nav.compare">Compare</a>
-      <a class="nav-link block" href="#challenge" data-i18n="nav.quiz">Quiz</a>
-      <a class="nav-link block" href="#about" data-i18n="nav.team">Team</a>
-      <a class="nav-link block" href="../index.html" data-i18n="nav.portfolio">Academic portfolio</a>
-    </nav>
   </header>
 
   <main id="main">
@@ -195,10 +179,10 @@
                 </span>
               </li>
               <li class="clay-card-sm clay-lift flex items-center gap-3 px-3.5 py-3">
-                <span class="clay-chip flex h-10 w-10 flex-none items-center justify-center rounded-full bg-emerald-100 text-xs font-black text-emerald-700">LI</span>
+                <span class="clay-chip flex h-10 w-10 flex-none items-center justify-center rounded-full bg-emerald-100 text-xs font-black text-emerald-700">CM</span>
                 <span class="min-w-0 leading-tight">
-                  <strong class="block truncate text-[13px] font-extrabold text-slate-700">Leticia Ivett</strong>
-                  <span class="block truncate text-[10px] font-extrabold uppercase tracking-[0.08em] text-slate-500">Carlos Rojas</span>
+                  <strong class="block truncate text-[13px] font-extrabold text-slate-700">Christian Alfredo</strong>
+                  <span class="block truncate text-[10px] font-extrabold uppercase tracking-[0.08em] text-slate-500">MORA DAMIAN</span>
                 </span>
               </li>
               <li class="clay-card-sm clay-lift flex items-center gap-3 px-3.5 py-3">
@@ -212,11 +196,11 @@
           </div>
 
           <div class="reveal mt-8 flex flex-wrap items-center gap-3" style="--d:300ms">
-            <a href="#topics" class="clay-btn bg-sky-700 text-white">
-              <span data-i18n="hero.start">Start learning</span>
+            <button type="button" class="clay-btn bg-sky-700 text-white" data-modal-open="topic-functional-definition" aria-haspopup="dialog" aria-controls="topic-functional-definition">
+              <span data-i18n="hero.start">Open topic 01</span>
               <svg aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
-            </a>
-            <a href="#compare" class="clay-btn bg-white text-slate-700">
+            </button>
+            <a href="#topics" class="clay-btn bg-white text-slate-700">
               <span data-i18n="hero.explore">Explore topics</span>
               <svg aria-hidden="true"><use href="#ph-arrow-down"></use></svg>
             </a>
@@ -226,10 +210,10 @@
         </div>
 
         <!-- Ilustración + tarjeta de misión -->
-        <aside class="relative min-w-0" aria-label="Group 5 mission card" data-i18n-aria="hero.card.aria">
+        <aside class="relative min-w-0" aria-label="Group 5 · English V" data-i18n-aria="hero.card.aria">
           <div class="hero-art reveal relative mx-auto max-w-md" style="--d:160ms">
             <div class="clay-card relative overflow-hidden rounded-[2rem] bg-[#e3ecf5]">
-              <img src="assets/img/hero-clay.webp" alt="3D clay illustration of a laptop surrounded by requirement cards and checkmarks" data-i18n-alt="hero.imageAlt" class="clay-img w-full" width="1200" height="655" fetchpriority="high">
+              <img src="img/hero-clay.webp" alt="3D clay illustration of a laptop surrounded by requirement cards and checkmarks" data-i18n-alt="hero.imageAlt" class="clay-img w-full" width="1200" height="655" fetchpriority="high">
             </div>
             <span class="clay-chip float-slow absolute -left-1 top-6 rounded-full bg-sky-100 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-sky-700 sm:left-2" data-i18n="hero.chip.functional">Functional</span>
             <span class="clay-chip float-slower absolute -right-1 top-24 rounded-full bg-emerald-100 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-700 sm:right-2" data-i18n="hero.chip.nonfunctional">Non-functional</span>
@@ -238,70 +222,15 @@
             </span>
           </div>
 
-          <div class="clay-card reveal relative z-10 -mt-8 p-5 sm:p-6" style="--d:260ms">
-            <div class="flex items-center justify-between gap-3">
-              <div>
-                <p class="text-[9px] font-extrabold uppercase tracking-[0.2em] text-slate-500">Group 5 · English V</p>
-                <p class="font-display mt-0.5 text-lg font-bold text-slate-800" data-i18n="hero.card.title">Software Requirements</p>
-              </div>
-              <span class="inline-flex flex-none items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1.5 text-[10px] font-extrabold text-emerald-700">
-                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                <span data-i18n="hero.card.status">In progress</span>
-              </span>
+          <div class="clay-card reveal relative z-10 -mt-8 flex items-center gap-3 p-4 sm:p-5" style="--d:260ms">
+            <span class="clay-chip flex h-11 w-11 flex-none items-center justify-center rounded-full bg-sky-100 text-[11px] font-black text-sky-700">HP</span>
+            <div class="min-w-0 flex-1">
+              <p class="text-[9px] font-extrabold uppercase tracking-[0.16em] text-slate-500" data-i18n="hero.card.instructorLabel">Instructor · Group 5</p>
+              <p class="truncate text-[11px] font-extrabold uppercase tracking-[0.04em] text-slate-700">HENRRY PASCUAL CABREJOS COSTALES</p>
             </div>
-
-            <div class="mt-4 flex items-center gap-3 rounded-2xl bg-slate-50/80 p-3">
-              <span class="clay-chip flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-[11px] font-black text-sky-700">HP</span>
-              <div class="min-w-0">
-                <p class="text-[9px] font-extrabold uppercase tracking-[0.16em] text-slate-500" data-i18n="hero.card.instructorLabel">Instructor</p>
-                <p class="truncate text-[11px] font-extrabold uppercase tracking-[0.04em] text-slate-700">HENRRY PASCUAL CABREJOS COSTALES</p>
-              </div>
-            </div>
-
-            <p class="mt-4 text-[9px] font-extrabold uppercase tracking-[0.18em] text-slate-500" data-i18n="hero.card.pathLabel">Learning path</p>
-            <ul class="mt-2 space-y-2.5">
-              <li class="flex items-center gap-2.5" data-hero-row="functional-definition">
-                <span class="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-sky-100 text-sky-700"><svg class="h-4 w-4" aria-hidden="true"><use href="#ph-list-checks"></use></svg></span>
-                <span class="min-w-0 flex-1">
-                  <span class="block truncate text-[11px] font-extrabold text-slate-600" data-i18n="hero.card.t1">Functional · Definition</span>
-                  <span class="hero-bar mt-1 block" data-bar="functional-definition"><span></span></span>
-                </span>
-                <svg class="hero-check h-4 w-4 flex-none text-emerald-500" aria-hidden="true"><use href="#ph-check-circle"></use></svg>
-              </li>
-              <li class="flex items-center gap-2.5" data-hero-row="functional-types">
-                <span class="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-emerald-100 text-emerald-700"><svg class="h-4 w-4" aria-hidden="true"><use href="#ph-tree-structure"></use></svg></span>
-                <span class="min-w-0 flex-1">
-                  <span class="block truncate text-[11px] font-extrabold text-slate-600" data-i18n="hero.card.t2">Functional · Types</span>
-                  <span class="hero-bar mt-1 block" data-bar="functional-types"><span></span></span>
-                </span>
-                <svg class="hero-check h-4 w-4 flex-none text-emerald-500" aria-hidden="true"><use href="#ph-check-circle"></use></svg>
-              </li>
-              <li class="flex items-center gap-2.5" data-hero-row="nonfunctional-definition">
-                <span class="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-amber-100 text-amber-700"><svg class="h-4 w-4" aria-hidden="true"><use href="#ph-sliders-horizontal"></use></svg></span>
-                <span class="min-w-0 flex-1">
-                  <span class="block truncate text-[11px] font-extrabold text-slate-600" data-i18n="hero.card.t3">Non-functional · Definition</span>
-                  <span class="hero-bar mt-1 block" data-bar="nonfunctional-definition"><span></span></span>
-                </span>
-                <svg class="hero-check h-4 w-4 flex-none text-emerald-500" aria-hidden="true"><use href="#ph-check-circle"></use></svg>
-              </li>
-              <li class="flex items-center gap-2.5" data-hero-row="nonfunctional-types">
-                <span class="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-sky-100 text-sky-700"><svg class="h-4 w-4" aria-hidden="true"><use href="#ph-shield-check"></use></svg></span>
-                <span class="min-w-0 flex-1">
-                  <span class="block truncate text-[11px] font-extrabold text-slate-600" data-i18n="hero.card.t4">Non-functional · Types</span>
-                  <span class="hero-bar mt-1 block" data-bar="nonfunctional-types"><span></span></span>
-                </span>
-                <svg class="hero-check h-4 w-4 flex-none text-emerald-500" aria-hidden="true"><use href="#ph-check-circle"></use></svg>
-              </li>
-            </ul>
-
-            <div class="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-amber-50 to-emerald-50 p-3">
-              <div class="flex items-center gap-2">
-                <svg class="h-4 w-4 text-amber-500" aria-hidden="true"><use href="#ph-trophy"></use></svg>
-                <span class="text-[10px] font-extrabold uppercase tracking-[0.16em] text-slate-500">XP</span>
-                <strong class="font-display text-sm font-bold text-slate-800"><span id="xpValue">0</span> / 500</strong>
-              </div>
-              <div class="hero-xp-bar max-w-[6.5rem] flex-1"><span id="xpBar"></span></div>
-            </div>
+            <span class="clay-chip flex h-9 w-9 flex-none items-center justify-center rounded-full bg-emerald-100 text-emerald-700" aria-hidden="true">
+              <svg class="h-4 w-4"><use href="#ph-check-circle"></use></svg>
+            </span>
           </div>
         </aside>
       </div>
@@ -310,7 +239,7 @@
     <!-- ============================================================
          LA VERSIÓN DE 30 SEGUNDOS
          ============================================================ -->
-    <section class="px-4 pb-4 sm:px-6" aria-labelledby="basics-title">
+    <section id="basics" class="scroll-mt-24 px-4 pb-4 sm:px-6" aria-labelledby="basics-title">
       <div class="mx-auto max-w-7xl">
         <div class="reveal clay-card overflow-hidden p-5 sm:p-7">
           <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
@@ -349,17 +278,94 @@
         <header class="reveal max-w-2xl">
           <p class="text-[10px] font-extrabold uppercase tracking-[0.22em] text-emerald-700" data-i18n="topics.kicker">The lesson</p>
           <h2 id="topics-title" class="font-display mt-2 text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl" data-i18n="topics.title">Four ideas, one clear map</h2>
-          <p class="mt-2 text-base font-medium leading-relaxed text-slate-600" data-i18n="topics.lead">Short definitions, key ideas and types. Mark each topic as learned to fill your XP bar.</p>
+          <p class="mt-2 text-base font-medium leading-relaxed text-slate-600" data-i18n="topics.lead">Tap a topic to open it as a slide. Mark each one as learned to fill your XP bar.</p>
         </header>
 
-        <!-- ============ TEMA 01 ============ -->
-        <article id="functional-definition" class="topic-section mt-10 sm:mt-14" data-topic-section>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+
+          <button type="button" class="topic-card reveal" style="--d:0ms"
+                  data-modal-open="topic-functional-definition" aria-haspopup="dialog" aria-controls="topic-functional-definition"
+                  data-topic-card="functional-definition">
+            <span class="flex items-start justify-between gap-3">
+              <span class="topic-num bg-sky-100 text-sky-700">01</span>
+              <span class="topic-card-icon bg-sky-100 text-sky-700"><svg aria-hidden="true"><use href="#ph-list-checks"></use></svg></span>
+            </span>
+            <span class="mt-4 block text-[10px] font-extrabold uppercase tracking-[0.16em] text-sky-700" data-i18n="t1.kicker">Definition · What the system does</span>
+            <strong class="font-display mt-1 block text-xl font-bold leading-tight tracking-tight text-slate-800" data-i18n="t1.title">Functional Requirements Definition</strong>
+            <span class="mt-2 block text-sm font-medium leading-relaxed text-slate-600" data-i18n="t1.card">What the system must do, written as a testable promise.</span>
+            <span class="topic-card-foot">
+              <span data-i18n="topic.open">Open topic</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span class="topic-card-check" aria-hidden="true"><svg class="h-3.5 w-3.5"><use href="#ph-check"></use></svg></span>
+            </span>
+          </button>
+          <button type="button" class="topic-card reveal" style="--d:60ms"
+                  data-modal-open="topic-functional-types" aria-haspopup="dialog" aria-controls="topic-functional-types"
+                  data-topic-card="functional-types">
+            <span class="flex items-start justify-between gap-3">
+              <span class="topic-num bg-emerald-100 text-emerald-700">02</span>
+              <span class="topic-card-icon bg-emerald-100 text-emerald-700"><svg aria-hidden="true"><use href="#ph-tree-structure"></use></svg></span>
+            </span>
+            <span class="mt-4 block text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-700" data-i18n="t2.kicker">Types · The functional family</span>
+            <strong class="font-display mt-1 block text-xl font-bold leading-tight tracking-tight text-slate-800" data-i18n="t2.title">Functional Requirements Types</strong>
+            <span class="mt-2 block text-sm font-medium leading-relaxed text-slate-600" data-i18n="t2.card">Six lenses: users, system, data, rules, reports and integration.</span>
+            <span class="topic-card-foot">
+              <span data-i18n="topic.open">Open topic</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span class="topic-card-check" aria-hidden="true"><svg class="h-3.5 w-3.5"><use href="#ph-check"></use></svg></span>
+            </span>
+          </button>
+          <button type="button" class="topic-card reveal" style="--d:120ms"
+                  data-modal-open="topic-nonfunctional-definition" aria-haspopup="dialog" aria-controls="topic-nonfunctional-definition"
+                  data-topic-card="nonfunctional-definition">
+            <span class="flex items-start justify-between gap-3">
+              <span class="topic-num bg-amber-100 text-amber-700">03</span>
+              <span class="topic-card-icon bg-amber-100 text-amber-700"><svg aria-hidden="true"><use href="#ph-sliders-horizontal"></use></svg></span>
+            </span>
+            <span class="mt-4 block text-[10px] font-extrabold uppercase tracking-[0.16em] text-amber-700" data-i18n="t3.kicker">Definition · How well it works</span>
+            <strong class="font-display mt-1 block text-xl font-bold leading-tight tracking-tight text-slate-800" data-i18n="t3.title">Non-Functional Requirements Definition</strong>
+            <span class="mt-2 block text-sm font-medium leading-relaxed text-slate-600" data-i18n="t3.card">The qualities the system must have: speed, safety, usability, reliability.</span>
+            <span class="topic-card-foot">
+              <span data-i18n="topic.open">Open topic</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span class="topic-card-check" aria-hidden="true"><svg class="h-3.5 w-3.5"><use href="#ph-check"></use></svg></span>
+            </span>
+          </button>
+          <button type="button" class="topic-card reveal" style="--d:180ms"
+                  data-modal-open="topic-nonfunctional-types" aria-haspopup="dialog" aria-controls="topic-nonfunctional-types"
+                  data-topic-card="nonfunctional-types">
+            <span class="flex items-start justify-between gap-3">
+              <span class="topic-num bg-sky-100 text-sky-700">04</span>
+              <span class="topic-card-icon bg-sky-100 text-sky-700"><svg aria-hidden="true"><use href="#ph-shield-check"></use></svg></span>
+            </span>
+            <span class="mt-4 block text-[10px] font-extrabold uppercase tracking-[0.16em] text-sky-700" data-i18n="t4.kicker">Types · The quality family</span>
+            <strong class="font-display mt-1 block text-xl font-bold leading-tight tracking-tight text-slate-800" data-i18n="t4.title">Non-Functional Requirements Types</strong>
+            <span class="mt-2 block text-sm font-medium leading-relaxed text-slate-600" data-i18n="t4.card">Performance, security, usability and the rest of the “-ilities”.</span>
+            <span class="topic-card-foot">
+              <span data-i18n="topic.open">Open topic</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span class="topic-card-check" aria-hidden="true"><svg class="h-3.5 w-3.5"><use href="#ph-check"></use></svg></span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <dialog id="topic-functional-definition" class="topic-modal" aria-labelledby="topic-functional-definition-title">
+        <div class="topic-modal-panel">
+          <div class="topic-modal-bar">
+            <span class="topic-modal-step">01 <span class="text-slate-500">/ 04</span></span>
+            <button type="button" class="topic-modal-close" data-modal-close aria-label="Close topic" data-i18n-aria="topic.close">
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-x"></use></svg>
+            </button>
+          </div>
+          <div class="topic-modal-scroll">
+            <article class="topic-section" data-topic-section>
           <div class="reveal flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4">
               <span class="topic-num bg-sky-100 text-sky-700">01</span>
               <div>
                 <p class="text-[10px] font-extrabold uppercase tracking-[0.18em] text-sky-700" data-i18n="t1.kicker">Definition · What the system does</p>
-                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" data-i18n="t1.title">Functional Requirements Definition</h3>
+                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" id="topic-functional-definition-title" data-i18n="t1.title">Functional Requirements Definition</h3>
               </div>
             </div>
             <button type="button" class="done-btn" data-topic="functional-definition" aria-pressed="false">
@@ -394,7 +400,7 @@
             </div>
 
             <div class="reveal clay-card relative flex items-center justify-center overflow-hidden bg-[#e3ecf5]" style="--d:100ms">
-              <img src="assets/img/topic-functional.webp" alt="Clay illustration of a clipboard with checked requirements" data-i18n-alt="t1.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
+              <img src="img/topic-functional.webp" alt="Clay illustration of a clipboard with checked requirements" data-i18n-alt="t1.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
               <span class="clay-chip absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-sky-700" data-i18n="t1.imageTag">Behavior, not quality</span>
             </div>
           </div>
@@ -413,15 +419,35 @@
             </div>
           </div>
         </article>
-
-        <!-- ============ TEMA 02 ============ -->
-        <article id="functional-types" class="topic-section mt-16 sm:mt-24" data-topic-section>
+          </div>
+          <div class="topic-modal-nav">
+            <button type="button" class="topic-modal-arrow" data-modal-prev aria-label="Previous topic" data-i18n-aria="topic.prevAria">
+              <svg class="h-4 w-4 rotate-180" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span data-i18n="topic.prev">Previous</span>
+            </button>
+            <button type="button" class="topic-modal-arrow is-next" data-modal-next aria-label="Next topic" data-i18n-aria="topic.nextAria">
+              <span data-i18n="topic.next">Next</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="topic-functional-types" class="topic-modal" aria-labelledby="topic-functional-types-title">
+        <div class="topic-modal-panel">
+          <div class="topic-modal-bar">
+            <span class="topic-modal-step">02 <span class="text-slate-500">/ 04</span></span>
+            <button type="button" class="topic-modal-close" data-modal-close aria-label="Close topic" data-i18n-aria="topic.close">
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-x"></use></svg>
+            </button>
+          </div>
+          <div class="topic-modal-scroll">
+            <article class="topic-section" data-topic-section>
           <div class="reveal flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4">
               <span class="topic-num bg-emerald-100 text-emerald-700">02</span>
               <div>
                 <p class="text-[10px] font-extrabold uppercase tracking-[0.18em] text-emerald-700" data-i18n="t2.kicker">Types · The functional family</p>
-                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" data-i18n="t2.title">Functional Requirements Types</h3>
+                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" id="topic-functional-types-title" data-i18n="t2.title">Functional Requirements Types</h3>
               </div>
             </div>
             <button type="button" class="done-btn" data-topic="functional-types" aria-pressed="false">
@@ -433,7 +459,7 @@
 
           <div class="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
             <div class="reveal clay-card relative flex items-center justify-center overflow-hidden bg-[#e3ecf5]">
-              <img src="assets/img/topic-functional-types.webp" alt="Clay illustration of a tree branching into user, data, report and integration cards" data-i18n-alt="t2.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
+              <img src="img/topic-functional-types.webp" alt="Clay illustration of a tree branching into user, data, report and integration cards" data-i18n-alt="t2.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
               <span class="clay-chip absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-emerald-700" data-i18n="t2.imageTag">One family, six lenses</span>
             </div>
 
@@ -494,15 +520,35 @@
             </article>
           </div>
         </article>
-
-        <!-- ============ TEMA 03 ============ -->
-        <article id="nonfunctional-definition" class="topic-section mt-16 sm:mt-24" data-topic-section>
+          </div>
+          <div class="topic-modal-nav">
+            <button type="button" class="topic-modal-arrow" data-modal-prev aria-label="Previous topic" data-i18n-aria="topic.prevAria">
+              <svg class="h-4 w-4 rotate-180" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span data-i18n="topic.prev">Previous</span>
+            </button>
+            <button type="button" class="topic-modal-arrow is-next" data-modal-next aria-label="Next topic" data-i18n-aria="topic.nextAria">
+              <span data-i18n="topic.next">Next</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="topic-nonfunctional-definition" class="topic-modal" aria-labelledby="topic-nonfunctional-definition-title">
+        <div class="topic-modal-panel">
+          <div class="topic-modal-bar">
+            <span class="topic-modal-step">03 <span class="text-slate-500">/ 04</span></span>
+            <button type="button" class="topic-modal-close" data-modal-close aria-label="Close topic" data-i18n-aria="topic.close">
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-x"></use></svg>
+            </button>
+          </div>
+          <div class="topic-modal-scroll">
+            <article class="topic-section" data-topic-section>
           <div class="reveal flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4">
               <span class="topic-num bg-amber-100 text-amber-700">03</span>
               <div>
                 <p class="text-[10px] font-extrabold uppercase tracking-[0.18em] text-amber-700" data-i18n="t3.kicker">Definition · How well it works</p>
-                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" data-i18n="t3.title">Non-Functional Requirements Definition</h3>
+                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" id="topic-nonfunctional-definition-title" data-i18n="t3.title">Non-Functional Requirements Definition</h3>
               </div>
             </div>
             <button type="button" class="done-btn" data-topic="nonfunctional-definition" aria-pressed="false">
@@ -537,7 +583,7 @@
             </div>
 
             <div class="reveal clay-card relative flex items-center justify-center overflow-hidden bg-[#e3ecf5]" style="--d:100ms">
-              <img src="assets/img/topic-nonfunctional.webp" alt="Clay illustration of a gauge, a shield, sliders and a stopwatch" data-i18n-alt="t3.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
+              <img src="img/topic-nonfunctional.webp" alt="Clay illustration of a gauge, a shield, sliders and a stopwatch" data-i18n-alt="t3.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
               <span class="clay-chip absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-amber-700" data-i18n="t3.imageTag">Quality you can measure</span>
             </div>
           </div>
@@ -556,15 +602,35 @@
             </div>
           </div>
         </article>
-
-        <!-- ============ TEMA 04 ============ -->
-        <article id="nonfunctional-types" class="topic-section mt-16 sm:mt-24" data-topic-section>
+          </div>
+          <div class="topic-modal-nav">
+            <button type="button" class="topic-modal-arrow" data-modal-prev aria-label="Previous topic" data-i18n-aria="topic.prevAria">
+              <svg class="h-4 w-4 rotate-180" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span data-i18n="topic.prev">Previous</span>
+            </button>
+            <button type="button" class="topic-modal-arrow is-next" data-modal-next aria-label="Next topic" data-i18n-aria="topic.nextAria">
+              <span data-i18n="topic.next">Next</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="topic-nonfunctional-types" class="topic-modal" aria-labelledby="topic-nonfunctional-types-title">
+        <div class="topic-modal-panel">
+          <div class="topic-modal-bar">
+            <span class="topic-modal-step">04 <span class="text-slate-500">/ 04</span></span>
+            <button type="button" class="topic-modal-close" data-modal-close aria-label="Close topic" data-i18n-aria="topic.close">
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-x"></use></svg>
+            </button>
+          </div>
+          <div class="topic-modal-scroll">
+            <article class="topic-section" data-topic-section>
           <div class="reveal flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4">
               <span class="topic-num bg-sky-100 text-sky-700">04</span>
               <div>
                 <p class="text-[10px] font-extrabold uppercase tracking-[0.18em] text-sky-700" data-i18n="t4.kicker">Types · The quality family</p>
-                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" data-i18n="t4.title">Non-Functional Requirements Types</h3>
+                <h3 class="font-display mt-1 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl" id="topic-nonfunctional-types-title" data-i18n="t4.title">Non-Functional Requirements Types</h3>
               </div>
             </div>
             <button type="button" class="done-btn" data-topic="nonfunctional-types" aria-pressed="false">
@@ -585,7 +651,7 @@
             </div>
 
             <div class="reveal clay-card relative flex items-center justify-center overflow-hidden bg-[#e3ecf5]" style="--d:100ms">
-              <img src="assets/img/topic-nonfunctional-types.webp" alt="Clay illustration of speed, security, time, compatibility and accessibility icons" data-i18n-alt="t4.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
+              <img src="img/topic-nonfunctional-types.webp" alt="Clay illustration of speed, security, time, compatibility and accessibility icons" data-i18n-alt="t4.imageAlt" class="clay-img w-full" loading="lazy" width="1200" height="655">
               <span class="clay-chip absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-sky-700" data-i18n="t4.imageTag">Quality attributes</span>
             </div>
           </div>
@@ -629,7 +695,19 @@
             </article>
           </div>
         </article>
-      </div>
+          </div>
+          <div class="topic-modal-nav">
+            <button type="button" class="topic-modal-arrow" data-modal-prev aria-label="Previous topic" data-i18n-aria="topic.prevAria">
+              <svg class="h-4 w-4 rotate-180" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+              <span data-i18n="topic.prev">Previous</span>
+            </button>
+            <button type="button" class="topic-modal-arrow is-next" data-modal-next aria-label="Next topic" data-i18n-aria="topic.nextAria">
+              <span data-i18n="topic.next">Next</span>
+              <svg class="h-4 w-4" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+      </dialog>
     </section>
 
     <!-- ============================================================
@@ -644,7 +722,7 @@
         </header>
 
         <div class="reveal clay-card mt-8 overflow-hidden">
-          <div class="overflow-x-auto">
+          <section class="overflow-x-auto" tabindex="0" aria-label="Comparison table" data-i18n-aria="compare.tableLabel">
             <table class="compare-table w-full min-w-[640px] border-collapse text-sm">
               <thead>
                 <tr>
@@ -681,7 +759,7 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+          </section>
         </div>
 
         <p class="reveal mt-4 text-center text-xs font-bold text-slate-500" data-i18n="compare.note">Swipe the table horizontally on small screens.</p>
@@ -896,7 +974,7 @@
             </dl>
 
             <div class="mt-5 flex flex-wrap gap-2.5">
-              <a href="../index.html" class="clay-btn bg-white text-slate-700">
+              <a href="../../index.html" class="clay-btn bg-white text-slate-700">
                 <svg aria-hidden="true"><use href="#ph-arrow-left"></use></svg>
                 <span data-i18n="about.back">Academic portfolio</span>
               </a>
@@ -918,9 +996,9 @@
                 </span>
               </li>
               <li class="flex items-center gap-3 rounded-2xl bg-emerald-50 p-3">
-                <span class="clay-chip flex h-11 w-11 flex-none items-center justify-center rounded-full bg-white text-xs font-black text-emerald-700">LI</span>
+                <span class="clay-chip flex h-11 w-11 flex-none items-center justify-center rounded-full bg-white text-xs font-black text-emerald-700">CM</span>
                 <span>
-                  <strong class="block text-sm font-extrabold text-slate-700">Leticia Ivett Carlos Rojas</strong>
+                  <strong class="block text-sm font-extrabold text-slate-700">Christian Alfredo Mora Damian</strong>
                   <span class="text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-600">Group 5</span>
                 </span>
               </li>
@@ -944,9 +1022,30 @@
   </main>
 
   <!-- ============================================================
+       CONTROLES DE PRESENTACIÓN
+       ============================================================ -->
+  <div class="deck-hud no-print" role="group" aria-label="Presentation controls" data-i18n-aria="deck.label">
+    <button type="button" class="deck-arrow" data-deck-prev aria-label="Previous section" data-i18n-aria="deck.prevAria">
+      <svg class="h-5 w-5 rotate-180" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+    </button>
+    <span class="deck-count" aria-hidden="true"><span id="deckCurrent">01</span> / 06</span>
+    <div class="deck-dots">
+      <button type="button" class="deck-dot is-active" data-deck-target="top" aria-label="Cover" data-i18n-aria="deck.cover"></button>
+      <button type="button" class="deck-dot" data-deck-target="basics" aria-label="In 30 seconds" data-i18n-aria="deck.basics"></button>
+      <button type="button" class="deck-dot" data-deck-target="topics" aria-label="Topics" data-i18n-aria="deck.topics"></button>
+      <button type="button" class="deck-dot" data-deck-target="compare" aria-label="Comparison" data-i18n-aria="deck.compare"></button>
+      <button type="button" class="deck-dot" data-deck-target="challenge" aria-label="Quiz" data-i18n-aria="deck.quiz"></button>
+      <button type="button" class="deck-dot" data-deck-target="about" aria-label="Team" data-i18n-aria="deck.team"></button>
+    </div>
+    <button type="button" class="deck-arrow" data-deck-next aria-label="Next section" data-i18n-aria="deck.nextAria">
+      <svg class="h-5 w-5" aria-hidden="true"><use href="#ph-arrow-right"></use></svg>
+    </button>
+  </div>
+
+  <!-- ============================================================
        FOOTER
        ============================================================ -->
-  <footer class="px-4 pb-8 sm:px-6">
+  <footer class="px-4 pb-24 sm:px-6">
     <div class="clay-card mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 p-5 text-center sm:flex-row sm:text-left">
       <div class="flex items-center gap-3">
         <span class="clay-chip flex h-9 w-9 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
@@ -971,7 +1070,7 @@
 
   <p id="langAnnounce" class="sr-only" aria-live="polite"></p>
 
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

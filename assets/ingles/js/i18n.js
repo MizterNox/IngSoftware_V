@@ -20,15 +20,19 @@
     "meta.description":
       "Lección interactiva y bilingüe sobre requisitos funcionales y no funcionales: definiciones, tipos, ejemplos y un reto. Inglés V · Grupo 5 · Ingeniería de Software con IA.",
 
-    "nav.label": "Secciones",
-    "nav.topics": "Temas",
-    "nav.compare": "Comparar",
-    "nav.quiz": "Reto",
-    "nav.team": "Equipo",
-    "nav.start": "Empezar",
-    "nav.menu": "Abrir menú",
-    "nav.portfolio": "Portafolio académico",
     "lang.label": "Idioma",
+
+    "deck.label": "Controles de presentación",
+    "deck.prevAria": "Sección anterior",
+    "deck.nextAria": "Sección siguiente",
+    "deck.cover": "Portada",
+    "deck.basics": "La versión de 30 segundos",
+    "deck.topics": "Temas",
+    "deck.compare": "Comparativa",
+    "deck.quiz": "Reto",
+    "deck.team": "Equipo",
+
+    "hud.xp": "XP",
 
     "hero.kicker": "Inglés para Ingeniería de Software · Semestre V",
     "hero.title1": "Requisitos de",
@@ -39,20 +43,13 @@
     "hero.chip.semester": "Semestre V",
     "hero.chip.group": "Grupo 5",
     "hero.teamLabel": "Grupo 5 · Equipo",
-    "hero.start": "Empezar la lección",
+    "hero.start": "Abrir tema 01",
     "hero.explore": "Explorar temas",
     "hero.meta": "4 temas · 4 preguntas · 500 XP",
     "hero.imageAlt":
       "Ilustración 3D en arcilla de una laptop rodeada de tarjetas de requisitos y marcas de verificación",
-    "hero.card.aria": "Tarjeta de misión del Grupo 5",
-    "hero.card.title": "Requisitos de Software",
-    "hero.card.status": "En progreso",
-    "hero.card.instructorLabel": "Docente",
-    "hero.card.pathLabel": "Ruta de aprendizaje",
-    "hero.card.t1": "Funcionales · Definición",
-    "hero.card.t2": "Funcionales · Tipos",
-    "hero.card.t3": "No funcionales · Definición",
-    "hero.card.t4": "No funcionales · Tipos",
+    "hero.card.aria": "Ficha del docente · Grupo 5",
+    "hero.card.instructorLabel": "Docente · Grupo 5",
     "hero.chip.functional": "Funcional",
     "hero.chip.nonfunctional": "No funcional",
 
@@ -70,10 +67,21 @@
     "topics.kicker": "La lección",
     "topics.title": "Cuatro ideas, un mapa claro",
     "topics.lead":
-      "Definiciones breves, ideas clave y tipos. Marca cada tema como aprendido para llenar tu barra de XP.",
+      "Toca un tema para abrirlo como diapositiva. Marca cada uno como aprendido para llenar tu barra de XP.",
 
     "topic.mark": "Marcar como aprendido",
     "topic.done": "Aprendido",
+    "topic.open": "Abrir tema",
+    "topic.close": "Cerrar tema",
+    "topic.prev": "Tema anterior",
+    "topic.next": "Tema siguiente",
+    "topic.prevAria": "Tema anterior",
+    "topic.nextAria": "Tema siguiente",
+
+    "t1.card": "Qué debe hacer el sistema, escrito como una promesa verificable.",
+    "t2.card": "Seis lentes: usuarios, sistema, datos, reglas, reportes e integración.",
+    "t3.card": "Las cualidades que debe tener: velocidad, seguridad, usabilidad y fiabilidad.",
+    "t4.card": "Rendimiento, seguridad, usabilidad y el resto de las «-ilidades».",
 
     "t1.kicker": "Definición · Qué hace el sistema",
     "t1.title": "Definición de requisitos funcionales",
@@ -168,6 +176,7 @@
     "common.example": "Ejemplo",
     "common.tip": "Consejo",
 
+    "compare.tableLabel": "Tabla comparativa",
     "compare.kicker": "Lado a lado",
     "compare.title": "Funcionales vs. no funcionales",
     "compare.lead":

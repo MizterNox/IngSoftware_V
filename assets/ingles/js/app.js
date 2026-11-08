@@ -94,8 +94,8 @@
 
     TOPICS.forEach(function (topic) {
       var isDone = state.done.indexOf(topic) !== -1;
-      var row = $('[data-hero-row="' + topic + '"]');
-      if (row) row.classList.toggle("is-done", isDone);
+      var card = $('[data-topic-card="' + topic + '"]');
+      if (card) card.classList.toggle("is-done", isDone);
       var button = $('.done-btn[data-topic="' + topic + '"]');
       if (button) button.setAttribute("aria-pressed", isDone ? "true" : "false");
     });
@@ -327,80 +327,240 @@
   }
 
   /* ------------------------------------------------------------------------
-     Navegación activa
+     Temas como modales
      ------------------------------------------------------------------------ */
-  var navLinks = $$('.nav-link[href^="#"]');
-  var sections = ["topics", "compare", "challenge", "about"]
-    .map(function (id) {
-      return document.getElementById(id);
-    })
-    .filter(Boolean);
+  var MODALS = [
+    "topic-functional-definition",
+    "topic-functional-types",
+    "topic-nonfunctional-definition",
+    "topic-nonfunctional-types"
+  ];
+  var topicModals = MODALS.map(function (id) {
+    return document.getElementById(id);
+  }).filter(Boolean);
+  var triggerMap = new WeakMap();
+  var finalized = new WeakSet();
 
-  function setActive(id) {
-    navLinks.forEach(function (link) {
-      var isActive = link.getAttribute("href") === "#" + id;
-      if (isActive) {
-        link.setAttribute("aria-current", "true");
-      } else {
-        link.removeAttribute("aria-current");
+  function finalizeClose(dialog) {
+    if (!dialog || dialog.open || finalized.has(dialog)) return;
+    finalized.add(dialog);
+
+    var anotherOpen = $$(".topic-modal[open]").length > 0;
+    if (!anotherOpen) {
+      document.documentElement.classList.remove("modal-open");
+      if (window.location.hash === "#" + dialog.id) {
+        try {
+          history.replaceState(null, "", window.location.pathname + window.location.search);
+        } catch (error) {
+          /* sin History API */
+        }
       }
-    });
+      var trigger = triggerMap.get(dialog);
+      if (trigger && typeof trigger.focus === "function") trigger.focus();
+    }
+    triggerMap.delete(dialog);
   }
 
-  if ("IntersectionObserver" in window && sections.length) {
-    var sectionObserver = new IntersectionObserver(
-      function (entries) {
-        var visible = entries
-          .filter(function (entry) {
-            return entry.isIntersecting;
-          })
-          .sort(function (a, b) {
-            return b.intersectionRatio - a.intersectionRatio;
-          });
+  function openModal(dialog, trigger) {
+    if (!dialog) return;
+    if (trigger) triggerMap.set(dialog, trigger);
+    if (dialog.open) return;
 
-        if (visible.length) setActive(visible[0].target.id);
-      },
-      { rootMargin: "-42% 0px -48% 0px", threshold: [0, 0.2, 0.6] }
-    );
-
-    sections.forEach(function (section) {
-      sectionObserver.observe(section);
+    /* Solo un tema abierto a la vez: al pasar de tema cerramos el anterior. */
+    topicModals.forEach(function (other) {
+      if (other !== dialog && other.open) other.close();
     });
+
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+
+    finalized.delete(dialog);
+    document.documentElement.classList.add("modal-open");
+    $$(".reveal", dialog).forEach(function (element) {
+      element.classList.add("is-visible");
+    });
+
+    try {
+      history.replaceState(null, "", "#" + dialog.id);
+    } catch (error) {
+      /* file:// o navegador sin History API */
+    }
   }
+
+  function closeModal(dialog) {
+    if (!dialog) return;
+    if (dialog.open) {
+      if (typeof dialog.close === "function") {
+        dialog.close();
+      } else {
+        dialog.removeAttribute("open");
+        dialog.dispatchEvent(new Event("close"));
+      }
+    }
+    /* No dependemos solo del evento close: algunos navegadores lo difieren
+       y dejarían el hash o el bloqueo de scroll activos. */
+    finalizeClose(dialog);
+  }
+
+  function modalFromHash() {
+    var raw = decodeURIComponent(window.location.hash.replace("#", ""));
+    if (!raw) return null;
+    if (MODALS.indexOf(raw) !== -1) return document.getElementById(raw);
+    /* Enlaces antiguos: #functional-definition → #topic-functional-definition */
+    if (MODALS.indexOf("topic-" + raw) !== -1) return document.getElementById("topic-" + raw);
+    return null;
+  }
+
+  $$("[data-modal-open]").forEach(function (trigger) {
+    trigger.addEventListener("click", function () {
+      openModal(document.getElementById(trigger.getAttribute("data-modal-open")), trigger);
+    });
+  });
+
+  topicModals.forEach(function (dialog, index) {
+    $$("[data-modal-close]", dialog).forEach(function (button) {
+      button.addEventListener("click", function () {
+        closeModal(dialog);
+      });
+    });
+
+    var prev = $("[data-modal-prev]", dialog);
+    var next = $("[data-modal-next]", dialog);
+    if (prev) {
+      prev.addEventListener("click", function () {
+        openModal(topicModals[(index - 1 + topicModals.length) % topicModals.length]);
+      });
+    }
+    if (next) {
+      next.addEventListener("click", function () {
+        openModal(topicModals[(index + 1) % topicModals.length]);
+      });
+    }
+
+    /* Clic en el fondo (fuera del panel) cierra. */
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) closeModal(dialog);
+    });
+
+    /* Escape: cerramos nosotros para limpiar hash y scroll sin depender
+       de que el navegador emita close de inmediato. */
+    dialog.addEventListener("cancel", function (event) {
+      event.preventDefault();
+      closeModal(dialog);
+    });
+
+    dialog.addEventListener("close", function () {
+      finalizeClose(dialog);
+    });
+  });
+
+  var initialModal = modalFromHash();
+  if (initialModal) window.setTimeout(function () {
+    openModal(initialModal);
+  }, 120);
 
   /* ------------------------------------------------------------------------
-     Menú móvil
+     Controles de presentación (puntos + anterior/siguiente)
      ------------------------------------------------------------------------ */
-  var menuBtn = $("#menuBtn");
-  var mobileNav = $("#mobileNav");
+  var deckIds = ["top", "basics", "topics", "compare", "challenge", "about"];
+  var deckSections = deckIds.map(function (id) {
+    return document.getElementById(id);
+  }).filter(Boolean);
+  var deckDots = $$("[data-deck-target]");
+  var deckCurrent = $("#deckCurrent");
+  var deckIndex = 0;
 
-  function closeMenu() {
-    if (!menuBtn || !mobileNav) return;
-    mobileNav.classList.add("hidden");
-    menuBtn.setAttribute("aria-expanded", "false");
-  }
-
-  if (menuBtn && mobileNav) {
-    menuBtn.addEventListener("click", function () {
-      var isOpen = menuBtn.getAttribute("aria-expanded") === "true";
-      menuBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
-      mobileNav.classList.toggle("hidden", isOpen);
-    });
-
-    $$("a", mobileNav).forEach(function (link) {
-      link.addEventListener("click", closeMenu);
-    });
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") closeMenu();
-    });
-
-    document.addEventListener("click", function (event) {
-      if (!mobileNav.contains(event.target) && !menuBtn.contains(event.target)) {
-        closeMenu();
+  function setDeckIndex(index) {
+    if (!deckSections.length) return;
+    deckIndex = (index + deckSections.length) % deckSections.length;
+    if (deckCurrent) {
+      deckCurrent.textContent = String(deckIndex + 1).padStart(2, "0");
+    }
+    deckDots.forEach(function (dot) {
+      var target = dot.getAttribute("data-deck-target");
+      var active = target === deckSections[deckIndex].id;
+      dot.classList.toggle("is-active", active);
+      if (active) {
+        dot.setAttribute("aria-current", "true");
+      } else {
+        dot.removeAttribute("aria-current");
       }
     });
   }
+
+  function goToSection(index) {
+    var target = deckSections[(index + deckSections.length) % deckSections.length];
+    if (!target) return;
+    setDeckIndex(index);
+    target.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start"
+    });
+  }
+
+  var deckPrev = $("[data-deck-prev]");
+  var deckNext = $("[data-deck-next]");
+  if (deckPrev) deckPrev.addEventListener("click", function () {
+    goToSection(deckIndex - 1);
+  });
+  if (deckNext) deckNext.addEventListener("click", function () {
+    goToSection(deckIndex + 1);
+  });
+
+  deckDots.forEach(function (dot) {
+    dot.addEventListener("click", function () {
+      var index = deckSections.map(function (section) {
+        return section.id;
+      }).indexOf(dot.getAttribute("data-deck-target"));
+      if (index !== -1) goToSection(index);
+    });
+  });
+
+  /* El observer puede perder saltos instantáneos; la geometría es la fuente
+     de verdad y mantiene el contador sincronizado con la sección visible. */
+  var deckTicking = false;
+
+  function updateDeckFromScroll() {
+    deckTicking = false;
+    if (!deckSections.length) return;
+    document.documentElement.classList.toggle("is-scrolled", window.scrollY > 80);
+    var line = window.innerHeight * 0.38;
+    var index = 0;
+    deckSections.forEach(function (section, i) {
+      if (section.getBoundingClientRect().top <= line) index = i;
+    });
+    setDeckIndex(index);
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!deckTicking) {
+        deckTicking = true;
+        window.setTimeout(updateDeckFromScroll, 60);
+      }
+    },
+    { passive: true }
+  );
+  window.addEventListener("resize", updateDeckFromScroll, { passive: true });
+
+  /* Refuerzo: cualquier cambio de intersección recalcula por geometría. */
+  if ("IntersectionObserver" in window) {
+    var deckObserver = new IntersectionObserver(
+      function () {
+        updateDeckFromScroll();
+      },
+      { rootMargin: "-30% 0px -60% 0px", threshold: [0, 0.2] }
+    );
+    deckSections.forEach(function (section) {
+      deckObserver.observe(section);
+    });
+  }
+
+  updateDeckFromScroll();
 
   /* ------------------------------------------------------------------------
      Arranque
