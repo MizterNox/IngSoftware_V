@@ -14,5 +14,5 @@
     <g transform="translate(-140,40)"><rect x="-30" y="-22" width="60" height="44" rx="8" fill="white"/><rect x="-24" y="-16" width="48" height="28" rx="4" fill="#0a1226"/><circle cx="0" cy="12" r="3" fill="#94a3b8"/></g>
     <g transform="translate(140,40)"><rect x="-22" y="-30" width="44" height="60" rx="8" fill="white"/><rect x="-16" y="-24" width="32" height="44" rx="4" fill="#0a1226"/></g>
   </g>
-  <text x="300" y="365" fill="white" opacity="0.6" font-size="9" font-weight="700" text-anchor="middle">Publish & Play — Share with friends · Mobile · PC · Console</text>
+  <text x="300" y="365" fill="white" opacity="0.6" font-size="9" font-weight="700" text-anchor="middle">Publish &amp; Play — Share with friends · Mobile · PC · Console</text>
 </svg>
