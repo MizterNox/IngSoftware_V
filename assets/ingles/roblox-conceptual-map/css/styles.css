@@ -3,7 +3,7 @@
    Individual work · SENATI · Technical English V
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root{
   --bg: #050a14;
@@ -105,12 +105,36 @@ body{
   backdrop-filter: blur(8px);
 }
 
+/* Dialog centered fix */
+dialog{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border: none;
+  padding: 16px;
+  background: transparent;
+  display: none;
+  place-items: center;
+  z-index: 50;
+  overflow-y: auto;
+}
+dialog[open]{
+  display: grid;
+  place-items: center;
+}
 dialog::backdrop{
-  background: rgba(3,6,14,.58);
+  background: rgba(3,6,14,.62);
   backdrop-filter: blur(8px);
 }
-dialog[open]{ display:flex; }
-.modal-panel{ animation: modalIn .32s var(--ease); }
+.modal-panel{
+  animation: modalIn .32s var(--ease);
+  width: 100%;
+  max-width: 680px;
+  margin: auto;
+}
 @keyframes modalIn{
   from{ opacity:0; transform: translateY(12px) scale(.98)}
   to{ opacity:1; transform: translateY(0) scale(1)}
@@ -133,6 +157,7 @@ dialog[open]{ display:flex; }
   height: 760px;
   max-width: 1120px;
   margin: 0 auto;
+  overflow: visible;
 }
 .map-center{
   position: absolute;
@@ -144,22 +169,28 @@ dialog[open]{ display:flex; }
   display: grid; place-items: center;
   text-align: center;
   cursor: pointer;
+  transition: transform .15s var(--ease), border-color .2s ease, box-shadow .2s ease;
 }
-.map-center:hover{ transform: translate(-50%, -50%) scale(1.03); }
+.map-center:hover{
+  border-color: rgba(255,255,255,.22);
+  box-shadow: 0 18px 40px rgba(0,0,0,.5);
+}
+.map-center:active{ transform: translate(-50%, -50%) scale(.97); }
+
 .map-node{
   position: absolute;
   width: 210px;
   border-radius: 20px;
   padding: 16px;
   cursor: pointer;
-  transition: transform .3s var(--ease), border-color .3s ease, box-shadow .3s ease;
   z-index: 4;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .15s var(--ease);
 }
 .map-node:hover{
-  transform: translateY(-4px) scale(1.02);
   border-color: rgba(255,255,255,.22);
   box-shadow: 0 18px 40px rgba(0,0,0,.5);
 }
+.map-node:active{ transform: scale(.97); }
 .map-node:focus-visible{ outline: 2px solid #00a2ff; outline-offset: 3px; }
 
 .map-lines{
@@ -169,18 +200,25 @@ dialog[open]{ display:flex; }
   z-index: 2;
 }
 
-/* positions - desktop 7 nodes around center */
-.pos-studio{ left: 50%; top: 6%; transform: translateX(-50%); }
-.pos-workspace{ left: 78%; top: 14%; }
-.pos-parts{ left: 88%; top: 50%; transform: translateY(-50%); }
-.pos-avatar{ left: 74%; top: 82%; }
-.pos-publish{ left: 50%; top: 88%; transform: translateX(-50%); }
-.pos-monet{ left: 12%; top: 82%; }
-.pos-ui{ left: 2%; top: 50%; transform: translateY(-50%); }
+/* positions - desktop 7 nodes around center - inset to avoid clipping */
+.pos-studio{ left: 50%; top: 4%; transform: translateX(-50%); }
+.pos-studio:active{ transform: translateX(-50%) scale(.97); }
+.pos-workspace{ left: 76%; top: 12%; }
+.pos-workspace:active{ transform: scale(.97); }
+.pos-parts{ left: 84%; top: 50%; transform: translateY(-50%); }
+.pos-parts:active{ transform: translateY(-50%) scale(.97); }
+.pos-avatar{ left: 72%; top: 76%; }
+.pos-avatar:active{ transform: scale(.97); }
+.pos-publish{ left: 50%; top: 84%; transform: translateX(-50%); }
+.pos-publish:active{ transform: translateX(-50%) scale(.97); }
+.pos-monet{ left: 14%; top: 76%; }
+.pos-monet:active{ transform: scale(.97); }
+.pos-ui{ left: 4%; top: 50%; transform: translateY(-50%); }
+.pos-ui:active{ transform: translateY(-50%) scale(.97); }
 
 /* tablet */
 @media (max-width: 1024px){
-  .concept-map{ height: 700px; }
+  .concept-map{ height: 720px; }
   .map-node{ width: 190px; padding: 14px; }
 }
 
@@ -190,7 +228,7 @@ dialog[open]{ display:flex; }
     height: auto;
     display: grid;
     gap: 14px;
-    padding: 16px 0;
+    padding: 8px 0;
   }
   .map-lines{ display: none; }
   .map-center{
@@ -198,12 +236,12 @@ dialog[open]{ display:flex; }
     width: 100%; height: auto; padding: 22px;
     margin: 0 auto;
   }
-  .map-center:hover{ transform: none; }
+  .map-center:active{ transform: scale(.97); }
   .map-node{
     position: relative; left:auto !important; top:auto !important; transform:none !important;
     width: 100%;
   }
-  .map-node:hover{ transform: translateY(-2px); }
+  .map-node:active{ transform: scale(.97) !important; }
 }
 
 @media (prefers-reduced-motion: reduce){
