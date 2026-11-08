@@ -1,0 +1,18 @@
+<!-- Plantilla de modal de detalle para un componente -->
+<dialog class="modal">
+  <div class="modal-panel glass-strong">
+    <header class="modal-head">
+      <span class="badge">{{category}}</span>
+      <button class="modal-close" aria-label="Close">✕</button>
+    </header>
+    <div class="modal-body">
+      <h3 class="font-display text-2xl font-extrabold">{{title}}</h3>
+      <p class="mt-2 text-sm text-white/70">{{definition}}</p>
+      <div class="code mt-4 p-4 text-xs leading-relaxed">{{codeExample}}</div>
+    </div>
+    <footer class="modal-foot">
+      <button class="btn-ghost">Prev</button>
+      <button class="btn-primary">Next</button>
+    </footer>
+  </div>
+</dialog>
