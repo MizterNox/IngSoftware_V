@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <rect width="600" height="400" rx="20" fill="#0a1226"/>
+  <rect x="40" y="40" width="520" height="320" rx="16" fill="#0e1e36"/>
+  <!-- sky -->
+  <rect x="40" y="40" width="520" height="140" rx="16" fill="#1a3a6b"/>
+  <circle cx="480" cy="80" r="28" fill="#ffd600"/>
+  <path d="M 60 140 Q 120 100 180 140 T 300 130 T 460 145 L 560 140 L 560 180 L 40 180 Z" fill="#0b1224"/>
+  <!-- terrain -->
+  <rect x="40" y="180" width="520" height="180" rx="0" fill="#0e2d1a"/>
+  <path d="M40 200 Q150 170 250 200 T460 195 T560 210 L560 360 Q560 376 544 376 H56 Q40 376 40 360 Z" fill="#1a5c2a"/>
+  <path d="M40 240 Q120 220 200 240 T360 235 T520 250 L520 340 L40 340 Z" fill="#2e8b3a" opacity="0.9"/>
+  <path d="M40 280 Q180 260 320 285 T560 290 L560 360 L40 360 Z" fill="#3aa652" opacity="0.85"/>
+  <!-- water -->
+  <path d="M40 310 Q200 300 360 315 T560 310 L560 360 L40 360 Z" fill="#00a2ff" opacity="0.85"/>
+  <!-- trees -->
+  <g transform="translate(120,260)"><rect x="-4" y="0" width="8" height="22" rx="4" fill="#5a3510"/><circle cx="0" cy="-8" r="18" fill="#1a7a2a"/><circle cx="-10" cy="-14" r="12" fill="#2e9a3a"/><circle cx="10" cy="-12" r="14" fill="#1a8a2a"/></g>
+  <g transform="translate(400,270)"><rect x="-4" y="0" width="8" height="22" rx="4" fill="#5a3510"/><circle cx="0" cy="-8" r="18" fill="#1a7a2a"/><circle cx="-8" cy="-14" r="12" fill="#2e9a3a"/></g>
+  <text x="300" y="385" fill="white" opacity="0.6" font-size="9" font-weight="700" text-anchor="middle">Workspace · Terrain · Lighting</text>
+</svg>

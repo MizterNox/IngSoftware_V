@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <rect width="600" height="400" rx="20" fill="#0a1226"/>
+  <g transform="translate(300,210)">
+    <!-- shadow -->
+    <ellipse cx="0" cy="110" rx="90" ry="14" fill="rgba(0,0,0,.35)"/>
+    <!-- body -->
+    <rect x="-42" y="-60" width="84" height="90" rx="18" fill="#00a2ff" stroke="white" stroke-width="3"/>
+    <rect x="-42" y="-20" width="84" height="24" rx="8" fill="white" opacity="0.95"/>
+    <text x="0" y="-4" fill="#0a1226" font-size="13" font-weight="900" text-anchor="middle">R6</text>
+    <!-- head -->
+    <circle cx="0" cy="-92" r="44" fill="#ffdbac" stroke="white" stroke-width="3"/>
+    <circle cx="-14" cy="-96" r="5" fill="#0a1226"/><circle cx="14" cy="-96" r="5" fill="#0a1226"/>
+    <path d="M -14 -78 Q 0 -72 14 -78" stroke="#0a1226" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- hair -->
+    <path d="M -44 -110 Q 0 -150 44 -110 Q 30 -90 -0 -95 Q -30 -90 -44 -110" fill="#0a1226"/>
+    <!-- arms -->
+    <rect x="-76" y="-44" width="28" height="70" rx="14" fill="#ffdbac" stroke="white" stroke-width="3"/>
+    <rect x="48" y="-44" width="28" height="70" rx="14" fill="#ffdbac" stroke="white" stroke-width="3"/>
+    <!-- legs -->
+    <rect x="-36" y="30" width="28" height="64" rx="12" fill="#1a2747" stroke="white" stroke-width="3"/>
+    <rect x="8" y="30" width="28" height="64" rx="12" fill="#1a2747" stroke="white" stroke-width="3"/>
+  </g>
+  <text x="300" y="365" fill="white" opacity="0.6" font-size="9" font-weight="700" text-anchor="middle">Avatar & Character — Humanoid · Accessories · Rig</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <rect width="600" height="400" rx="20" fill="#0a1226"/>
+  <g transform="translate(300,190)">
+    <!-- platform -->
+    <ellipse cx="0" cy="90" rx="160" ry="18" fill="rgba(255,255,255,.08)"/>
+    <!-- rocket -->
+    <g transform="translate(0,-20)">
+      <path d="M 0 -80 C 22 -60 28 -20 16 20 L -16 20 C -28 -20 -22 -60 0 -80" fill="white" stroke="#0a1226" stroke-width="3"/>
+      <path d="M -16 20 L -28 48 L -8 32 Z" fill="#ff002b"/><path d="M 16 20 L 28 48 L 8 32 Z" fill="#ff002b"/>
+      <circle cx="0" cy="-30" r="16" fill="#00a2ff" stroke="#0a1226" stroke-width="2"/>
+      <path d="M 0 20 Q 0 60 -12 72 Q 0 64 12 72 Q 0 60 0 20" fill="#ffb700"/>
+    </g>
+    <!-- devices -->
+    <g transform="translate(-140,40)"><rect x="-30" y="-22" width="60" height="44" rx="8" fill="white"/><rect x="-24" y="-16" width="48" height="28" rx="4" fill="#0a1226"/><circle cx="0" cy="12" r="3" fill="#94a3b8"/></g>
+    <g transform="translate(140,40)"><rect x="-22" y="-30" width="44" height="60" rx="8" fill="white"/><rect x="-16" y="-24" width="32" height="44" rx="4" fill="#0a1226"/></g>
+  </g>
+  <text x="300" y="365" fill="white" opacity="0.6" font-size="9" font-weight="700" text-anchor="middle">Publish & Play — Share with friends · Mobile · PC · Console</text>
+</svg>
