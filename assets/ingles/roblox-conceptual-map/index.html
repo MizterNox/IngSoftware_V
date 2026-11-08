@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Roblox Components · Conceptual Map · English V · Group 5</title>
+<meta name="description" content="Interactive conceptual map of Roblox components: Studio, Luau scripting, Workspace, UI, physics and publishing. Bento Grid + Glassmorphism. English V · SENATI · Group 5.">
+<meta name="author" content="Group 5 · Luz Daniela Rojas, Christian Alfredo Mora, Jared Peter Valerio">
+<meta name="theme-color" content="#050a14">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Roblox Components · Conceptual Map">
+<meta property="og:description" content="Build, script and publish on Roblox — an interactive Bento Grid guide with glassmorphism, code examples and quiz.">
+<meta property="og:image" content="https://mizternox.github.io/IngSoftware_V/assets/ingles/roblox-conceptual-map/img/og-cover.svg">
+<meta property="og:url" content="https://mizternox.github.io/IngSoftware_V/assets/ingles/roblox-conceptual-map/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_PE">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ["Bricolage Grotesque","ui-sans-serif","system-ui","sans-serif"],
+          body: ["Plus Jakarta Sans","ui-sans-serif","system-ui","sans-serif"],
+          mono: ["JetBrains Mono","ui-monospace","monospace"]
+        }
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="antialiased selection:bg-[#00a2ff]/40">
+  <!-- Background -->
+  <div class="bg-orbs" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <!-- Progress bar -->
+  <div class="fixed inset-x-0 top-0 z-50 h-1" aria-hidden="true">
+    <div id="scrollProgress" class="h-full w-0 bg-gradient-to-r from-[#ff002b] via-[#00a2ff] to-[#00d084] transition-[width] duration-100"></div>
+  </div>
+
+  <!-- Header -->
+  <header id="siteHeader" class="site-header">
+    <div class="mx-auto flex h-full w-full max-w-[1320px] items-center justify-between gap-3 px-4 sm:px-6">
+      <a href="../index.html" class="group flex items-center gap-3 rounded-full bg-white/10 px-3 py-2 text-xs font-extrabold tracking-widest text-white/90 ring-1 ring-white/10 backdrop-blur hover:bg-white hover:text-slate-900 transition">
+        <span class="grid h-7 w-7 place-items-center rounded-full bg-white text-slate-900">←</span>
+        <span class="hidden sm:inline">INGLÉS / ENGLISH V</span>
+        <span class="sm:hidden">BACK</span>
+      </a>
+      <div class="flex items-center gap-2">
+        <div class="hidden items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 ring-1 ring-white/10 backdrop-blur sm:flex">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
+          <span class="text-[10px] font-black uppercase tracking-[0.14em] text-white">Live on GitHub Pages</span>
+        </div>
+        <div class="flex items-center gap-1 rounded-full bg-white p-1 shadow-xl">
+          <button id="langEN" class="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-black text-white">EN</button>
+          <button id="langES" class="rounded-full px-3 py-1.5 text-xs font-black text-slate-500 hover:text-slate-900">ES</button>
+        </div>
+        <a href="../../index.html" class="hidden h-9 w-9 place-items-center rounded-full bg-white text-slate-900 shadow-xl sm:grid hover:scale-105 transition" aria-label="Go to portfolio home">⌂</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="pt-[64px]">
+    <section class="relative mx-auto max-w-[1320px] px-4 sm:px-6 pt-6">
+      <!-- Breadcrumbs -->
+      <nav aria-label="Breadcrumb" class="reveal flex flex-wrap items-center gap-2 text-xs font-semibold text-white/60">
+        <a href="../../index.html" class="hover:text-white">Portfolio</a> <span aria-hidden="true">·</span>
+        <a href="../index.html" class="hover:text-white">Inglés Técnico</a> <span aria-hidden="true">·</span>
+        <span class="text-white">Roblox Conceptual Map</span>
+        <span class="ml-auto hidden items-center gap-2 sm:flex">
+          <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
+          <span class="font-black uppercase tracking-[0.12em] text-white/90">Bento Grid + Glassmorphism</span>
+        </span>
+      </nav>
+
+      <div class="reveal mt-6 grid items-start gap-6 lg:grid-cols-[1.1fr_.9fr]">
+        <!-- Left copy -->
+        <div class="glass-strong rounded-[28px] p-6 sm:p-8">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="badge bg-[#ff002b] text-white border-white/20">NEW · TEMA 02</span>
+            <span class="badge">Interactive</span>
+            <span class="badge">EN / ES</span>
+            <span class="ml-auto flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-slate-900">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span> 500 XP
+            </span>
+          </div>
+
+          <h1 class="font-display mt-4 text-[32px] font-extrabold leading-[0.95] tracking-[-0.03em] sm:text-[44px]">
+            <span data-i18n="hero.title1">Roblox</span>
+            <span class="bg-gradient-to-r from-[#ff2d55] via-[#ffd600] to-[#00a2ff] bg-clip-text text-transparent">Components</span>
+            <br><span data-i18n="hero.title2" class="text-white">Conceptual Map</span>
+          </h1>
+          <p class="mt-3 max-w-[60ch] text-[15px] font-medium leading-relaxed text-white/70" data-i18n="hero.lead">
+            From <strong class="text-white">Studio</strong> to <strong class="text-white">publishing</strong>: explore how parts, scripts, UI, physics, data and monetization connect to create an experience. Built as a Bento Grid with glassmorphism for fast scanning and deep diving.
+          </p>
+
+          <div class="mt-5 flex flex-wrap gap-2">
+            <a href="#map" class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-extrabold text-slate-900 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition">
+              <span data-i18n="hero.cta1">Explore map</span> <span aria-hidden="true">→</span>
+            </a>
+            <button data-open="studio" class="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-extrabold text-white ring-1 ring-white/15 hover:bg-white hover:text-slate-900 transition">
+              <span class="grid h-6 w-6 place-items-center rounded-full bg-[#ff002b] text-white">▶</span>
+              <span data-i18n="hero.cta2">Open Studio</span>
+            </button>
+          </div>
+
+          <div class="mt-6 grid gap-3 sm:grid-cols-3">
+            <div class="glass-subtle rounded-2xl p-4">
+              <p class="text-[10px] font-black uppercase tracking-[0.14em] text-white/60">Progress</p>
+              <div class="mt-2 flex items-baseline gap-2">
+                <strong id="xpValue" class="font-display text-2xl font-extrabold text-white">0</strong>
+                <span class="text-xs font-bold text-white/60">/ 700 XP</span>
+              </div>
+              <div class="progress-track mt-3"><div id="xpBar" class="progress-bar"></div></div>
+              <p id="xpLabel" class="mt-1 text-[11px] font-semibold text-white/50">Discover cards to earn XP</p>
+            </div>
+            <div class="glass-subtle rounded-2xl p-4">
+              <p class="text-[10px] font-black uppercase tracking-[0.14em] text-white/60" data-i18n="hero.stat2kicker">Coverage</p>
+              <p class="font-display mt-1 text-lg font-extrabold text-white" data-i18n="hero.stat2">6 modules · 14 cards</p>
+              <p class="mt-1 text-xs font-medium text-white/60" data-i18n="hero.stat2desc">Everything a dev needs to start</p>
+            </div>
+            <div class="glass-subtle rounded-2xl flex items-center gap-3 p-4">
+              <img src="img/icon-studio.svg" alt="" class="h-10 w-10 rounded-xl object-cover" width="40" height="40">
+              <div>
+                <p class="text-[10px] font-black uppercase tracking-[0.12em] text-white/60">Group 5</p>
+                <p class="text-xs font-extrabold leading-tight text-white">HENRRY PASCUAL<br><span class="font-semibold text-white/60">Inglés Técnico V</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team chips -->
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-extrabold text-slate-800">Luz Rojas</span>
+            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-extrabold text-slate-800">Christian Mora</span>
+            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-extrabold text-slate-800">Jared Valerio</span>
+          </div>
+        </div>
+
+        <!-- Right Visual -->
+        <div class="relative">
+          <div class="glass overflow-hidden rounded-[28px] p-2">
+            <div class="relative overflow-hidden rounded-[22px] bg-[#0a1226]">
+              <img src="img/hero-roblox.svg" alt="Isometric Roblox Studio illustration with floating UI cards" class="h-auto w-full" width="800" height="520" loading="eager">
+              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-900">Bento Map</span>
+                  <span class="rounded-full bg-white/15 px-3 py-1 text-xs font-bold text-white ring-1 ring-white/20 backdrop-blur">Glassmorphism</span>
+                  <span class="ml-auto hidden items-center gap-2 rounded-full bg-emerald-500 px-3 py-1 text-xs font-black text-white sm:inline-flex">● Interactive</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- floating chips -->
+          <div class="float absolute -left-2 top-10 hidden rounded-full bg-white px-3 py-2 text-xs font-black text-slate-900 shadow-xl sm:flex items-center gap-2"><span class="h-7 w-7 grid place-items-center rounded-full bg-slate-900 text-white">◧</span> Workspace</div>
+          <div class="float-delay absolute -right-2 top-20 hidden rounded-full bg-[#00a2ff] px-3 py-2 text-xs font-black text-white shadow-xl sm:flex items-center gap-2">Luau { }<span class="h-2 w-2 rounded-full bg-white animate-pulse"></span></div>
+          <div class="float-delay-2 absolute bottom-10 left-6 hidden rounded-full bg-[#ffd600] px-3 py-2 text-xs font-black text-slate-900 shadow-xl sm:flex">Toolbox → Assets</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concept Spine -->
+    <section class="mx-auto max-w-[1320px] px-4 sm:px-6 mt-6">
+      <div class="reveal glass rounded-[24px] p-4 sm:p-6">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p class="text-[10px] font-black uppercase tracking-[0.18em] text-white/60">The big picture</p>
+            <h2 class="font-display mt-1 text-xl font-extrabold text-white sm:text-2xl" data-i18n="spine.title">How Roblox fits together</h2>
+            <p class="mt-1 max-w-2xl text-sm font-medium leading-relaxed text-white/60" data-i18n="spine.lead">A Roblox experience is a <strong class="text-white">client-server</strong> simulation built in Studio, described with <strong class="text-white">instances</strong> in the Data Model and brought to life with <strong class="text-white">Luau scripts</strong>.</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="btnFocus" class="rounded-full bg-white px-4 py-2.5 text-xs font-black uppercase tracking-widest text-slate-900">Focus mode</button>
+            <button id="btnTour" class="rounded-full bg-white/10 px-4 py-2.5 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15 hover:bg-white hover:text-slate-900">Start tour</button>
+          </div>
+        </div>
+
+        <!-- interactive diagram -->
+        <div class="relative mt-6 overflow-x-auto rounded-2xl bg-black/30 p-4 ring-1 ring-white/10">
+          <div class="min-w-[860px]">
+            <svg viewBox="0 0 1000 280" class="h-auto w-full" role="img" aria-label="Conceptual spine diagram">
+              <!-- lines -->
+              <g stroke="rgba(255,255,255,.16)" stroke-width="2" fill="none">
+                <path d="M200 140 L320 140"/><path d="M500 140 L620 140"/><path d="M500 140 L500 70 L620 70"/><path d="M500 140 L500 210 L620 210"/>
+                <path d="M320 140 L500 140" stroke-dasharray="8 8" opacity="0.9"/>
+              </g>
+              <!-- nodes -->
+              <g>
+                <!-- Studio -->
+                <g class="cursor-pointer" data-diagram="studio">
+                  <rect x="20" y="96" width="180" height="88" rx="18" fill="white"/>
+                  <rect x="36" y="112" width="36" height="36" rx="10" fill="#ff002b"/><text x="54" y="136" text-anchor="middle" fill="white" font-size="14" font-weight="900">◧</text>
+                  <text x="82" y="126" fill="#050a14" font-size="12" font-weight="900">Roblox Studio</text>
+                  <text x="82" y="144" fill="#64748b" font-size="10" font-weight="700">IDE · Build · Test</text>
+                </g>
+                <!-- Data Model -->
+                <g class="cursor-pointer" data-diagram="datamodel">
+                  <rect x="320" y="96" width="180" height="88" rx="18" fill="#00a2ff"/>
+                  <text x="410" y="128" text-anchor="middle" fill="white" font-size="13" font-weight="900">Data Model</text>
+                  <text x="410" y="148" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="10" font-weight="700">Instances · Explorer</text>
+                  <circle cx="410" cy="168" r="4" fill="white"/>
+                </g>
+                <!-- Scripts -->
+                <g class="cursor-pointer" data-diagram="script">
+                  <rect x="620" y="34" width="180" height="72" rx="16" fill="white"/>
+                  <rect x="636" y="50" width="32" height="32" rx="8" fill="#0a1226"/><text x="652" y="70" text-anchor="middle" fill="#22d3ee" font-family="monospace" font-size="11" font-weight="800">{ }</text>
+                  <text x="678" y="62" fill="#050a14" font-size="11" font-weight="900">Luau Scripts</text>
+                  <text x="678" y="76" fill="#64748b" font-size="9" font-weight="700">Logic · Events</text>
+                </g>
+                <!-- World -->
+                <g class="cursor-pointer" data-diagram="world">
+                  <rect x="620" y="104" width="180" height="72" rx="16" fill="white"/>
+                  <rect x="636" y="120" width="32" height="32" rx="8" fill="#00d084"/><text x="652" y="140" text-anchor="middle" fill="white" font-size="12">⛰</text>
+                  <text x="678" y="132" fill="#050a14" font-size="11" font-weight="900">World</text>
+                  <text x="678" y="146" fill="#64748b" font-size="9" font-weight="700">Parts · Terrain · Physics</text>
+                </g>
+                <!-- Publish -->
+                <g class="cursor-pointer" data-diagram="publish">
+                  <rect x="620" y="194" width="180" height="72" rx="16" fill="white"/>
+                  <rect x="636" y="210" width="32" height="32" rx="8" fill="#ffb700"/><text x="652" y="230" text-anchor="middle" fill="#7c2d12" font-size="12">↗</text>
+                  <text x="678" y="222" fill="#050a14" font-size="11" font-weight="900">Publish</text>
+                  <text x="678" y="236" fill="#64748b" font-size="9" font-weight="700">Players · Monetize</text>
+                </g>
+                <!-- Clients -->
+                <g>
+                  <rect x="860" y="96" width="120" height="88" rx="18" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)"/>
+                  <text x="920" y="128" text-anchor="middle" fill="white" font-size="11" font-weight="900">Player Clients</text>
+                  <text x="920" y="144" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="10" font-weight="700">Mobile · PC · Console</text>
+                  <g fill="white" opacity="0.9"><circle cx="900" cy="160" r="6"/><circle cx="920" cy="160" r="6"/><circle cx="940" cy="160" r="6"/></g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <p class="mt-3 text-center text-xs font-semibold text-white/50">Tip: click any node to jump to its Bento card · <span class="text-white">Client ↔ Server replication</span> keeps everyone in sync.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toolbar -->
+    <section id="map" class="mx-auto max-w-[1320px] px-4 sm:px-6 mt-6">
+      <div class="reveal glass rounded-[24px] p-4 sm:p-5">
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="relative flex-1 min-w-[220px]">
+              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40">⌕</span>
+              <input id="search" type="search" placeholder="Search components...  e.g. DataStore, RemoteEvent, MeshPart" class="w-full rounded-full bg-white py-3 pl-10 pr-4 text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#00a2ff]">
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="viewGrid" class="grid h-10 w-10 place-items-center rounded-full bg-white text-slate-900 shadow" aria-label="Grid view" aria-pressed="true">▦</button>
+              <button id="viewList" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/15" aria-label="List view" aria-pressed="false">☰</button>
+            </div>
+            <div class="ml-auto flex items-center gap-2 text-xs font-bold text-white/70">
+              <span id="countLabel">14 cards</span>
+              <span class="h-1 w-1 rounded-full bg-white/50"></span>
+              <span id="foundLabel" class="text-white">All</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2" role="tablist" aria-label="Filter by category">
+            <button data-filter="all" class="chip chip-active rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-widest text-slate-900">All</button>
+            <button data-filter="create" class="chip rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15 hover:bg-white hover:text-slate-900">Create</button>
+            <button data-filter="code" class="chip rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15 hover:bg-white hover:text-slate-900">Code</button>
+            <button data-filter="world" class="chip rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15 hover:bg-white hover:text-slate-900">World</button>
+            <button data-filter="systems" class="chip rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15 hover:bg-white hover:text-slate-900">Systems</button>
+            <button data-filter="publish" class="chip rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15 hover:bg-white hover:text-slate-900">Publish</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENTO GRID -->
+      <div id="bento" class="bento mt-5">
+        <!-- 1 STUDIO large -->
+        <article class="bento-card glass group col-span-12 lg:col-span-8" data-category="create" data-title="Roblox Studio" data-search="studio ide build test explorer properties toolbox" data-xp="50" tabindex="0" role="button" aria-haspopup="dialog" data-open="studio" style="--glow: rgba(255,0,64,.45)">
+          <div class="glow"></div>
+          <div class="relative flex h-full flex-col p-6 sm:p-7">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <span class="grid h-11 w-11 place-items-center rounded-xl bg-[#ff002b] text-white shadow-lg">◧</span>
+                <div>
+                  <p class="text-[10px] font-black uppercase tracking-[0.16em] text-white/60">Platform · IDE</p>
+                  <h3 class="font-display text-xl font-extrabold leading-none text-white">Roblox Studio</h3>
+                </div>
+              </div>
+              <span class="badge bg-white text-slate-900">ESSENTIAL</span>
+            </div>
+            <p class="mt-4 max-w-[60ch] text-sm font-medium leading-relaxed text-white/70">Your all-in-one editor to <strong class="text-white">build, script, test and publish</strong> experiences. Manage the Data Model via <strong class="text-white">Explorer</strong> and tune every property live.</p>
+            <div class="mt-4 grid gap-2 sm:grid-cols-3">
+              <div class="rounded-xl bg-white p-3">
+                <p class="text-xs font-black text-slate-900">Explorer</p><p class="text-xs font-semibold text-slate-500">Hierarchy of instances</p>
+              </div>
+              <div class="rounded-xl bg-white p-3">
+                <p class="text-xs font-black text-slate-900">Properties</p><p class="text-xs font-semibold text-slate-500">Live attribute editor</p>
+              </div>
+              <div class="rounded-xl bg-white p-3">
+                <p class="text-xs font-black text-slate-900">Output & Test</p><p class="text-xs font-semibold text-slate-500">Play · Debug · Profile</p>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              <span class="rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-slate-900">Data Model</span>
+              <span class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-bold text-white ring-1 ring-white/15">Plugins</span>
+              <span class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-bold text-white ring-1 ring-white/15">Team Create</span>
+            </div>
+            <div class="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
+              <span class="text-[10px] font-black uppercase tracking-[0.14em] text-white/60">Click to explore → 50 XP</span>
+              <span class="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900">Open <span aria-hidden="true">↗</span></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 Explorer & Properties -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-4" data-category="create" data-title="Explorer & Properties" data-search="explorer properties hierarchy instances attributes" data-xp="30" tabindex="0" role="button" data-open="explorer" style="--glow: rgba(255,183,0,.35)">
+          <div class="glow"></div>
+          <div class="relative p-6">
+            <span class="badge">Create</span>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white leading-tight">Explorer & Properties</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Navigate the <strong class="text-white">Data Model tree</strong> and edit values without code. Parents → children defines behavior.</p>
+            <div class="mt-4 rounded-xl bg-white p-3 font-mono text-xs leading-relaxed text-slate-800">
+              <div class="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-500"><span class="h-2 w-2 rounded-full bg-red-400"></span><span class="h-2 w-2 rounded-full bg-yellow-400"></span><span class="h-2 w-2 rounded-full bg-green-400"></span> Explorer</div>
+              <div class="mt-2 space-y-1">
+                <div>▼ Workspace</div>
+                <div class="pl-4">▸ Terrain</div>
+                <div class="pl-4">▼ SpawnLocation</div>
+                <div class="pl-8 text-[#ff002b]">● Script</div>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center justify-between text-xs font-black uppercase tracking-widest text-white/60"><span>Structure first</span><span class="text-white">→</span></div>
+          </div>
+        </article>
+
+        <!-- 3 Luau Scripting -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-4" data-category="code" data-title="Luau Scripting" data-search="luau script localscript modulescript events functions" data-xp="60" tabindex="0" role="button" data-open="luau" style="--glow: rgba(0,162,255,.45)">
+          <div class="glow"></div>
+          <div class="relative flex h-full flex-col p-6">
+            <div class="flex items-center justify-between">
+              <span class="badge bg-[#00a2ff] text-white border-transparent">Code</span>
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-white font-mono text-xs font-black text-slate-900">{ }</span>
+            </div>
+            <h3 class="font-display mt-3 text-xl font-extrabold text-white">Luau Scripting</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Fast, typed Lua dialect. <strong class="text-white">Server</strong> = authority, <strong class="text-white">Client</strong> = feedback, <strong class="text-white">Modules</strong> = reuse.</p>
+            <div class="code mt-4 p-3 text-[11px] leading-relaxed text-sky-200">
+              <div class="text-white/40">-- Server Script in ServerScriptService</div>
+              <div><span class="text-[#ff7ab6]">local</span> part = workspace.SpawnLocation</div>
+              <div>part.Touched:<span class="text-[#ffd600]">Connect</span>(<span class="text-[#ff7ab6]">function</span>(hit)</div>
+              <div class="pl-4">print(hit.Name, <span class="text-[#7afcff]">"touched!"</span>)</div>
+              <div>end)</div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-1">
+              <span class="rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-900">Script</span>
+              <span class="rounded-full bg-white/10 px-2 py-1 text-[10px] font-bold text-white ring-1 ring-white/15">LocalScript</span>
+              <span class="rounded-full bg-white/10 px-2 py-1 text-[10px] font-bold text-white ring-1 ring-white/15">ModuleScript</span>
+            </div>
+            <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-4 text-xs font-black uppercase tracking-widest text-white/60"><span>Try snippet</span><span class="text-white">→</span></div>
+          </div>
+        </article>
+
+        <!-- 4 Workspace & Terrain -->
+        <article class="bento-card glass group col-span-12 lg:col-span-8" data-category="world" data-title="Workspace & Terrain" data-search="workspace terrain lighting physics world" data-xp="50" tabindex="0" role="button" data-open="workspace" style="--glow: rgba(0,208,132,.38)">
+          <div class="glow"></div>
+          <div class="relative grid gap-5 p-6 sm:grid-cols-[1.2fr_.8fr] sm:p-7">
+            <div>
+              <span class="badge">World</span>
+              <h3 class="font-display mt-3 text-xl font-extrabold text-white">Workspace & Terrain</h3>
+              <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">The <strong class="text-white">3D world container</strong>. Add realistic terrain with generation tools, control <strong class="text-white">Lighting</strong>, <strong class="text-white">Gravity</strong> and streams.</p>
+              <ul class="mt-4 space-y-2 text-sm font-semibold text-white/80">
+                <li class="flex gap-2"><span class="text-emerald-400">●</span> Terrain Editor — sculpt, paint, generate</li>
+                <li class="flex gap-2"><span class="text-emerald-400">●</span> Lighting — Sky, Shadows, Future technology</li>
+                <li class="flex gap-2"><span class="text-emerald-400">●</span> Streaming — load chunks as players explore</li>
+              </ul>
+            </div>
+            <div class="space-y-3">
+              <div class="rounded-xl bg-white p-4">
+                <p class="text-xs font-black uppercase tracking-widest text-slate-900">Quick vocab</p>
+                <div class="mt-2 grid grid-cols-2 gap-2 text-xs font-bold">
+                  <span class="rounded-lg bg-slate-900 px-2 py-2 text-white text-center">Workspace</span>
+                  <span class="rounded-lg bg-emerald-100 px-2 py-2 text-emerald-800 text-center">Terrain</span>
+                  <span class="rounded-lg bg-sky-100 px-2 py-2 text-sky-800 text-center">Lighting</span>
+                  <span class="rounded-lg bg-amber-100 px-2 py-2 text-amber-800 text-center">Gravity</span>
+                </div>
+              </div>
+              <div class="rounded-xl bg-gradient-to-br from-[#00d084] to-[#00a2ff] p-4 text-white">
+                <p class="text-xs font-black uppercase tracking-widest text-white/80">Tip</p>
+                <p class="mt-1 text-sm font-bold leading-snug">Use <span class="underline">Scale tool</span> + drag to reshape terrain fast.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5 Parts & Models -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-6" data-category="world" data-title="Parts & Models" data-search="parts meshpart models block sphere cylinder wedge" data-xp="40" tabindex="0" role="button" data-open="parts" style="--glow: rgba(255,0,64,.32)">
+          <div class="glow"></div>
+          <div class="relative p-6">
+            <div class="flex items-center gap-2">
+              <span class="badge">World</span>
+              <span class="ml-auto grid h-8 w-8 place-items-center rounded-lg bg-white text-slate-900">◧</span>
+            </div>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">Parts & Models</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">The bricks of your world: <strong class="text-white">Part</strong> shapes, <strong class="text-white">MeshPart</strong> with custom geometry, grouped as <strong class="text-white">Models</strong>.</p>
+            <div class="mt-4 flex gap-2">
+              <div class="flex-1 rounded-xl bg-white p-3 text-center"><div class="mx-auto h-8 w-8 rounded bg-[#ff002b]"></div><p class="mt-1 text-xs font-black text-slate-800">Block</p></div>
+              <div class="flex-1 rounded-xl bg-white p-3 text-center"><div class="mx-auto h-8 w-8 rounded-full bg-[#00a2ff]"></div><p class="mt-1 text-xs font-black text-slate-800">Sphere</p></div>
+              <div class="flex-1 rounded-xl bg-white p-3 text-center"><div class="mx-auto h-8 w-8 bg-[#ffd600] rotate-12"></div><p class="mt-1 text-xs font-black text-slate-800">Mesh</p></div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              <span class="rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-900">Anchored</span>
+              <span class="rounded-full bg-white/10 px-2.5 py-1 text-xs font-bold text-white ring-1 ring-white/15">CanCollide</span>
+              <span class="rounded-full bg-white/10 px-2.5 py-1 text-xs font-bold text-white ring-1 ring-white/15">Material</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6 Toolbox -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-6" data-category="create" data-title="Toolbox & Marketplace" data-search="toolbox marketplace assets plugins audio meshes" data-xp="35" tabindex="0" role="button" data-open="toolbox" style="--glow: rgba(255,183,0,.35)">
+          <div class="glow"></div>
+          <div class="relative flex h-full flex-col p-6">
+            <span class="badge">Create</span>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">Toolbox & Marketplace</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Reuse community <strong class="text-white">models, meshes, audio, plugins</strong> and fonts. Drag to Explorer — but always <strong class="text-white">review scripts</strong>!</p>
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              <div class="rounded-xl bg-white p-3 text-center"><p class="text-lg">🎵</p><p class="text-xs font-black text-slate-800">Audio</p></div>
+              <div class="rounded-xl bg-white p-3 text-center"><p class="text-lg">🧩</p><p class="text-xs font-black text-slate-800">Models</p></div>
+              <div class="rounded-xl bg-white p-3 text-center"><p class="text-lg">🔌</p><p class="text-xs font-black text-slate-800">Plugins</p></div>
+            </div>
+            <p class="mt-4 rounded-xl bg-amber-400 px-3 py-2 text-xs font-extrabold text-slate-900">⚠️ Avoid free models with hidden scripts. Check Workspace after import.</p>
+          </div>
+        </article>
+
+        <!-- 7 UI System -->
+        <article class="bento-card glass group col-span-12 lg:col-span-7" data-category="systems" data-title="UI System (StarterGui)" data-search="screengui frame textlabel imagebutton startergui" data-xp="45" tabindex="0" role="button" data-open="ui" style="--glow: rgba(124,58,237,.4)">
+          <div class="glow"></div>
+          <div class="relative grid gap-4 p-6 sm:grid-cols-[1.1fr_.9fr]">
+            <div>
+              <span class="badge bg-violet-500 text-white border-transparent">Systems</span>
+              <h3 class="font-display mt-3 text-lg font-extrabold text-white">UI System</h3>
+              <p class="mt-2 text-sm font-medium leading-relaxed text-white/65"><strong class="text-white">StarterGui → ScreenGui → Frame → Label/Button</strong>. Responsive with <strong class="text-white">UIListLayout</strong>, <strong class="text-white">UIPadding</strong> and <strong class="text-white">UIScale</strong>.</p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-900">ScreenGui</span>
+                <span class="rounded-full bg-white/10 px-2.5 py-1 text-xs font-bold text-white ring-1 ring-white/15">TextLabel</span>
+                <span class="rounded-full bg-white/10 px-2.5 py-1 text-xs font-bold text-white ring-1 ring-white/15">ImageButton</span>
+              </div>
+            </div>
+            <div class="rounded-2xl bg-white p-3">
+              <div class="rounded-xl bg-slate-900 p-3">
+                <div class="flex items-center justify-between"><span class="h-2 w-2 rounded-full bg-red-400"></span><span class="h-1 w-16 rounded bg-white/20"></span></div>
+                <div class="mt-3 rounded-lg bg-white p-3 flex items-center justify-between">
+                  <div><p class="text-xs font-black text-slate-900">Level 1 Complete!</p><p class="text-xs font-medium text-slate-500">500 XP earned</p></div>
+                  <span class="rounded-full bg-emerald-500 px-3 py-1 text-xs font-black text-white">OK</span>
+                </div>
+              </div>
+              <p class="mt-2 text-center text-xs font-bold text-slate-500">Example: modal with glass</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8 Sound & Effects -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-5" data-category="systems" data-title="Sound & Effects" data-search="sound particle emitter light effect" data-xp="25" tabindex="0" role="button" data-open="sound" style="--glow: rgba(0,162,255,.3)">
+          <div class="glow"></div>
+          <div class="relative p-6">
+            <span class="badge">Systems</span>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">Sound & VFX</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Add <strong class="text-white">Sound</strong>, <strong class="text-white">ParticleEmitter</strong> and <strong class="text-white">PointLight</strong> to juice feedback.</p>
+            <div class="mt-4 flex items-center gap-3 rounded-xl bg-white p-3">
+              <span class="grid h-9 w-9 place-items-center rounded-lg bg-slate-900 text-white">♪</span>
+              <div class="flex-1"><p class="text-xs font-black text-slate-900">Win.jingle.mp3</p><div class="mt-1 h-1.5 w-full rounded-full bg-slate-200"><div class="h-1.5 w-[62%] rounded-full bg-slate-900"></div></div></div>
+              <span class="text-xs font-black text-slate-900">▶</span>
+            </div>
+            <p class="mt-3 text-xs font-semibold text-white/50">Use <span class="text-white">SoundService</span> for global volume.</p>
+          </div>
+        </article>
+
+        <!-- 9 Physics -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-5" data-category="world" data-title="Physics & Animation" data-search="physics constraints joints animation rig humanoid" data-xp="35" tabindex="0" role="button" data-open="physics" style="--glow: rgba(16,185,129,.35)">
+          <div class="glow"></div>
+          <div class="relative p-6">
+            <span class="badge">World</span>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">Physics & Animation</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Real simulation: <strong class="text-white">Anchored</strong>, <strong class="text-white">Welds</strong>, <strong class="text-white">Springs</strong>, <strong class="text-white">Motors</strong>. Rig with <strong class="text-white">Animator</strong>.</p>
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              <div class="rounded-xl bg-white p-3 text-center"><p class="text-xs font-black text-slate-900">Hinge</p><p class="text-[10px] font-bold text-slate-500">constraint</p></div>
+              <div class="rounded-xl bg-white p-3 text-center"><p class="text-xs font-black text-slate-900">Spring</p><p class="text-[10px] font-bold text-slate-500">constraint</p></div>
+              <div class="rounded-xl bg-white p-3 text-center"><p class="text-xs font-black text-slate-900">Animator</p><p class="text-[10px] font-bold text-slate-500">humanoid</p></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 10 Events -->
+        <article class="bento-card glass group col-span-12 lg:col-span-7" data-category="code" data-title="Events & Communication" data-search="remoteevent bindableevent remote function client server replication" data-xp="55" tabindex="0" role="button" data-open="events" style="--glow: rgba(0,162,255,.38)">
+          <div class="glow"></div>
+          <div class="relative p-6 sm:p-7">
+            <div class="flex items-center justify-between">
+              <span class="badge bg-sky-500 text-white border-transparent">Code</span>
+              <span class="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-900">Client ↔ Server</span>
+            </div>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">Events & Communication</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Bridge the boundary: <strong class="text-white">RemoteEvent</strong> (fire-and-forget), <strong class="text-white">RemoteFunction</strong> (request/response), <strong class="text-white">Bindable</strong> (same side).</p>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              <div class="rounded-xl bg-white p-4">
+                <p class="text-xs font-black uppercase tracking-widest text-slate-500">ReplicatedStorage</p>
+                <p class="mt-1 font-mono text-xs font-bold text-slate-900">CoinCollected : RemoteEvent</p>
+                <p class="mt-1 text-xs font-semibold text-slate-500">Fired by client, validated by server</p>
+              </div>
+              <div class="rounded-xl bg-slate-900 p-4 font-mono text-xs leading-relaxed text-sky-200">
+                <div class="text-white/50">-- Client</div>
+                <div><span class="text-white">CoinEvent</span>:<span class="text-[#ffd600]">FireServer</span>(coin)</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 11 DataStore -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-6" data-category="publish" data-title="DataStore & Persistence" data-search="datastore persistence save load ordereddatastore" data-xp="45" tabindex="0" role="button" data-open="datastore" style="--glow: rgba(255,183,0,.34)">
+          <div class="glow"></div>
+          <div class="relative p-6">
+            <span class="badge bg-amber-400 text-slate-900 border-transparent">Publish</span>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">DataStore & Persistence</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Save progress: <strong class="text-white">DataStoreService</strong> → per-player keys. Handle <strong class="text-white">persistence</strong>, retries and session locks.</p>
+            <div class="code mt-4 p-3 text-[11px] leading-relaxed text-amber-200">
+              <div class="text-white/40">-- Save coins after purchase</div>
+              <div><span class="text-[#ff7ab6]">local</span> ok, err = pcall(<span class="text-[#7afcff]">function</span>()</div>
+              <div class="pl-4">store:<span class="text-[#ffd600]">SetAsync</span>(key, data)</div>
+              <div>end)</div>
+            </div>
+            <p class="mt-3 text-xs font-semibold text-white/50">Always use <span class="text-white">pcall</span> + <span class="text-white">UpdateAsync</span> for safety.</p>
+          </div>
+        </article>
+
+        <!-- 12 Monetization -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-6" data-category="publish" data-title="Monetization" data-search="gamepass devproduct robux monetization" data-xp="40" tabindex="0" role="button" data-open="monetization" style="--glow: rgba(124,58,237,.38)">
+          <div class="glow"></div>
+          <div class="relative p-6">
+            <span class="badge bg-violet-600 text-white border-transparent">Monetize</span>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">Monetization</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Turn play into support: <strong class="text-white">Game Pass</strong> (once), <strong class="text-white">Developer Product</strong> (repeat), <strong class="text-white">Premium Payouts</strong>.</p>
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <div class="rounded-xl bg-white p-4 text-center"><p class="text-xs font-black uppercase tracking-widest text-violet-700">Game Pass</p><p class="mt-1 text-lg font-black text-slate-900">R$ 99</p><p class="text-xs font-semibold text-slate-500">Unlock forever</p></div>
+              <div class="rounded-xl bg-white p-4 text-center"><p class="text-xs font-black uppercase tracking-widest text-emerald-700">Dev Product</p><p class="mt-1 text-lg font-black text-slate-900">R$ 25</p><p class="text-xs font-semibold text-slate-500">Buy again</p></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 13 Avatar -->
+        <article class="bento-card glass group col-span-12 sm:col-span-6 lg:col-span-4" data-category="publish" data-title="Avatar & Catalog" data-search="avatar humanoid catalog rig accessories" data-xp="30" tabindex="0" role="button" data-open="avatar" style="--glow: rgba(255,0,64,.3)">
+          <div class="glow"></div>
+          <div class="relative p-6">
+            <span class="badge">Publish</span>
+            <h3 class="font-display mt-3 text-lg font-extrabold text-white">Avatar & Catalog</h3>
+            <p class="mt-2 text-sm font-medium leading-relaxed text-white/65"><strong class="text-white">Humanoid</strong> drives movement; <strong class="text-white">Accessories</strong> and <strong class="text-white">Rig</strong> define look. Mix Classic + Rthro.</p>
+            <div class="mt-4 rounded-xl bg-white p-3 flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-white">☺</span>
+              <div><p class="text-xs font-black text-slate-900">Humanoid</p><p class="text-xs font-semibold text-slate-500">WalkSpeed · JumpPower · Health</p></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 14 Publishing -->
+        <article class="bento-card glass group col-span-12 lg:col-span-8" data-category="publish" data-title="Publishing & Analytics" data-search="publish analytics retention engagement developer stats" data-xp="40" tabindex="0" role="button" data-open="publish" style="--glow: rgba(0,208,132,.34)">
+          <div class="glow"></div>
+          <div class="relative grid gap-4 p-6 sm:grid-cols-[1.2fr_.8fr] sm:p-7">
+            <div>
+              <span class="badge bg-emerald-500 text-white border-transparent">Publish</span>
+              <h3 class="font-display mt-3 text-xl font-extrabold text-white">Publishing & Analytics</h3>
+              <p class="mt-2 text-sm font-medium leading-relaxed text-white/65">Go live! Configure <strong class="text-white">permissions, thumbnails, localization</strong> and track <strong class="text-white">retention, engagement, Revenue</strong> in Creator Dashboard.</p>
+              <div class="mt-4 flex gap-2">
+                <span class="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900">Create → Publish</span>
+                <span class="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold text-white ring-1 ring-white/15">Version control</span>
+              </div>
+            </div>
+            <div class="rounded-2xl bg-white p-4">
+              <p class="text-xs font-black uppercase tracking-widest text-slate-900">Creator Dashboard</p>
+              <div class="mt-3 space-y-2">
+                <div class="flex justify-between text-xs font-bold"><span class="text-slate-500">Retention D1</span><span class="text-slate-900">42%</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 w-[42%] rounded-full bg-emerald-500"></div></div>
+                <div class="flex justify-between text-xs font-bold"><span class="text-slate-500">Avg Session</span><span class="text-slate-900">12.4 min</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 w-[68%] rounded-full bg-sky-500"></div></div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Vocabulary strip -->
+    <section class="mx-auto max-w-[1320px] px-4 sm:px-6 mt-6">
+      <div class="reveal glass rounded-[24px] p-6">
+        <div class="flex flex-wrap items-baseline justify-between gap-3">
+          <h2 class="font-display text-xl font-extrabold text-white">Technical Vocabulary</h2>
+          <span class="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-900">EN → ES</span>
+        </div>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-[#ff002b]">Instance</p><p class="mt-1 text-sm font-bold text-slate-800">Instancia</p><p class="text-xs font-medium text-slate-500">Any object in the Data Model.</p></div>
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-sky-600">Script</p><p class="mt-1 text-sm font-bold text-slate-800">Guion / Programa</p><p class="text-xs font-medium text-slate-500">Runs on server; controls logic.</p></div>
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-emerald-600">Replicate</p><p class="mt-1 text-sm font-bold text-slate-800">Replicar / Sincronizar</p><p class="text-xs font-medium text-slate-500">Sync state to clients.</p></div>
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-amber-600">Publish</p><p class="mt-1 text-sm font-bold text-slate-800">Publicar</p><p class="text-xs font-medium text-slate-500">Release to players.</p></div>
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-violet-600">SpawnLocation</p><p class="mt-1 text-sm font-bold text-slate-800">Punto de aparición</p><p class="text-xs font-medium text-slate-500">Where players appear.</p></div>
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-slate-700">Toolbox</p><p class="mt-1 text-sm font-bold text-slate-800">Caja de herramientas</p><p class="text-xs font-medium text-slate-500">Library of assets & plugins.</p></div>
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-sky-700">Property</p><p class="mt-1 text-sm font-bold text-slate-800">Propiedad</p><p class="text-xs font-medium text-slate-500">Attribute you can edit.</p></div>
+          <div class="rounded-2xl bg-white p-4"><p class="text-xs font-black uppercase tracking-widest text-emerald-700">DataStore</p><p class="mt-1 text-sm font-bold text-slate-800">Almacén de datos</p><p class="text-xs font-medium text-slate-500">Saves player data.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz -->
+    <section class="mx-auto max-w-[1320px] px-4 sm:px-6 mt-6">
+      <div class="reveal glass-strong rounded-[28px] p-6 sm:p-8">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p class="text-[10px] font-black uppercase tracking-[0.18em] text-white/60">Checkpoint</p>
+            <h2 class="font-display mt-1 text-2xl font-extrabold text-white">Quick Quiz · Test your English</h2>
+            <p class="mt-1 text-sm font-medium text-white/60">Answer in English — earn <strong class="text-white">25 XP</strong> per correct.</p>
+          </div>
+          <div class="rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900"><span id="quizScore">0</span> / 4</div>
+        </div>
+
+        <div class="mt-6 grid gap-4 lg:grid-cols-2">
+          <!-- Q1 -->
+          <div class="quiz-card rounded-2xl bg-white p-5" data-q="q1">
+            <p class="text-xs font-black uppercase tracking-widest text-slate-500">Q1 · Concepts</p>
+            <p class="mt-1 text-sm font-extrabold leading-snug text-slate-900">Which service saves player coins even after they leave the game?</p>
+            <div class="mt-3 grid gap-2">
+              <button class="quiz-opt" data-correct="false">A) ReplicatedStorage</button>
+              <button class="quiz-opt" data-correct="true">B) DataStoreService</button>
+              <button class="quiz-opt" data-correct="false">C) Lighting</button>
+            </div>
+            <p class="quiz-feedback hidden mt-3 rounded-xl px-3 py-2 text-xs font-bold"></p>
+          </div>
+          <!-- Q2 -->
+          <div class="quiz-card rounded-2xl bg-white p-5" data-q="q2">
+            <p class="text-xs font-black uppercase tracking-widest text-slate-500">Q2 · Scripting</p>
+            <p class="mt-1 text-sm font-extrabold leading-snug text-slate-900">Where should you validate a purchase to avoid exploits?</p>
+            <div class="mt-3 grid gap-2">
+              <button class="quiz-opt" data-correct="false">A) In a LocalScript on the client</button>
+              <button class="quiz-opt" data-correct="true">B) On the server</button>
+              <button class="quiz-opt" data-correct="false">C) In the Toolbox</button>
+            </div>
+            <p class="quiz-feedback hidden mt-3 rounded-xl px-3 py-2 text-xs font-bold"></p>
+          </div>
+          <!-- Q3 -->
+          <div class="quiz-card rounded-2xl bg-white p-5" data-q="q3">
+            <p class="text-xs font-black uppercase tracking-widest text-slate-500">Q3 · World</p>
+            <p class="mt-1 text-sm font-extrabold leading-snug text-slate-900">"Anchored = true" means...</p>
+            <div class="mt-3 grid gap-2">
+              <button class="quiz-opt" data-correct="true">A) The part won't be affected by physics</button>
+              <button class="quiz-opt" data-correct="false">B) The part will always bounce</button>
+              <button class="quiz-opt" data-correct="false">C) The part disappears</button>
+            </div>
+            <p class="quiz-feedback hidden mt-3 rounded-xl px-3 py-2 text-xs font-bold"></p>
+          </div>
+          <!-- Q4 -->
+          <div class="quiz-card rounded-2xl bg-white p-5" data-q="q4">
+            <p class="text-xs font-black uppercase tracking-widest text-slate-500">Q4 · Communication</p>
+            <p class="mt-1 text-sm font-extrabold leading-snug text-slate-900">Which instance lets client tell server "I collected a coin"?</p>
+            <div class="mt-3 grid gap-2">
+              <button class="quiz-opt" data-correct="false">A) BindableEvent</button>
+              <button class="quiz-opt" data-correct="true">B) RemoteEvent</button>
+              <button class="quiz-opt" data-correct="false">C) Sound</button>
+            </div>
+            <p class="quiz-feedback hidden mt-3 rounded-xl px-3 py-2 text-xs font-bold"></p>
+          </div>
+        </div>
+
+        <div id="quizResult" class="hidden mt-6 rounded-2xl bg-slate-900 p-5 text-white">
+          <p class="text-sm font-black">Great job! <span id="resultScore">0</span>/4 correct — <span id="resultXP">0</span> XP earned.</p>
+          <p class="mt-1 text-sm font-medium text-white/60">Share your score with the instructor or keep exploring cards.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer meta -->
+    <section class="mx-auto max-w-[1320px] px-4 sm:px-6 mt-6 pb-8">
+      <div class="reveal grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
+        <div class="glass rounded-[24px] p-6">
+          <p class="text-[10px] font-black uppercase tracking-[0.16em] text-white/60">Course</p>
+          <h3 class="font-display mt-1 text-lg font-extrabold text-white">Inglés Técnico V · Software Engineering + AI</h3>
+          <p class="mt-2 text-sm font-medium leading-relaxed text-white/60">Lesson content prepared by <strong class="text-white">Group 5</strong> for SENATI. All definitions relate to <strong class="text-white">Roblox Creator documentation</strong> concepts, rewritten in clear technical English for classroom use.</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900">Rojas Coronado Luz Daniela</span>
+            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900">Mora Damian Christian Alfredo</span>
+            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900">Valerio Lopez Jared Peter</span>
+          </div>
+        </div>
+        <div class="glass rounded-[24px] p-6 flex flex-col">
+          <p class="text-[10px] font-black uppercase tracking-[0.16em] text-white/60">Continue learning</p>
+          <h4 class="font-display mt-1 text-lg font-extrabold text-white">Next steps</h4>
+          <ul class="mt-3 space-y-2 text-sm font-semibold text-white/70">
+            <li>1. Open a card → read vocabulary EN/ES</li>
+            <li>2. Copy the Luau snippet into Studio</li>
+            <li>3. Publish a test experience to friends</li>
+          </ul>
+          <div class="mt-auto flex gap-2 pt-4">
+            <a href="../index.html" class="flex-1 rounded-full bg-white px-4 py-3 text-center text-sm font-black text-slate-900">← Back to English</a>
+            <a href="../../index.html#ingles" class="flex-1 rounded-full bg-white/10 px-4 py-3 text-center text-sm font-black text-white ring-1 ring-white/15">Portfolio</a>
+          </div>
+        </div>
+      </div>
+      <p class="mt-6 text-center text-xs font-semibold text-white/40">© 2025 SENATI · Ingeniería de Software con Inteligencia Artificial · Docente: Henrry Pascual Cabrejos Costales · Built with Tailwind CDN + Glassmorphism · No build step</p>
+    </section>
+  </main>
+
+  <!-- Modals -->
+  <dialog id="modal-studio" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
+        <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-[#ff002b] text-white">◧</span><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-white/60">Platform</p><h3 class="font-display text-lg font-extrabold text-white">Roblox Studio</h3></div></div>
+        <button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900" aria-label="Close">✕</button>
+      </div>
+      <div class="overflow-y-auto px-6 py-6">
+        <p class="text-sm font-medium leading-relaxed text-white/70">Studio is a <strong class="text-white">free IDE</strong> where you assemble the <strong class="text-white">Data Model</strong> (ReplicatedStorage, Workspace, ServerScriptService, StarterGui, etc.), edit <strong class="text-white">Properties</strong> and run Play Solo to debug.</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-xl bg-white p-4"><p class="text-xs font-black text-slate-900">Key vocabulary</p><ul class="mt-2 space-y-1 text-xs font-semibold text-slate-600"><li><strong>Data Model</strong> — Modelo de datos</li><li><strong>Explorer</strong> — Explorador</li><li><strong>Output</strong> — Consola de salida</li></ul></div>
+          <div class="rounded-xl bg-slate-900 p-4"><p class="text-xs font-black uppercase tracking-widest text-white/60">Try in Studio</p><p class="mt-2 text-xs font-mono leading-relaxed text-sky-200">View → Explorer<br>View → Properties<br>Test → Play</p></div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4">
+        <span class="text-xs font-black uppercase tracking-widest text-white/60">1 / 14</span>
+        <button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next: Explorer →</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-explorer" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
+        <div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-white/60">Structure</p><h3 class="font-display text-lg font-extrabold text-white">Explorer & Properties</h3></div>
+        <button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900" aria-label="Close">✕</button>
+      </div>
+      <div class="overflow-y-auto px-6 py-6">
+        <p class="text-sm font-medium leading-relaxed text-white/70">Think of Explorer as a <strong class="text-white">file tree for 3D</strong>. The <strong class="text-white">parent</strong> owns the <strong class="text-white">children</strong>; moving a Model moves everything inside. Properties shows tunable values: <strong class="text-white">Size, Position, Color, Transparency, Anchored, CanCollide, Material</strong>.</p>
+        <div class="mt-4 rounded-xl bg-white p-4 font-mono text-xs text-slate-800"><div>game</div><div class="pl-4">├─ Workspace — world</div><div class="pl-4">├─ ReplicatedStorage — shared</div><div class="pl-4">├─ ServerScriptService — server code</div><div class="pl-4">└─ StarterGui — UI</div></div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">2 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-luau" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
+        <div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-sky-300">Code</p><h3 class="font-display text-lg font-extrabold text-white">Luau Scripting</h3></div>
+        <button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900" aria-label="Close">✕</button>
+      </div>
+      <div class="overflow-y-auto px-6 py-6">
+        <p class="text-sm font-medium leading-relaxed text-white/70"><strong class="text-white">Luau</strong> is Roblox's fast, gradually-typed Lua. Use <strong class="text-white">Script</strong> (server), <strong class="text-white">LocalScript</strong> (client), <strong class="text-white">ModuleScript</strong> (shared library) and react to <strong class="text-white">events</strong> like <code class="rounded bg-white/10 px-1 py-0.5 text-white">.Touched</code> or <code class="rounded bg-white/10 px-1 py-0.5 text-white">.Changed</code>.</p>
+        <div class="code mt-4 p-4 text-xs leading-relaxed text-sky-200">
+          -- ModuleScript in ReplicatedStorage<br>
+          <span class="text-[#ff7ab6]">local</span> Coins = {}<br>
+          <span class="text-[#ff7ab6]">function</span> Coins.add(player, amount)<br>
+          &nbsp;&nbsp;player.leaderstats.Coins.Value += amount<br>
+          <span class="text-[#ff7ab6]">end</span><br>
+          <span class="text-[#ff7ab6]">return</span> Coins
+        </div>
+        <p class="mt-3 text-xs font-bold text-white/50">Vocabulary: <span class="text-white">Type checking</span> — verificación de tipos; <span class="text-white">Event</span> — evento.</p>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">3 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-workspace" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-emerald-300">World</p><h3 class="font-display text-lg font-extrabold text-white">Workspace & Terrain</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70"><strong class="text-white">Workspace</strong> holds everything players see. <strong class="text-white">Terrain</strong> lets you paint water, sand, grass or generate hills with the <strong class="text-white">Terrain Editor</strong>. Streaming improves performance for large maps.</p>
+        <div class="mt-4 rounded-xl bg-white p-4"><p class="text-xs font-black text-slate-900">Lighting technology</p><p class="mt-1 text-xs font-semibold text-slate-600"><strong>Future</strong> = realistic shadows; <strong>ShadowMap</strong> = balanced; <strong>Compatibility</strong> = retro.</p></div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">4 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-parts" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-white/60">Building</p><h3 class="font-display text-lg font-extrabold text-white">Parts & Models</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70">A <strong class="text-white">Part</strong> is a primitive shape. <strong class="text-white">Model</strong> groups parts with a PrimaryPart for pivoting. <strong class="text-white">MeshPart</strong> imports Blender models. Master <strong class="text-white">Anchored</strong> (fixed in world) vs <strong class="text-white">unanchored</strong> (physics).</p>
+        <div class="mt-4 grid grid-cols-2 gap-3"><div class="rounded-xl bg-white p-3"><p class="text-xs font-black text-slate-900">Material</p><p class="text-xs text-slate-600">Wood, Metal, Neon, Glass…</p></div><div class="rounded-xl bg-slate-900 p-3 font-mono text-xs text-sky-200">part.Material = <br>Enum.Material.Neon</div></div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">5 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-toolbox" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-amber-300">Assets</p><h3 class="font-display text-lg font-extrabold text-white">Toolbox & Marketplace</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70">Speed up creation with <strong class="text-white">free models, meshes, images, audio and plugins</strong>. Creator Marketplace checks legality and quality — but always <strong class="text-white">inspect scripts</strong> for viruses.</p><p class="mt-3 rounded-xl bg-amber-400 p-3 text-xs font-black text-slate-900">Pro tip: prefer "By Roblox" verified models. Search filter: "Include only verified creators".</p></div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">6 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-ui" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-violet-300">Interface</p><h3 class="font-display text-lg font-extrabold text-white">UI System (StarterGui)</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70">All UI lives in <strong class="text-white">StarterGui</strong> and is cloned to each PlayerGui. Use <strong class="text-white">AnchorPoint</strong> + <strong class="text-white">Size {Scale, Offset}</strong> for responsive layouts on mobile + PC.</p>
+        <div class="mt-4 rounded-xl bg-white p-4 font-mono text-xs"><div>ScreenGui</div><div class="pl-4">└─ Frame (UIPadding, UICorner)</div><div class="pl-8">├─ TextLabel — "Score: 100"</div><div class="pl-8">└─ TextButton — "Play"</div></div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">7 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-sound" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[680px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-sky-300">Feedback</p><h3 class="font-display text-lg font-extrabold text-white">Sound & VFX</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70"><strong class="text-white">Sound</strong> objects play audio (SoundId = rbxassetid://). <strong class="text-white">ParticleEmitters</strong> spawn sparks, smoke, magic. <strong class="text-white">Beams</strong> and <strong class="text-white">Trails</strong> visualize motion.</p>
+        <div class="mt-4 rounded-xl bg-slate-900 p-3 font-mono text-xs text-sky-200">local s = Instance.new("Sound")<br>s.SoundId = "rbxassetid://12222030"<br>s.Parent = workspace</div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">8 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-physics" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[680px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-emerald-300">Simulation</p><h3 class="font-display text-lg font-extrabold text-white">Physics & Animation</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70">Roblox physics runs at 240 Hz. Use <strong class="text-white">Constraints</strong> instead of legacy joints: <strong class="text-white">Hinge</strong> for doors, <strong class="text-white">Prismatic</strong> for elevators, <strong class="text-white">WeldConstraint</strong> for rigid attach. Animate with <strong class="text-white">Rig + Animator + Animation</strong>.</p></div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">9 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-events" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-sky-300">Networking</p><h3 class="font-display text-lg font-extrabold text-white">Events & Communication</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70">Clients cannot trust each other. <strong class="text-white">RemoteEvent:FireServer()</strong> must be validated on server. Prefer <strong class="text-white">UnreliableRemoteEvent</strong> for frequent visual updates to save bandwidth.</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2"><div class="rounded-xl bg-white p-3"><p class="text-xs font-black text-slate-900">RemoteEvent</p><p class="text-xs font-semibold text-slate-600">One-way, fast</p></div><div class="rounded-xl bg-white p-3"><p class="text-xs font-black text-slate-900">RemoteFunction</p><p class="text-xs font-semibold text-slate-600">Request + wait response</p></div></div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">10 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-datastore" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-amber-300">Persistence</p><h3 class="font-display text-lg font-extrabold text-white">DataStore & Persistence</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70"><strong class="text-white">DataStoreService:GetDataStore()</strong> gives a key-value DB. Use auto-save on <code class="rounded bg-white/10 px-1 text-white">PlayerRemoving</code> + <code class="rounded bg-white/10 px-1 text-white">BindToClose</code>. Throttle limits apply — bundle data!</p>
+        <div class="code mt-4 p-3 text-xs text-amber-200">game:BindToClose(function()<br>&nbsp;&nbsp;for _,plr in pairs(Players:GetPlayers()) do save(plr) end<br>end)</div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">11 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-monetization" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-violet-300">Business</p><h3 class="font-display text-lg font-extrabold text-white">Monetization</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70"><strong class="text-white">Game Pass</strong> = lifetime unlock (VIP). <strong class="text-white">Developer Product</strong> = consumable (coins). Verify with <strong class="text-white">MarketplaceService:UserOwnsGamePassAsync()</strong> and handle <strong class="text-white">ProcessReceipt</strong>.</p></div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">12 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-avatar" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[680px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-white/60">Identity</p><h3 class="font-display text-lg font-extrabold text-white">Avatar & Catalog</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70"><strong class="text-white">Humanoid</strong> defines health, walk speed, rig type (R6/R15). <strong class="text-white">Avatar Editor</strong> + <strong class="text-white">Catalog</strong> let players express identity; your game can reward <strong class="text-white">UGC</strong>.</p></div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">13 / 14</span><button class="next-modal rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900">Next →</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="modal-publish" class="modal m-0 max-h-none max-w-none bg-transparent p-4 backdrop:bg-transparent">
+    <div class="modal-panel glass-strong mx-auto my-auto flex max-h-[92vh] w-full max-w-[720px] flex-col overflow-hidden rounded-[24px]">
+      <div class="flex items-center justify-between border-b border-white/10 px-6 py-4"><div><p class="text-[10px] font-black uppercase tracking-[0.14em] text-emerald-300">Go Live</p><h3 class="font-display text-lg font-extrabold text-white">Publishing & Analytics</h3></div><button class="modal-close grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900">✕</button></div>
+      <div class="overflow-y-auto px-6 py-6"><p class="text-sm font-medium leading-relaxed text-white/70">Hit <strong class="text-white">File → Publish to Roblox</strong>, set age rating, thumbnail and description, then monitor <strong class="text-white">Creator Dashboard</strong> for crashes, retention and purchases.</p>
+        <div class="mt-4 rounded-xl bg-white p-4"><p class="text-xs font-black text-slate-900">Checklist</p><ul class="mt-2 list-disc pl-4 text-xs font-semibold text-slate-600"><li>Enable Studio Access to API Services</li><li>Test on mobile emulator</li><li>Add localization</li></ul></div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4"><span class="text-xs font-black uppercase tracking-widest text-white/60">14 / 14</span><button class="rounded-full bg-white px-4 py-2 text-xs font-black text-slate-900" onclick="document.getElementById('modal-publish').close()">Done ✓</button></div>
+    </div>
+  </dialog>
+
+  <!-- Toast -->
+  <div id="toast" class="pointer-events-none fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-black text-slate-900 shadow-2xl">
+    <span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-500 text-white">✓</span>
+    <span id="toastText">+50 XP</span>
+  </div>
+
+<script>
+/* Interactivity */
+(function(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const bento = $('#bento');
+  const search = $('#search');
+  const chips = $$('[data-filter]');
+  const cards = $$('.bento-card');
+  const countLabel = $('#countLabel');
+  const foundLabel = $('#foundLabel');
+  const xpValue = $('#xpValue');
+  const xpBar = $('#xpBar');
+  const xpLabel = $('#xpLabel');
+  const toast = $('#toast');
+  const toastText = $('#toastText');
+  const STORAGE = 'roblox-map-progress-v1';
+  let filter = 'all';
+  let discovered = new Set(JSON.parse(localStorage.getItem(STORAGE)||'[]'));
+  let answers = JSON.parse(localStorage.getItem(STORAGE+'-quiz')||'{}');
+  let xp = 0;
+
+  function i18n(lang){
+    const dict = {
+      es: {
+        'hero.title1':'Roblox',
+        'hero.title2':'Mapa Conceptual',
+        'hero.lead':'Desde Studio hasta publicación: explora cómo piezas, scripts, interfaz, física, datos y monetización se conectan para crear una experiencia. Diseñado como Bento Grid con glassmorphism.',
+        'hero.cta1':'Explorar mapa',
+        'hero.cta2':'Abrir Studio',
+        'hero.stat2kicker':'Cobertura',
+        'hero.stat2':'6 módulos · 14 tarjetas',
+        'hero.stat2desc':'Todo lo que un dev necesita para empezar',
+        'spine.title':'Cómo encaja Roblox',
+        'spine.lead':'Una experiencia Roblox es una simulación cliente-servidor construida en Studio, descrita con instancias en el Data Model y llevada a la vida con scripts Luau.'
+      }
+    };
+    if(lang==='es'){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const k = el.getAttribute('data-i18n');
+        if(dict.es[k]) el.textContent = dict.es[k];
+      });
+      document.documentElement.lang='es';
+    } else {
+      location.reload();
+    }
+  }
+  $('#langES').addEventListener('click', ()=>{ i18n('es'); $('#langES').classList.add('bg-slate-900','text-white'); $('#langEN').classList.remove('bg-slate-900','text-white'); });
+  $('#langEN').addEventListener('click', ()=>{ location.reload(); });
+
+  function updateXP(){
+    const done = discovered.size;
+    const correct = Object.values(answers).filter(Boolean).length;
+    xp = done*35 + correct*25;
+    if(xpValue) xpValue.textContent = xp;
+    if(xpBar) xpBar.style.width = Math.min(100, xp/700*100)+'%';
+    if(xpLabel) xpLabel.textContent = done+'/'+cards.length+' discovered · '+correct+'/4 quiz';
+    localStorage.setItem(STORAGE, JSON.stringify([...discovered]));
+  }
+  updateXP();
+
+  function showToast(t){
+    toastText.textContent = t;
+    toast.classList.remove('hidden'); toast.classList.add('flex');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(()=>{ toast.classList.add('hidden'); toast.classList.remove('flex'); }, 1800);
+  }
+
+  function applyFilter(){
+    let visible=0;
+    const q = (search.value||'').toLowerCase().trim();
+    cards.forEach(c=>{
+      const cat = c.dataset.category||'';
+      const title = (c.dataset.title||'').toLowerCase();
+      const searchText = (c.dataset.search||'').toLowerCase();
+      const matchCat = filter==='all' || cat===filter;
+      const matchSearch = !q || title.includes(q) || searchText.includes(q);
+      const show = matchCat && matchSearch;
+      c.style.display = show ? '' : 'none';
+      if(show) visible++;
+      // highlight
+      if(q && show){
+        // simple highlight not implemented fully
+      }
+    });
+    if(countLabel) countLabel.textContent = visible+' cards';
+    if(foundLabel) foundLabel.textContent = q ? 'Search: "'+q+'"' : (filter==='all' ? 'All' : filter);
+  }
+  chips.forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      chips.forEach(c=> c.classList.remove('chip-active','bg-white','text-slate-900'));
+      ch.classList.add('chip-active','bg-white','text-slate-900');
+      ch.classList.remove('bg-white/10','text-white');
+      filter = ch.dataset.filter;
+      applyFilter();
+    });
+  });
+  search.addEventListener('input', applyFilter);
+
+  // Card click → modal
+  const modalMap = {
+    studio: 'modal-studio',
+    explorer: 'modal-explorer',
+    luau: 'modal-luau',
+    workspace: 'modal-workspace',
+    parts: 'modal-parts',
+    toolbox: 'modal-toolbox',
+    ui: 'modal-ui',
+    sound: 'modal-sound',
+    physics: 'modal-physics',
+    events: 'modal-events',
+    datastore: 'modal-datastore',
+    monetization: 'modal-monetization',
+    avatar: 'modal-avatar',
+    publish: 'modal-publish'
+  };
+  function openModal(key){
+    const id = modalMap[key];
+    if(!id) return;
+    const dlg = document.getElementById(id);
+    if(dlg){
+      dlg.showModal();
+      document.documentElement.style.overflow='hidden';
+      if(!discovered.has(key)){
+        discovered.add(key); updateXP(); showToast('+35 XP · '+key);
+      }
+    }
+  }
+  $$('[data-open]').forEach(el=>{
+    el.addEventListener('click', ()=> openModal(el.dataset.open));
+    el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(el.dataset.open); }});
+  });
+  // diagram clicks
+  $$('[data-diagram]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const map = {studio:'studio', datamodel:'explorer', script:'luau', world:'workspace', publish:'publish'};
+      openModal(map[el.dataset.diagram]||'studio');
+    });
+    el.style.cursor='pointer';
+  });
+
+  // view toggle
+  $('#viewList')?.addEventListener('click', ()=>{
+    bento.classList.remove('bento');
+    bento.style.display='grid';
+    bento.style.gridTemplateColumns='1fr';
+    $('#viewList').classList.add('bg-white','text-slate-900'); $('#viewList').classList.remove('bg-white/10','text-white','ring-1');
+    $('#viewGrid').classList.remove('bg-white','text-slate-900'); $('#viewGrid').classList.add('bg-white/10','text-white','ring-1','ring-white/15');
+  });
+  $('#viewGrid')?.addEventListener('click', ()=>{
+    bento.style.display=''; bento.style.gridTemplateColumns='';
+    bento.classList.add('bento');
+    $('#viewGrid').classList.add('bg-white','text-slate-900'); $('#viewGrid').classList.remove('bg-white/10','text-white','ring-1');
+    $('#viewList').classList.remove('bg-white','text-slate-900'); $('#viewList').classList.add('bg-white/10','text-white','ring-1','ring-white/15');
+  });
+
+  // modals close
+  $$('.modal').forEach(d=>{
+    d.addEventListener('click', e=>{
+      const rect = d.querySelector('.modal-panel').getBoundingClientRect();
+      if(e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom){
+        d.close(); document.documentElement.style.overflow='';
+      }
+    });
+    d.querySelectorAll('.modal-close').forEach(b=> b.addEventListener('click', ()=>{ d.close(); document.documentElement.style.overflow=''; }));
+    d.querySelectorAll('.next-modal').forEach(b=> b.addEventListener('click', ()=>{
+      const ids = Object.values(modalMap);
+      const idx = ids.indexOf(d.id);
+      d.close();
+      const next = document.getElementById(ids[(idx+1)%ids.length]);
+      if(next) { setTimeout(()=>{ next.showModal(); }, 80); }
+    }));
+  });
+
+  // quiz
+  let score=0;
+  function renderScore(){
+    const correct = Object.values(answers).filter(Boolean).length;
+    $('#quizScore').textContent = correct;
+    if(Object.keys(answers).length===4){
+      $('#quizResult').classList.remove('hidden');
+      $('#resultScore').textContent = correct;
+      $('#resultXP').textContent = correct*25;
+    }
+    updateXP();
+  }
+  // restore answered state
+  $$('.quiz-card').forEach(card=>{
+    const q = card.dataset.q;
+    if(answers[q]!==undefined){
+      const opts = card.querySelectorAll('.quiz-opt');
+      const idx = answers[q].idx;
+      const ok = answers[q].ok;
+      opts.forEach((o,i)=>{
+        o.disabled=true;
+        if(o.dataset.correct==='true') o.classList.add('!bg-emerald-500','!text-white','!border-emerald-500');
+        else if(i===idx && !ok) o.classList.add('!bg-red-500','!text-white','!border-red-500');
+      });
+      const fb = card.querySelector('.quiz-feedback');
+      fb.classList.remove('hidden'); fb.textContent = ok ? '✓ Correct! Nice English!' : '✗ Not quite — review the card above.';
+      fb.classList.add(ok ? 'bg-emerald-50':'bg-red-50', ok ? 'text-emerald-700':'text-red-700');
+    }
+  });
+  renderScore();
+  $$('.quiz-card').forEach(card=>{
+    const q = card.dataset.q;
+    card.querySelectorAll('.quiz-opt').forEach((btn, idx)=>{
+      btn.addEventListener('click', ()=>{
+        if(answers[q]!==undefined) return;
+        const ok = btn.dataset.correct==='true';
+        answers[q]={idx, ok};
+        localStorage.setItem(STORAGE+'-quiz', JSON.stringify(answers));
+        card.querySelectorAll('.quiz-opt').forEach(o=> o.disabled=true);
+        if(ok){
+          btn.classList.add('!bg-emerald-500','!text-white','!border-emerald-500');
+          showToast('+25 XP');
+        } else {
+          btn.classList.add('!bg-red-500','!text-white','!border-red-500');
+          card.querySelectorAll('.quiz-opt').forEach(o=>{ if(o.dataset.correct==='true') o.classList.add('!bg-emerald-50','!border-emerald-500'); });
+        }
+        const fb = card.querySelector('.quiz-feedback');
+        fb.classList.remove('hidden');
+        fb.textContent = ok ? '✓ Correct! '+ (q==='q1'?'DataStoreService saves data persistently.': q==='q2'?'Server validates — never trust the client.': q==='q3'?'Anchored parts ignore gravity.':'RemoteEvent bridges client → server.') : '✗ Not quite — the right answer is highlighted.';
+        fb.classList.add(ok ? 'bg-emerald-50':'bg-red-50', ok ? 'text-emerald-700':'text-red-700', 'border', ok ? 'border-emerald-200':'border-red-200');
+        renderScore();
+      });
+    });
+  });
+
+  // scroll progress + header
+  const header = $('#siteHeader');
+  const progress = $('#scrollProgress');
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    if(progress) progress.style.width = (scrolled*100)+'%';
+    if(header) header.classList.toggle('scrolled', window.scrollY>12);
+  }, {passive:true});
+
+  // reveal
+  const obs = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); }); }, {threshold:.12});
+  $$('.reveal').forEach(el=> obs.observe(el));
+
+  // tour
+  $('#btnTour')?.addEventListener('click', ()=>{
+    const first = document.querySelector('[data-open="studio"]');
+    first?.scrollIntoView({behavior:'smooth', block:'center'});
+    first?.classList.add('ring-4','ring-white');
+    setTimeout(()=> first?.classList.remove('ring-4','ring-white'), 1200);
+  });
+  // focus mode
+  let focus=false;
+  $('#btnFocus')?.addEventListener('click', function(){
+    focus=!focus;
+    document.body.classList.toggle('focus-mode', focus);
+    this.textContent = focus ? 'Exit focus' : 'Focus mode';
+    if(focus){
+      $$('.bento-card').forEach(c=> c.style.opacity='0.35');
+      // keep first highlighted
+      const f = document.querySelector('[data-open="studio"]'); if(f) f.style.opacity='1';
+    } else {
+      $$('.bento-card').forEach(c=> c.style.opacity='');
+    }
+  });
+
+  // keyboard shortcut
+  document.addEventListener('keydown', e=>{
+    if(e.key==='/' && document.activeElement.tagName!=='INPUT'){ e.preventDefault(); search.focus(); }
+    if(e.key==='Escape'){ $$('.modal[open]').forEach(d=>{ d.close(); document.documentElement.style.overflow=''; }); }
+  });
+})();
+</script>
+</body>
+</html>
