@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Implementación de Redes Neuronales para Clasificación de Datos · Grupo 05</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+
+    /* Sliders personalizados para modo claro y oscuro */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 9999px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 9999px;
+      background: #4f46e5;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.4);
+      transition: transform 0.15s ease;
+    }
+    .dark input[type="range"]::-webkit-slider-thumb {
+      background: #818cf8;
+      border-color: #0f172a;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* Resaltado de sintaxis limpio para Python */
+    .tok-kw { color: #7c3aed; font-weight: 600; }
+    .tok-fn { color: #0284c7; font-weight: 500; }
+    .tok-str { color: #059669; }
+    .tok-num { color: #d97706; }
+    .tok-cm { color: #64748b; font-style: italic; }
+
+    .dark .tok-kw { color: #c084fc; }
+    .dark .tok-fn { color: #38bdf8; }
+    .dark .tok-str { color: #34d399; }
+    .dark .tok-num { color: #fbbf24; }
+    .dark .tok-cm { color: #64748b; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased transition-colors duration-300 selection:bg-indigo-500/20 selection:text-indigo-700 dark:selection:text-indigo-300 min-h-screen">
+
+  <!-- Fondo sutil geométrico -->
+  <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
+    <div class="absolute -top-40 right-0 w-[30rem] h-[30rem] rounded-full bg-indigo-500/[0.06] dark:bg-indigo-500/[0.12] blur-3xl"></div>
+    <div class="absolute bottom-0 -left-32 w-[28rem] h-[28rem] rounded-full bg-emerald-500/[0.05] dark:bg-emerald-500/[0.08] blur-3xl"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:28px_28px] opacity-60 dark:opacity-50"></div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- BARRA DE NAVEGACIÓN FIJA SUPERIOR (GLASSMORPHISM)                       -->
+  <!-- ======================================================================= -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <!-- Identidad -->
+      <a href="#inicio" class="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-xl">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-300">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="5" cy="7" r="2" />
+            <circle cx="5" cy="17" r="2" />
+            <circle cx="12" cy="12" r="2" />
+            <circle cx="19" cy="7" r="2" />
+            <circle cx="19" cy="17" r="2" />
+            <path d="M7 8l3.2 2.8M7 16l3.2-2.8M13.8 10.8L17 8M13.8 13.2L17 16" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="leading-tight">
+          <span class="block text-sm font-extrabold tracking-tight text-slate-900 dark:text-slate-100">Grupo 05</span>
+          <span class="block text-[11px] font-medium text-indigo-600 dark:text-indigo-400">Clasificación con RNA</span>
+        </div>
+      </a>
+
+      <!-- Enlaces principales -->
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-full px-1.5 py-1">
+        <a href="#fundamento" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Fundamento</a>
+        <a href="#simulacion" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Simulación</a>
+        <a href="#codigo" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Código</a>
+      </nav>
+
+      <!-- Controles derecha: Volver al Portafolio + Switch Tema Claro/Oscuro + Menú Móvil -->
+      <div class="flex items-center gap-2">
+        <!-- Pestaña: Volver al Portafolio -->
+        <a href="../../../index.html"
+          title="Volver al Portafolio principal"
+          aria-label="Volver al Portafolio principal"
+          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span class="hidden lg:inline">Portafolio</span>
+        </a>
+        <button id="btnThemeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro"
+          class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer">
+          <!-- Icono Luna (visible en modo claro) -->
+          <svg id="iconMoon" class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+          <!-- Icono Sol (visible en modo oscuro) -->
+          <svg id="iconSun" class="hidden w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5" />
+            <path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+          <span id="themeLabel" class="hidden sm:inline">Modo Oscuro</span>
+        </button>
+
+        <button id="btnMobileMenu" type="button" aria-label="Abrir menú"
+          class="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú Móvil -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md px-4 py-3 space-y-1">
+      <a href="#fundamento" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Fundamento (3 Pilares)</a>
+      <a href="#simulacion" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Simulación en Vivo</a>
+      <a href="#codigo" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Implementación en Código</a>
+      <a href="../../../index.html" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/60">← Volver al Portafolio</a>
+    </div>
+  </header>
+
+  <!-- Controles flotantes discretos para navegar entre secciones durante la exposición (Alt + ← / →) -->
+  <div class="fixed bottom-4 right-4 z-40 flex items-center gap-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-1.5 shadow-lg shadow-slate-900/5 dark:shadow-black/30">
+    <button id="btnPrevSection" type="button" title="Sección anterior (Alt + ←)"
+      class="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <span id="sectionBadge" class="px-2 text-[11px] font-mono font-semibold text-slate-600 dark:text-slate-300 select-none">1/4 · Portada</span>
+    <button id="btnNextSection" type="button" title="Siguiente sección (Alt + →)"
+      class="p-2 rounded-xl text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 transition-colors cursor-pointer">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- CONTENIDO PRINCIPAL                                                     -->
+  <!-- ======================================================================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 space-y-24">
+
+    <!-- ===================================================================== -->
+    <!-- PORTADA ACADÉMICA (HERO SECTION)                                      -->
+    <!-- ===================================================================== -->
+    <section id="inicio" data-section="Portada" class="scroll-mt-24">
+      <div class="bg-white dark:bg-slate-900/70 backdrop-blur-sm border border-slate-200 dark:border-slate-800 rounded-3xl p-7 sm:p-10 lg:p-14 shadow-sm transition-all duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+
+          <!-- Columna Izquierda: Pregunta Central y CTAs -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800/70 text-indigo-700 dark:text-indigo-300 text-xs font-semibold tracking-wide">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400"></span>
+              Actividad Académica Grupal · Inteligencia Artificial
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.12]">
+              ¿Cómo se implementa una red neuronal para la clasificación de datos?
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+              La implementación de un clasificador neuronal transforma datos crudos en probabilidades de clase mediante el diseño de una arquitectura adecuada, optimización iterativa de pesos y una evaluación rigurosa sobre datos no vistos.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <a href="#fundamento"
+                class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white dark:text-slate-950 font-semibold text-sm shadow-sm transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                Ver Fundamento
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+              <a href="#simulacion"
+                class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-100 font-semibold text-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
+                  <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                </svg>
+                Ir a la Simulación en Vivo
+              </a>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Tarjeta del Equipo (GRUPO: 05) -->
+          <div class="lg:col-span-5">
+            <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 space-y-5 shadow-inner">
+              <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+                <div>
+                  <span class="text-[11px] font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400">Equipo Expositor</span>
+                  <h2 class="text-xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-0.5">GRUPO: 05</h2>
+                </div>
+                <div class="w-11 h-11 rounded-2xl bg-indigo-100 dark:bg-indigo-950 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center font-mono font-bold text-indigo-700 dark:text-indigo-300 text-base">
+                  05
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-3">INTEGRANTES:</h3>
+                <ul class="space-y-2.5">
+                  <li class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 transition-all duration-200 hover:border-indigo-300 dark:hover:border-indigo-700">
+                    <span class="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+                    <span class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 tracking-tight">CARLOS ROJAS LETICIA IVETT</span>
+                  </li>
+                  <li class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 transition-all duration-200 hover:border-emerald-300 dark:hover:border-emerald-700">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 tracking-tight">VALERIO LÓPEZ JARED PETER</span>
+                  </li>
+                  <li class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 transition-all duration-200 hover:border-rose-300 dark:hover:border-rose-700">
+                    <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                    <span class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 tracking-tight">ROJAS CORONADO LUZ DANIELA</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECCIÓN 1: RESPUESTA TÉCNICA EN 3 PILARES (BENTO GRID 3 COLUMNAS)     -->
+    <!-- ===================================================================== -->
+    <section id="fundamento" data-section="Fundamento" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Respuesta Técnica</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1">
+            Los 3 Pilares de la Implementación
+          </h2>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
+          Implementar una red neuronal clasificadora se sintetiza en tres decisiones técnicas clave: cómo estructurar los datos y la red, cómo optimizar sus pesos y cómo validar su capacidad de generalización.
+        </p>
+      </div>
+
+      <!-- Bento Grid de EXACTAMENTE 3 Pilares -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+
+        <!-- PILAR 01: Datos, Arquitectura y Capa de Salida -->
+        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-300 dark:hover:border-indigo-700 flex flex-col justify-between gap-6">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                PILAR 01
+              </span>
+              <div class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="4" width="7" height="7" rx="1.5" />
+                  <rect x="8.5" y="14" width="7" height="7" rx="1.5" />
+                  <path d="M6.5 11v1.5a1.5 1.5 0 001.5 1.5h1M17.5 11v1.5a1.5 1.5 0 01-1.5 1.5h-1" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 leading-snug">
+              Datos, Arquitectura y Capa de Salida
+            </h3>
+
+            <div class="space-y-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p>
+                <strong class="text-slate-900 dark:text-slate-100">1. Preparación de entradas (X):</strong> Se normalizan o estandarizan las variables numéricas (Z-Score o Min-Max) para estabilizar los gradientes, y se codifican las etiquetas de clase (binaria o <em>One-Hot</em>).
+              </p>
+              <p>
+                <strong class="text-slate-900 dark:text-slate-100">2. Capas ocultas:</strong> Cada neurona calcula una combinación lineal seguida de una activación no lineal (<span class="font-mono font-semibold text-indigo-600 dark:text-indigo-400">ReLU</span> o <span class="font-mono font-semibold text-indigo-600 dark:text-indigo-400">tanh</span>) que permite trazar fronteras complejas:
+              </p>
+              <div class="font-mono text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-800 dark:text-slate-200 text-center">
+                a = ReLU(W · x + b) = max(0, z)
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloque comparativo visual interno: Binaria vs Multiclase -->
+          <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 space-y-3">
+            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              Diseño de la Capa de Salida
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="rounded-xl bg-white dark:bg-slate-900 border border-indigo-200/80 dark:border-indigo-900/70 p-3">
+                <div class="text-xs font-bold text-indigo-700 dark:text-indigo-300">Binaria</div>
+                <div class="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">1 neurona</div>
+                <div class="font-mono text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">Sigmoide</div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Rango: [0, 1]</div>
+              </div>
+              <div class="rounded-xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/70 p-3">
+                <div class="text-xs font-bold text-emerald-700 dark:text-emerald-300">Multiclase</div>
+                <div class="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">N neuronas</div>
+                <div class="font-mono text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Softmax</div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Σ P(cᵢ) = 1.0</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PILAR 02: Mecánica de Aprendizaje (Entrenamiento) -->
+        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300 dark:hover:border-emerald-700 flex flex-col justify-between gap-6">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                PILAR 02
+              </span>
+              <div class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 0114.9-4M20 4v4h-4" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 12a8 8 0 01-14.9 4M4 20v-4h4" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 leading-snug">
+              Mecánica de Aprendizaje (Entrenamiento)
+            </h3>
+
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Los pesos sinápticos se ajustan automáticamente repitiendo un ciclo iterativo durante múltiples <strong class="text-slate-900 dark:text-slate-100">épocas</strong>:
+            </p>
+
+            <!-- 4 pasos iterativos claros -->
+            <ol class="space-y-2.5">
+              <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">1. Forward Propagation</span>
+                  <span class="font-mono text-[11px] text-indigo-600 dark:text-indigo-400">x → ŷ</span>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Los datos atraviesan las capas para calcular la probabilidad estimada <span class="font-mono">ŷ</span>.</p>
+              </li>
+
+              <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">2. Función de Pérdida (Loss)</span>
+                  <span class="font-mono text-[11px] text-rose-600 dark:text-rose-400">Cross-Entropy</span>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Cuantifica el error entre la etiqueta real <span class="font-mono">y</span> y <span class="font-mono">ŷ</span> (BCE en binario, CCE en multiclase).</p>
+              </li>
+
+              <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">3. Backpropagation</span>
+                  <span class="font-mono text-[11px] text-amber-600 dark:text-amber-400">∂L / ∂W</span>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Aplica la regla de la cadena desde la salida hacia atrás para hallar los gradientes de error.</p>
+              </li>
+
+              <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">4. Optimizador (Adam / SGD)</span>
+                  <span class="font-mono text-[11px] text-emerald-600 dark:text-emerald-400">W ← W − η∇L</span>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Actualiza pesos y sesgos en la dirección que reduce la pérdida según el Learning Rate (<span class="font-mono">η</span>).</p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="font-mono text-[11px] bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-700 dark:text-slate-300 text-center">
+            L<sub>BCE</sub> = −[ y·log(ŷ) + (1−y)·log(1−ŷ) ]
+          </div>
+        </article>
+
+        <!-- PILAR 03: Generalización y Evaluación del Modelo -->
+        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-rose-300 dark:hover:border-rose-700 flex flex-col justify-between gap-6">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+                PILAR 03
+              </span>
+              <div class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-rose-600 dark:text-rose-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
+                  <rect x="3" y="3" width="18" height="18" rx="4" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 leading-snug">
+              Generalización y Evaluación del Modelo
+            </h3>
+
+            <!-- Control del Overfitting -->
+            <div class="space-y-2.5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p>
+                <strong class="text-slate-900 dark:text-slate-100">Control del Overfitting:</strong> Una red útil no memoriza, sino que generaliza. Se divide el dataset en <span class="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">Train / Val / Test</span> y se aplican técnicas como <strong class="text-slate-900 dark:text-slate-100">Dropout</strong> (apagado aleatorio de neuronas) y <strong class="text-slate-900 dark:text-slate-100">Early Stopping</strong>.
+              </p>
+              <!-- Barra visual Train/Val/Test -->
+              <div class="pt-1">
+                <div class="flex justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 mb-1">
+                  <span>Train (70%)</span>
+                  <span>Val (15%)</span>
+                  <span>Test (15%)</span>
+                </div>
+                <div class="h-2 w-full rounded-full overflow-hidden flex bg-slate-200 dark:bg-slate-800">
+                  <div class="bg-indigo-500 w-[70%]"></div>
+                  <div class="bg-emerald-500 w-[15%]"></div>
+                  <div class="bg-rose-500 w-[15%]"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Métricas Clave -->
+            <div class="space-y-2 pt-1">
+              <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                Métricas desde la Matriz de Confusión (TP, FP, FN, TN)
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
+                  <div class="font-mono font-bold text-indigo-600 dark:text-indigo-400">Accuracy</div>
+                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Aciertos totales. Ideal solo si las clases están balanceadas.</p>
+                </div>
+                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
+                  <div class="font-mono font-bold text-emerald-600 dark:text-emerald-400">Precision</div>
+                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Priorizar cuando un falso positivo es costoso (ej. filtro de spam).</p>
+                </div>
+                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
+                  <div class="font-mono font-bold text-amber-600 dark:text-amber-400">Recall</div>
+                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Priorizar cuando omitir un positivo es crítico (ej. diagnóstico médico).</p>
+                </div>
+                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
+                  <div class="font-mono font-bold text-rose-600 dark:text-rose-400">F1-Score</div>
+                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Media armónica entre Precision y Recall para datos desbalanceados.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="font-mono text-[11px] bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-700 dark:text-slate-300 text-center">
+            F1 = 2 · (Precision · Recall) / (Precision + Recall)
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECCIÓN 2: SIMULACIÓN INTERACTIVA EN VIVO (MLP REAL EN JAVASCRIPT)    -->
+    <!-- ===================================================================== -->
+    <section id="simulacion" data-section="Simulación" class="scroll-mt-24">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Demostración Interactiva</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1">
+            Simulación en Vivo: Perceptrón Multicapa
+          </h2>
+        </div>
+
+        <!-- Insignia Dinámica de Modo Activo -->
+        <div id="modeBadge" class="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-mono font-semibold self-start lg:self-auto">
+          <span id="modeDot" class="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400"></span>
+          <span id="modeBadgeText">Modo Binario · Salida Sigmoide (1 neurona)</span>
+        </div>
+      </div>
+
+      <!-- Barra de Controles Superior (Bento Card) -->
+      <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+
+          <!-- Selector de Dataset -->
+          <div class="md:col-span-3">
+            <label for="datasetSelect" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Dataset</label>
+            <select id="datasetSelect"
+              class="w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm font-medium px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+              <option value="linear">Lineal (Binario · Sigmoide)</option>
+              <option value="circles" selected>Círculos Concéntricos (Binario)</option>
+              <option value="xor">XOR (Binario · No Lineal)</option>
+              <option value="clusters">3 Clústeres (Multiclase · Softmax)</option>
+            </select>
+          </div>
+
+          <!-- Slider Neuronas Ocultas -->
+          <div class="md:col-span-2">
+            <div class="flex justify-between items-center mb-1.5">
+              <label for="neuronsSlider" class="text-xs font-bold text-slate-700 dark:text-slate-300">Neuronas (H)</label>
+              <span id="neuronsValue" class="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded-md">6</span>
+            </div>
+            <input id="neuronsSlider" type="range" min="2" max="12" step="1" value="6" class="w-full bg-slate-200 dark:bg-slate-800" />
+          </div>
+
+          <!-- Slider Learning Rate -->
+          <div class="md:col-span-2">
+            <div class="flex justify-between items-center mb-1.5">
+              <label for="lrSlider" class="text-xs font-bold text-slate-700 dark:text-slate-300">Learning Rate (η)</label>
+              <span id="lrValue" class="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded-md">0.15</span>
+            </div>
+            <input id="lrSlider" type="range" min="0.01" max="0.50" step="0.01" value="0.15" class="w-full bg-slate-200 dark:bg-slate-800" />
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="md:col-span-5 flex flex-wrap items-center justify-start md:justify-end gap-2.5 pt-1 md:pt-4">
+            <button id="btnTrainToggle" type="button"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white dark:text-slate-950 font-bold text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 cursor-pointer min-w-[125px]">
+              <svg id="playIcon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <polygon points="6 4 20 12 6 20 6 4"></polygon>
+              </svg>
+              <span id="btnTrainLabel">Entrenar</span>
+            </button>
+
+            <button id="btnStep" type="button"
+              class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 font-semibold text-xs transition-all duration-200 cursor-pointer">
+              +1 Época
+            </button>
+
+            <button id="btnReset" type="button"
+              class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-rose-950/60 text-slate-700 hover:text-rose-700 dark:text-slate-200 dark:hover:text-rose-300 border border-slate-200 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-800 font-semibold text-xs transition-all duration-200 cursor-pointer">
+              Reiniciar
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bento Grid Principal de Simulación: Canvas (Izq) + Telemetría (Der) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- COLUMNA IZQUIERDA (6 cols): Canvas Frontera de Decisión + Tarjeta de Predicción por Clic -->
+        <div class="lg:col-span-6 space-y-5">
+
+          <!-- Canvas 2D Principal -->
+          <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Frontera de Decisión en Vivo</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Haz clic en cualquier punto del plano para probar una predicción</p>
+              </div>
+              <!-- Leyenda de clases -->
+              <div id="classLegend" class="flex items-center gap-3 text-[11px] font-mono">
+                <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+                  <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span> C0
+                </span>
+                <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> C1
+                </span>
+                <span id="legendC2" class="hidden flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+                  <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> C2
+                </span>
+              </div>
+            </div>
+
+            <!-- Contenedor cuadrado responsivo -->
+            <div class="relative w-full aspect-square rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-950 cursor-crosshair">
+              <canvas id="decisionCanvas" class="block w-full h-full"></canvas>
+              <span class="absolute bottom-2 right-3 text-[11px] font-mono font-semibold text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-slate-900/80 px-1.5 py-0.5 rounded pointer-events-none">x₁</span>
+              <span class="absolute top-2 left-3 text-[11px] font-mono font-semibold text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-slate-900/80 px-1.5 py-0.5 rounded pointer-events-none">x₂</span>
+            </div>
+          </div>
+
+          <!-- Tarjeta de Predicción en Tiempo Real (Prueba Interactiva con Clic) -->
+          <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Predicción en Tiempo Real</h3>
+              </div>
+              <span id="testCoords" class="font-mono text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                Haz clic en el gráfico
+              </span>
+            </div>
+
+            <div id="testPredPlaceholder" class="text-xs text-slate-500 dark:text-slate-400 py-2">
+              Selecciona cualquier coordenada <span class="font-mono">(x₁, x₂)</span> en el plano superior para evaluar cómo la red clasifica un dato nuevo y con qué nivel de confianza.
+            </div>
+
+            <div id="testPredContent" class="hidden space-y-3">
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800">
+                <span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Clase Asignada:</span>
+                <span id="testAssignedClass" class="font-mono text-sm font-bold px-2.5 py-0.5 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">Clase 0</span>
+              </div>
+
+              <!-- Barras de confianza -->
+              <div id="confidenceBars" class="space-y-2"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA (6 cols): Panel de Telemetría en Vivo -->
+        <div class="lg:col-span-6 space-y-5">
+
+          <!-- 1. Indicadores Numéricos -->
+          <div class="grid grid-cols-3 gap-3.5">
+            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Época</div>
+              <div id="metricEpoch" class="text-2xl font-mono font-extrabold text-slate-900 dark:text-slate-100 mt-1">0</div>
+            </div>
+            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Pérdida (Loss)</div>
+              <div id="metricLoss" class="text-2xl font-mono font-extrabold text-rose-600 dark:text-rose-400 mt-1">0.693</div>
+            </div>
+            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Accuracy</div>
+              <div id="metricAcc" class="text-2xl font-mono font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">50%</div>
+            </div>
+          </div>
+
+          <!-- 2. Mini Gráfico en Vivo: Curva de Loss y Accuracy -->
+          <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Curva de Entrenamiento</h3>
+              <div class="flex items-center gap-3 text-[11px] font-mono">
+                <span class="flex items-center gap-1.5 text-rose-600 dark:text-rose-400">
+                  <span class="w-2.5 h-0.5 bg-rose-500 inline-block"></span> Loss
+                </span>
+                <span class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+                  <span class="w-2.5 h-0.5 bg-emerald-500 inline-block"></span> Accuracy
+                </span>
+              </div>
+            </div>
+            <div class="w-full h-32 relative">
+              <canvas id="metricsCanvas" class="block w-full h-full"></canvas>
+            </div>
+          </div>
+
+          <!-- 3. Diagrama Dinámico de Arquitectura y Matriz de Confusión (lado a lado en sm+) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+            <!-- Diagrama SVG de la Red Neuronal -->
+            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm flex flex-col justify-between">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Arquitectura y Pesos</h3>
+              </div>
+              <div class="flex items-center gap-3 text-[10px] font-mono text-slate-500 dark:text-slate-400 mb-2">
+                <span class="text-blue-600 dark:text-blue-400">― w &gt; 0</span>
+                <span class="text-rose-600 dark:text-rose-400">― w &lt; 0</span>
+                <span>(grosor = |w|)</span>
+              </div>
+              <div class="w-full h-44 flex items-center justify-center">
+                <svg id="networkSvg" viewBox="0 0 280 180" class="w-full h-full overflow-visible"></svg>
+              </div>
+              <div class="flex justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 px-2 pt-1">
+                <span>In (2)</span>
+                <span id="svgHiddenLabel">Oculta (6)</span>
+                <span id="svgOutLabel">Out (1)</span>
+              </div>
+            </div>
+
+            <!-- Matriz de Confusión en Vivo -->
+            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Matriz de Confusión</h3>
+                  <span id="cmSizeBadge" class="font-mono text-[10px] px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">2×2</span>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3">Filas: Real · Columnas: Predicción</p>
+              </div>
+
+              <div id="confusionMatrixContainer" class="flex-1 flex items-center justify-center">
+                <!-- Generada dinámicamente por JS -->
+              </div>
+
+              <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 text-center pt-3">
+                Diagonal resaltada = aciertos correctos
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECCIÓN 3: IMPLEMENTACIÓN EN CÓDIGO (REFERENCIA PRÁCTICA)             -->
+    <!-- ===================================================================== -->
+    <section id="codigo" data-section="Código" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Referencia Práctica</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1">
+            Implementación en Código Python
+          </h2>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
+          Traducción directa de los 3 pilares a código real utilizando los dos frameworks estándar de la industria.
+        </p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
+        <!-- Barra superior de pestañas + Copiar -->
+        <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+          <div class="flex items-center gap-2">
+            <button type="button" data-tab="keras"
+              class="code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-indigo-600 text-white shadow-sm">
+              TensorFlow / Keras
+            </button>
+            <button type="button" data-tab="pytorch"
+              class="code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700">
+              PyTorch
+            </button>
+          </div>
+
+          <button id="btnCopyCode" type="button"
+            class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-all duration-200 cursor-pointer">
+            <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+            </svg>
+            <span id="copyLabel">Copiar código</span>
+          </button>
+        </div>
+
+        <!-- Bloque Keras -->
+        <div id="code-keras" class="p-5 sm:p-6 overflow-x-auto bg-slate-50/50 dark:bg-slate-950/80">
+<pre class="font-mono text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-200"><code><span class="tok-cm"># 1. Preparación de datos: división Train/Test y estandarización Z-Score</span>
+<span class="tok-kw">import</span> tensorflow <span class="tok-kw">as</span> tf
+<span class="tok-kw">from</span> sklearn.model_selection <span class="tok-kw">import</span> train_test_split
+<span class="tok-kw">from</span> sklearn.preprocessing <span class="tok-kw">import</span> StandardScaler
+
+X_train, X_test, y_train, y_test = <span class="tok-fn">train_test_split</span>(X, y, test_size=<span class="tok-num">0.2</span>, random_state=<span class="tok-num">42</span>)
+scaler = <span class="tok-fn">StandardScaler</span>()
+X_train = scaler.<span class="tok-fn">fit_transform</span>(X_train)
+X_test  = scaler.<span class="tok-fn">transform</span>(X_test)
+
+<span class="tok-cm"># 2. Arquitectura: capas ocultas con ReLU + Dropout + salida Sigmoide (o Softmax)</span>
+modelo = tf.keras.<span class="tok-fn">Sequential</span>([
+    tf.keras.layers.<span class="tok-fn">Input</span>(shape=(X_train.shape[<span class="tok-num">1</span>],)),
+    tf.keras.layers.<span class="tok-fn">Dense</span>(<span class="tok-num">16</span>, activation=<span class="tok-str">'relu'</span>),
+    tf.keras.layers.<span class="tok-fn">Dropout</span>(<span class="tok-num">0.2</span>),                    <span class="tok-cm"># Previene overfitting</span>
+    tf.keras.layers.<span class="tok-fn">Dense</span>(<span class="tok-num">8</span>,  activation=<span class="tok-str">'relu'</span>),
+    tf.keras.layers.<span class="tok-fn">Dense</span>(<span class="tok-num">1</span>,  activation=<span class="tok-str">'sigmoid'</span>)  <span class="tok-cm"># Binaria (usar 'softmax' para N clases)</span>
+])
+
+<span class="tok-cm"># 3. Compilación: pérdida Binary Cross-Entropy y optimizador Adam</span>
+modelo.<span class="tok-fn">compile</span>(
+    optimizer=tf.keras.optimizers.<span class="tok-fn">Adam</span>(learning_rate=<span class="tok-num">0.01</span>),
+    loss=<span class="tok-str">'binary_crossentropy'</span>,
+    metrics=[<span class="tok-str">'accuracy'</span>]
+)
+
+<span class="tok-cm"># 4. Entrenamiento con validación y Early Stopping</span>
+early_stop = tf.keras.callbacks.<span class="tok-fn">EarlyStopping</span>(patience=<span class="tok-num">5</span>, restore_best_weights=<span class="tok-kw">True</span>)
+modelo.<span class="tok-fn">fit</span>(X_train, y_train, epochs=<span class="tok-num">60</span>, batch_size=<span class="tok-num">32</span>, validation_split=<span class="tok-num">0.15</span>, callbacks=[early_stop])
+
+<span class="tok-cm"># 5. Evaluación final en datos de prueba</span>
+loss, acc = modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)
+<span class="tok-fn">print</span>(<span class="tok-str">f"Accuracy en Test: {acc * 100:.2f}%"</span>)</code></pre>
+        </div>
+
+        <!-- Bloque PyTorch -->
+        <div id="code-pytorch" class="hidden p-5 sm:p-6 overflow-x-auto bg-slate-50/50 dark:bg-slate-950/80">
+<pre class="font-mono text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-200"><code><span class="tok-cm"># 1. Definición de la arquitectura del clasificador en PyTorch</span>
+<span class="tok-kw">import</span> torch
+<span class="tok-kw">import</span> torch.nn <span class="tok-kw">as</span> nn
+<span class="tok-kw">import</span> torch.optim <span class="tok-kw">as</span> optim
+
+<span class="tok-kw">class</span> <span class="tok-fn">ClasificadorMLP</span>(nn.Module):
+    <span class="tok-kw">def</span> <span class="tok-fn">__init__</span>(self, num_features, num_clases=<span class="tok-num">1</span>):
+        <span class="tok-fn">super</span>().__init__()
+        self.red = nn.<span class="tok-fn">Sequential</span>(
+            nn.<span class="tok-fn">Linear</span>(num_features, <span class="tok-num">16</span>),
+            nn.<span class="tok-fn">ReLU</span>(),
+            nn.<span class="tok-fn">Dropout</span>(<span class="tok-num">0.2</span>),                         <span class="tok-cm"># Regularización</span>
+            nn.<span class="tok-fn">Linear</span>(<span class="tok-num">16</span>, <span class="tok-num">8</span>),
+            nn.<span class="tok-fn">ReLU</span>(),
+            nn.<span class="tok-fn">Linear</span>(<span class="tok-num">8</span>, num_clases),
+            nn.<span class="tok-fn">Sigmoid</span>()                             <span class="tok-cm"># Salida probabilística binaria</span>
+        )
+
+    <span class="tok-kw">def</span> <span class="tok-fn">forward</span>(self, x):
+        <span class="tok-kw">return</span> self.<span class="tok-fn">red</span>(x)
+
+<span class="tok-cm"># 2. Instanciación, función de pérdida y optimizador</span>
+modelo = <span class="tok-fn">ClasificadorMLP</span>(num_features=X_train_t.shape[<span class="tok-num">1</span>])
+criterio = nn.<span class="tok-fn">BCELoss</span>()                              <span class="tok-cm"># Usar CrossEntropyLoss para multiclase</span>
+optimizador = optim.<span class="tok-fn">Adam</span>(modelo.<span class="tok-fn">parameters</span>(), lr=<span class="tok-num">0.01</span>)
+
+<span class="tok-cm"># 3. Ciclo explícito: Forward -> Loss -> Backpropagation -> Update</span>
+<span class="tok-kw">for</span> epoca <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">60</span>):
+    modelo.<span class="tok-fn">train</span>()
+    pred = <span class="tok-fn">modelo</span>(X_train_t)
+    loss = <span class="tok-fn">criterio</span>(pred, y_train_t)
+
+    optimizador.<span class="tok-fn">zero_grad</span>()
+    loss.<span class="tok-fn">backward</span>()                                  <span class="tok-cm"># Cálculo de gradientes</span>
+    optimizador.<span class="tok-fn">step</span>()                               <span class="tok-cm"># Actualización de pesos</span>
+
+<span class="tok-cm"># 4. Evaluación sin cálculo de gradientes</span>
+modelo.<span class="tok-fn">eval</span>()
+<span class="tok-kw">with</span> torch.<span class="tok-fn">no_grad</span>():
+    preds = (<span class="tok-fn">modelo</span>(X_test_t) &gt;= <span class="tok-num">0.5</span>).<span class="tok-fn">float</span>()
+    acc = (preds == y_test_t).<span class="tok-fn">float</span>().<span class="tok-fn">mean</span>()
+    <span class="tok-fn">print</span>(<span class="tok-str">f"Accuracy en Test: {acc.item() * 100:.2f}%"</span>)</code></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Limpio -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+      <p class="font-semibold text-slate-700 dark:text-slate-300">Grupo 05 · Recurso Digital Interactivo</p>
+      <p class="font-mono">Perceptrón Multicapa (Sigmoide &amp; Softmax) · HTML5 + Tailwind CSS + JS</p>
+    </div>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- MOTOR DE RED NEURONAL REAL (BINARIO + MULTICLASE) Y LÓGICA INTERACTIVA  -->
+  <!-- ======================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* =====================================================================
+         1. PERCEPTRÓN MULTICAPA REAL (2 -> H -> 1 Sigmoide | 3 Softmax)
+         ===================================================================== */
+      class MLPClassifier {
+        constructor(hiddenSize = 6, numClasses = 2) {
+          this.inputSize = 2;
+          this.hiddenSize = hiddenSize;
+          this.numClasses = numClasses; // 2 (binario, 1 neurona) o 3 (multiclase, 3 neuronas)
+          this.outSize = numClasses === 2 ? 1 : numClasses;
+          this.epoch = 0;
+          this.lossHistory = [];
+          this.accHistory = [];
+          this.initWeights();
+        }
+
+        initWeights() {
+          const lim1 = Math.sqrt(6 / (this.inputSize + this.hiddenSize)) * 1.2;
+          const lim2 = Math.sqrt(6 / (this.hiddenSize + this.outSize)) * 1.2;
+
+          this.w1 = Array.from({ length: this.hiddenSize }, () => [
+            (Math.random() * 2 - 1) * lim1,
+            (Math.random() * 2 - 1) * lim1
+          ]);
+          this.b1 = Array.from({ length: this.hiddenSize }, () => (Math.random() * 2 - 1) * 0.35);
+
+          this.w2 = Array.from({ length: this.outSize }, () =>
+            Array.from({ length: this.hiddenSize }, () => (Math.random() * 2 - 1) * lim2)
+          );
+          this.b2 = Array.from({ length: this.outSize }, () => (Math.random() * 2 - 1) * 0.2);
+
+          // Velocidades de momento para una convergencia rápida y estable
+          this.vw1 = Array.from({ length: this.hiddenSize }, () => [0, 0]);
+          this.vb1 = new Array(this.hiddenSize).fill(0);
+          this.vw2 = Array.from({ length: this.outSize }, () => new Array(this.hiddenSize).fill(0));
+          this.vb2 = new Array(this.outSize).fill(0);
+
+          this.epoch = 0;
+          this.lossHistory = [];
+          this.accHistory = [];
+        }
+
+        sigmoid(z) {
+          if (z > 35) return 1 - 1e-15;
+          if (z < -35) return 1e-15;
+          return 1 / (1 + Math.exp(-z));
+        }
+
+        softmax(logits) {
+          const maxLogit = Math.max(...logits);
+          const exps = logits.map((v) => Math.exp(v - maxLogit));
+          const sum = exps.reduce((a, b) => a + b, 0);
+          return exps.map((e) => e / sum);
+        }
+
+        forward(x1, x2) {
+          const h = new Array(this.hiddenSize);
+          for (let j = 0; j < this.hiddenSize; j++) {
+            const z = this.w1[j][0] * x1 + this.w1[j][1] * x2 + this.b1[j];
+            h[j] = Math.tanh(z);
+          }
+
+          const logits = new Array(this.outSize);
+          for (let k = 0; k < this.outSize; k++) {
+            let sum = this.b2[k];
+            for (let j = 0; j < this.hiddenSize; j++) {
+              sum += this.w2[k][j] * h[j];
+            }
+            logits[k] = sum;
+          }
+
+          if (this.numClasses === 2) {
+            const p1 = this.sigmoid(logits[0]);
+            return { h, probs: [1 - p1, p1], rawOut: [p1] };
+          } else {
+            const probs = this.softmax(logits);
+            return { h, probs, rawOut: probs };
+          }
+        }
+
+        predictProbs(x1, x2) {
+          return this.forward(x1, x2).probs;
+        }
+
+        predictClass(probs) {
+          let bestIdx = 0;
+          for (let i = 1; i < probs.length; i++) {
+            if (probs[i] > probs[bestIdx]) bestIdx = i;
+          }
+          return bestIdx;
+        }
+
+        trainEpoch(data, lr) {
+          const n = data.length;
+          if (n === 0) return this.evaluate(data);
+
+          const gw1 = Array.from({ length: this.hiddenSize }, () => [0, 0]);
+          const gb1 = new Array(this.hiddenSize).fill(0);
+          const gw2 = Array.from({ length: this.outSize }, () => new Array(this.hiddenSize).fill(0));
+          const gb2 = new Array(this.outSize).fill(0);
+
+          let totalLoss = 0;
+          let correct = 0;
+          const eps = 1e-7;
+          const cm = Array.from({ length: this.numClasses }, () => new Array(this.numClasses).fill(0));
+
+          for (let i = 0; i < n; i++) {
+            const { x, y, label } = data[i];
+            const { h, probs, rawOut } = this.forward(x, y);
+            const predCls = this.predictClass(probs);
+            cm[label][predCls]++;
+            if (predCls === label) correct++;
+
+            const dOut = new Array(this.outSize);
+            if (this.numClasses === 2) {
+              const p = Math.min(Math.max(rawOut[0], eps), 1 - eps);
+              totalLoss += -(label * Math.log(p) + (1 - label) * Math.log(1 - p));
+              dOut[0] = rawOut[0] - label;
+            } else {
+              const pTrue = Math.min(Math.max(probs[label], eps), 1 - eps);
+              totalLoss += -Math.log(pTrue);
+              for (let k = 0; k < this.outSize; k++) {
+                dOut[k] = probs[k] - (k === label ? 1 : 0);
+              }
+            }
+
+            // Gradientes capa de salida y retropropagación a capa oculta
+            for (let j = 0; j < this.hiddenSize; j++) {
+              let dHiddenSum = 0;
+              for (let k = 0; k < this.outSize; k++) {
+                gw2[k][j] += dOut[k] * h[j];
+                dHiddenSum += dOut[k] * this.w2[k][j];
+              }
+              const dHidden = dHiddenSum * (1 - h[j] * h[j]); // derivada de tanh
+              gb1[j] += dHidden;
+              gw1[j][0] += dHidden * x;
+              gw1[j][1] += dHidden * y;
+            }
+
+            for (let k = 0; k < this.outSize; k++) {
+              gb2[k] += dOut[k];
+            }
+          }
+
+          // Actualización con momento suave (beta = 0.7)
+          const beta = 0.7;
+          const invN = 1 / n;
+
+          for (let k = 0; k < this.outSize; k++) {
+            this.vb2[k] = beta * this.vb2[k] + (1 - beta) * (gb2[k] * invN);
+            this.b2[k] -= lr * this.vb2[k];
+            for (let j = 0; j < this.hiddenSize; j++) {
+              this.vw2[k][j] = beta * this.vw2[k][j] + (1 - beta) * (gw2[k][j] * invN);
+              this.w2[k][j] -= lr * this.vw2[k][j];
+            }
+          }
+
+          for (let j = 0; j < this.hiddenSize; j++) {
+            this.vb1[j] = beta * this.vb1[j] + (1 - beta) * (gb1[j] * invN);
+            this.b1[j] -= lr * this.vb1[j];
+            this.vw1[j][0] = beta * this.vw1[j][0] + (1 - beta) * (gw1[j][0] * invN);
+            this.vw1[j][1] = beta * this.vw1[j][1] + (1 - beta) * (gw1[j][1] * invN);
+            this.w1[j][0] -= lr * this.vw1[j][0];
+            this.w1[j][1] -= lr * this.vw1[j][1];
+          }
+
+          this.epoch++;
+          const avgLoss = totalLoss * invN;
+          const acc = (correct / n) * 100;
+
+          this.lossHistory.push(avgLoss);
+          this.accHistory.push(acc);
+          if (this.lossHistory.length > 260) {
+            this.lossHistory.shift();
+            this.accHistory.shift();
+          }
+
+          return { loss: avgLoss, acc, cm };
+        }
+
+        evaluate(data) {
+          const n = data.length;
+          const cm = Array.from({ length: this.numClasses }, () => new Array(this.numClasses).fill(0));
+          if (n === 0) return { loss: 0, acc: 0, cm };
+
+          let totalLoss = 0;
+          let correct = 0;
+          const eps = 1e-7;
+
+          for (let i = 0; i < n; i++) {
+            const { x, y, label } = data[i];
+            const { probs, rawOut } = this.forward(x, y);
+            const predCls = this.predictClass(probs);
+            cm[label][predCls]++;
+            if (predCls === label) correct++;
+
+            if (this.numClasses === 2) {
+              const p = Math.min(Math.max(rawOut[0], eps), 1 - eps);
+              totalLoss += -(label * Math.log(p) + (1 - label) * Math.log(1 - p));
+            } else {
+              const pTrue = Math.min(Math.max(probs[label], eps), 1 - eps);
+              totalLoss += -Math.log(pTrue);
+            }
+          }
+
+          return { loss: totalLoss / n, acc: (correct / n) * 100, cm };
+        }
+      }
+
+      /* =====================================================================
+         2. GENERADORES DE DATASETS (4 OPCIONES)
+         ===================================================================== */
+      function randNormal() {
+        let u = 0, v = 0;
+        while (u === 0) u = Math.random();
+        while (v === 0) v = Math.random();
+        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+      }
+
+      function clamp(val, min, max) {
+        return Math.max(min, Math.min(max, val));
+      }
+
+      function generateDataset(type) {
+        const pts = [];
+        if (type === 'linear') {
+          for (let i = 0; i < 45; i++) {
+            pts.push({ x: clamp(-0.45 + randNormal() * 0.22, -0.92, 0.92), y: clamp(-0.40 + randNormal() * 0.22, -0.92, 0.92), label: 0 });
+            pts.push({ x: clamp(0.45 + randNormal() * 0.22, -0.92, 0.92), y: clamp(0.40 + randNormal() * 0.22, -0.92, 0.92), label: 1 });
+          }
+          return { points: pts, numClasses: 2 };
+        }
+
+        if (type === 'circles') {
+          for (let i = 0; i < 48; i++) {
+            const r = Math.random() * 0.36;
+            const a = Math.random() * Math.PI * 2;
+            pts.push({ x: r * Math.cos(a), y: r * Math.sin(a), label: 1 });
+          }
+          for (let i = 0; i < 52; i++) {
+            const r = 0.60 + Math.random() * 0.26;
+            const a = Math.random() * Math.PI * 2;
+            pts.push({ x: r * Math.cos(a), y: r * Math.sin(a), label: 0 });
+          }
+          return { points: pts, numClasses: 2 };
+        }
+
+        if (type === 'xor') {
+          const quads = [
+            { cx: -0.48, cy: -0.48, label: 1 },
+            { cx: 0.48, cy: 0.48, label: 1 },
+            { cx: -0.48, cy: 0.48, label: 0 },
+            { cx: 0.48, cy: -0.48, label: 0 }
+          ];
+          quads.forEach(({ cx, cy, label }) => {
+            for (let i = 0; i < 24; i++) {
+              pts.push({
+                x: clamp(cx + randNormal() * 0.17, -0.92, 0.92),
+                y: clamp(cy + randNormal() * 0.17, -0.92, 0.92),
+                label
+              });
+            }
+          });
+          return { points: pts, numClasses: 2 };
+        }
+
+        // 'clusters' -> 3 Clústeres (Multiclase 3 clases · Softmax)
+        const centers = [
+          { cx: -0.52, cy: 0.44, label: 0 },
+          { cx: 0.52, cy: 0.38, label: 1 },
+          { cx: 0.0, cy: -0.54, label: 2 }
+        ];
+        centers.forEach(({ cx, cy, label }) => {
+          for (let i = 0; i < 34; i++) {
+            pts.push({
+              x: clamp(cx + randNormal() * 0.20, -0.92, 0.92),
+              y: clamp(cy + randNormal() * 0.20, -0.92, 0.92),
+              label
+            });
+          }
+        });
+        return { points: pts, numClasses: 3 };
+      }
+
+      /* =====================================================================
+         3. ESTADO GLOBAL Y REFERENCIAS DOM
+         ===================================================================== */
+      const CLASS_COLORS = [
+        { name: 'Clase 0', short: 'C0', hex: '#4f46e5', rgb: [79, 70, 229], bar: 'bg-indigo-600 dark:bg-indigo-500', badge: 'bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300' },
+        { name: 'Clase 1', short: 'C1', hex: '#10b981', rgb: [16, 185, 129], bar: 'bg-emerald-500', badge: 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300' },
+        { name: 'Clase 2', short: 'C2', hex: '#f43f5e', rgb: [244, 63, 94], bar: 'bg-rose-500', badge: 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300' }
+      ];
+
+      const decisionCanvas = document.getElementById('decisionCanvas');
+      const decisionCtx = decisionCanvas.getContext('2d');
+      const metricsCanvas = document.getElementById('metricsCanvas');
+      const metricsCtx = metricsCanvas.getContext('2d');
+      const networkSvg = document.getElementById('networkSvg');
+      const cmContainer = document.getElementById('confusionMatrixContainer');
+
+      // Canvas offscreen para mapa de calor fluido
+      const heatRes = 58;
+      const offCanvas = document.createElement('canvas');
+      offCanvas.width = heatRes;
+      offCanvas.height = heatRes;
+      const offCtx = offCanvas.getContext('2d');
+      const heatImg = offCtx.createImageData(heatRes, heatRes);
+
+      const datasetSelect = document.getElementById('datasetSelect');
+      const neuronsSlider = document.getElementById('neuronsSlider');
+      const neuronsValue = document.getElementById('neuronsValue');
+      const lrSlider = document.getElementById('lrSlider');
+      const lrValue = document.getElementById('lrValue');
+      const btnTrainToggle = document.getElementById('btnTrainToggle');
+      const btnTrainLabel = document.getElementById('btnTrainLabel');
+      const playIcon = document.getElementById('playIcon');
+      const btnStep = document.getElementById('btnStep');
+      const btnReset = document.getElementById('btnReset');
+
+      const modeBadge = document.getElementById('modeBadge');
+      const modeDot = document.getElementById('modeDot');
+      const modeBadgeText = document.getElementById('modeBadgeText');
+      const legendC2 = document.getElementById('legendC2');
+      const svgHiddenLabel = document.getElementById('svgHiddenLabel');
+      const svgOutLabel = document.getElementById('svgOutLabel');
+      const cmSizeBadge = document.getElementById('cmSizeBadge');
+
+      const metricEpoch = document.getElementById('metricEpoch');
+      const metricLoss = document.getElementById('metricLoss');
+      const metricAcc = document.getElementById('metricAcc');
+
+      const testCoords = document.getElementById('testCoords');
+      const testPredPlaceholder = document.getElementById('testPredPlaceholder');
+      const testPredContent = document.getElementById('testPredContent');
+      const testAssignedClass = document.getElementById('testAssignedClass');
+      const confidenceBars = document.getElementById('confidenceBars');
+
+      let state = {
+        datasetType: 'circles',
+        hiddenSize: 6,
+        lr: 0.15,
+        numClasses: 2,
+        isTraining: false,
+        data: [],
+        nn: null,
+        testPoint: null // { x, y } seleccionado por clic
+      };
+
+      function isDarkMode() {
+        return document.documentElement.classList.contains('dark');
+      }
+
+      /* =====================================================================
+         4. RENDERIZADO: CANVAS 2D, CURVA, ARQUITECTURA, MATRIZ Y PREDICCIÓN
+         ===================================================================== */
+      function resizeCanvases() {
+        const dpr = window.devicePixelRatio || 1;
+
+        const dRect = decisionCanvas.parentElement.getBoundingClientRect();
+        decisionCanvas.width = Math.max(10, Math.floor(dRect.width * dpr));
+        decisionCanvas.height = Math.max(10, Math.floor(dRect.height * dpr));
+        decisionCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const mRect = metricsCanvas.parentElement.getBoundingClientRect();
+        metricsCanvas.width = Math.max(10, Math.floor(mRect.width * dpr));
+        metricsCanvas.height = Math.max(10, Math.floor(mRect.height * dpr));
+        metricsCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        renderAll();
+      }
+
+      function probsToColor(probs) {
+        const dark = isDarkMode();
+        const base = dark ? [15, 23, 42] : [248, 250, 252]; // slate-900 vs slate-50
+        let r = 0, g = 0, b = 0;
+
+        for (let c = 0; c < probs.length; c++) {
+          r += probs[c] * CLASS_COLORS[c].rgb[0];
+          g += probs[c] * CLASS_COLORS[c].rgb[1];
+          b += probs[c] * CLASS_COLORS[c].rgb[2];
+        }
+
+        // Mezcla según la confianza máxima para resaltar las fronteras con nitidez
+        const maxP = Math.max(...probs);
+        const minP = 1 / probs.length;
+        const conf = clamp((maxP - minP) / (1 - minP), 0, 1);
+        const alpha = 0.14 + conf * (dark ? 0.55 : 0.42);
+
+        return [
+          Math.round(base[0] * (1 - alpha) + r * alpha),
+          Math.round(base[1] * (1 - alpha) + g * alpha),
+          Math.round(base[2] * (1 - alpha) + b * alpha)
+        ];
+      }
+
+      function drawDecisionBoundary() {
+        const w = decisionCanvas.parentElement.clientWidth;
+        const h = decisionCanvas.parentElement.clientHeight;
+        if (!w || !h || !state.nn) return;
+
+        const pixels = heatImg.data;
+        let idx = 0;
+        for (let py = 0; py < heatRes; py++) {
+          const yCoord = 1 - (py / (heatRes - 1)) * 2;
+          for (let px = 0; px < heatRes; px++) {
+            const xCoord = (px / (heatRes - 1)) * 2 - 1;
+            const probs = state.nn.predictProbs(xCoord, yCoord);
+            const [r, g, b] = probsToColor(probs);
+            pixels[idx++] = r;
+            pixels[idx++] = g;
+            pixels[idx++] = b;
+            pixels[idx++] = 255;
+          }
+        }
+        offCtx.putImageData(heatImg, 0, 0);
+
+        decisionCtx.clearRect(0, 0, w, h);
+        decisionCtx.imageSmoothingEnabled = true;
+        decisionCtx.imageSmoothingQuality = 'high';
+        decisionCtx.drawImage(offCanvas, 0, 0, w, h);
+
+        // Ejes cartesianos
+        const dark = isDarkMode();
+        decisionCtx.strokeStyle = dark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(15, 23, 42, 0.14)';
+        decisionCtx.lineWidth = 1;
+        decisionCtx.beginPath();
+        decisionCtx.moveTo(w / 2, 0);
+        decisionCtx.lineTo(w / 2, h);
+        decisionCtx.moveTo(0, h / 2);
+        decisionCtx.lineTo(w, h / 2);
+        decisionCtx.stroke();
+
+        // Puntos del dataset
+        for (let i = 0; i < state.data.length; i++) {
+          const pt = state.data[i];
+          const cx = ((pt.x + 1) / 2) * w;
+          const cy = ((1 - pt.y) / 2) * h;
+
+          decisionCtx.beginPath();
+          decisionCtx.arc(cx, cy, 5.2, 0, Math.PI * 2);
+          decisionCtx.fillStyle = CLASS_COLORS[pt.label].hex;
+          decisionCtx.fill();
+          decisionCtx.lineWidth = 1.8;
+          decisionCtx.strokeStyle = dark ? '#0f172a' : '#ffffff';
+          decisionCtx.stroke();
+        }
+
+        // Marcador de punto de prueba interactivo (si el usuario hizo clic)
+        if (state.testPoint) {
+          const tx = ((state.testPoint.x + 1) / 2) * w;
+          const ty = ((1 - state.testPoint.y) / 2) * h;
+          const probs = state.nn.predictProbs(state.testPoint.x, state.testPoint.y);
+          const pred = state.nn.predictClass(probs);
+
+          // Anillo externo destacado
+          decisionCtx.beginPath();
+          decisionCtx.arc(tx, ty, 12, 0, Math.PI * 2);
+          decisionCtx.strokeStyle = dark ? '#f8fafc' : '#0f172a';
+          decisionCtx.lineWidth = 2.2;
+          decisionCtx.stroke();
+
+          // Anillo interior blanco
+          decisionCtx.beginPath();
+          decisionCtx.arc(tx, ty, 8.5, 0, Math.PI * 2);
+          decisionCtx.fillStyle = '#ffffff';
+          decisionCtx.fill();
+
+          // Centro con el color de la clase predicha
+          decisionCtx.beginPath();
+          decisionCtx.arc(tx, ty, 5.5, 0, Math.PI * 2);
+          decisionCtx.fillStyle = CLASS_COLORS[pred].hex;
+          decisionCtx.fill();
+        }
+      }
+
+      function drawMetricsChart() {
+        const w = metricsCanvas.parentElement.clientWidth;
+        const h = metricsCanvas.parentElement.clientHeight;
+        if (!w || !h || !state.nn) return;
+
+        const dark = isDarkMode();
+        metricsCtx.clearRect(0, 0, w, h);
+
+        // Cuadrícula sutil
+        metricsCtx.strokeStyle = dark ? 'rgba(148, 163, 184, 0.14)' : 'rgba(15, 23, 42, 0.08)';
+        metricsCtx.lineWidth = 1;
+        for (let i = 1; i <= 3; i++) {
+          const y = (h / 4) * i;
+          metricsCtx.beginPath();
+          metricsCtx.moveTo(0, y);
+          metricsCtx.lineTo(w, y);
+          metricsCtx.stroke();
+        }
+
+        const losses = state.nn.lossHistory;
+        const accs = state.nn.accHistory;
+        if (losses.length < 2) {
+          metricsCtx.fillStyle = dark ? '#94a3b8' : '#64748b';
+          metricsCtx.font = '11px "JetBrains Mono", monospace';
+          metricsCtx.fillText('Presiona "Entrenar" o "+1 Época" para graficar...', 6, h / 2 + 4);
+          return;
+        }
+
+        const maxLoss = Math.max(1.2, ...losses);
+        const pad = 8;
+
+        // Curva de Accuracy (0% a 100%)
+        metricsCtx.beginPath();
+        for (let i = 0; i < accs.length; i++) {
+          const x = (i / (accs.length - 1)) * w;
+          const y = h - pad - (accs[i] / 100) * (h - pad * 2);
+          if (i === 0) metricsCtx.moveTo(x, y);
+          else metricsCtx.lineTo(x, y);
+        }
+        metricsCtx.strokeStyle = '#10b981';
+        metricsCtx.lineWidth = 2;
+        metricsCtx.stroke();
+
+        // Curva de Loss
+        metricsCtx.beginPath();
+        for (let i = 0; i < losses.length; i++) {
+          const x = (i / (losses.length - 1)) * w;
+          const y = h - pad - (losses[i] / maxLoss) * (h - pad * 2);
+          if (i === 0) metricsCtx.moveTo(x, y);
+          else metricsCtx.lineTo(x, y);
+        }
+        metricsCtx.strokeStyle = '#f43f5e';
+        metricsCtx.lineWidth = 2;
+        metricsCtx.stroke();
+      }
+
+      function drawNetworkDiagram() {
+        if (!state.nn) return;
+        const nn = state.nn;
+        const dark = isDarkMode();
+        const nodeFill = dark ? '#0f172a' : '#ffffff';
+        const textFill = dark ? '#e2e8f0' : '#0f172a';
+
+        const inNodes = [
+          { x: 34, y: 58, label: 'x₁' },
+          { x: 34, y: 122, label: 'x₂' }
+        ];
+
+        const hidNodes = [];
+        const hCount = nn.hiddenSize;
+        const topPad = hCount > 8 ? 10 : 18;
+        const span = 180 - topPad * 2;
+        for (let j = 0; j < hCount; j++) {
+          const y = hCount === 1 ? 90 : topPad + (j / (hCount - 1)) * span;
+          hidNodes.push({ x: 140, y });
+        }
+
+        const outNodes = [];
+        if (nn.outSize === 1) {
+          outNodes.push({ x: 246, y: 90, label: 'ŷ', color: '#4f46e5' });
+        } else {
+          const ys = [36, 90, 144];
+          for (let k = 0; k < nn.outSize; k++) {
+            outNodes.push({ x: 246, y: ys[k], label: `C${k}`, color: CLASS_COLORS[k].hex });
+          }
+        }
+
+        let svg = '';
+
+        // Conexiones Entrada -> Oculta
+        for (let i = 0; i < 2; i++) {
+          for (let j = 0; j < hCount; j++) {
+            const w = nn.w1[j][i];
+            const color = w >= 0 ? '#2563eb' : '#e11d48';
+            const sw = clamp(Math.abs(w) * 1.1, 0.6, 3.6);
+            const op = clamp(Math.abs(w) * 0.45, 0.22, 0.92);
+            svg += `<line x1="${inNodes[i].x}" y1="${inNodes[i].y}" x2="${hidNodes[j].x}" y2="${hidNodes[j].y}" stroke="${color}" stroke-width="${sw.toFixed(2)}" stroke-opacity="${op.toFixed(2)}" stroke-linecap="round" />`;
+          }
+        }
+
+        // Conexiones Oculta -> Salida
+        for (let j = 0; j < hCount; j++) {
+          for (let k = 0; k < nn.outSize; k++) {
+            const w = nn.w2[k][j];
+            const color = w >= 0 ? '#2563eb' : '#e11d48';
+            const sw = clamp(Math.abs(w) * 1.1, 0.6, 3.6);
+            const op = clamp(Math.abs(w) * 0.45, 0.22, 0.92);
+            svg += `<line x1="${hidNodes[j].x}" y1="${hidNodes[j].y}" x2="${outNodes[k].x}" y2="${outNodes[k].y}" stroke="${color}" stroke-width="${sw.toFixed(2)}" stroke-opacity="${op.toFixed(2)}" stroke-linecap="round" />`;
+          }
+        }
+
+        // Nodos Entrada
+        inNodes.forEach((n) => {
+          svg += `<circle cx="${n.x}" cy="${n.y}" r="12" fill="${nodeFill}" stroke="#4f46e5" stroke-width="2" />`;
+          svg += `<text x="${n.x}" y="${n.y + 4}" text-anchor="middle" fill="${textFill}" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="600">${n.label}</text>`;
+        });
+
+        // Nodos Ocultos
+        const hRadius = hCount > 8 ? 6.5 : 8.5;
+        hidNodes.forEach((n) => {
+          svg += `<circle cx="${n.x}" cy="${n.y}" r="${hRadius}" fill="${nodeFill}" stroke="#6366f1" stroke-width="1.8" />`;
+        });
+
+        // Nodos Salida
+        outNodes.forEach((n) => {
+          svg += `<circle cx="${n.x}" cy="${n.y}" r="12.5" fill="${nodeFill}" stroke="${n.color}" stroke-width="2.2" />`;
+          svg += `<text x="${n.x}" y="${n.y + 4}" text-anchor="middle" fill="${textFill}" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="700">${n.label}</text>`;
+        });
+
+        networkSvg.innerHTML = svg;
+      }
+
+      function drawConfusionMatrix(cm) {
+        const k = state.numClasses;
+        cmSizeBadge.textContent = `${k}×${k}`;
+
+        let html = `<table class="w-full border-separate border-spacing-1.5 text-center font-mono text-xs">`;
+        html += `<thead><tr><th class="text-[10px] text-slate-400 font-normal">R \\ P</th>`;
+        for (let col = 0; col < k; col++) {
+          html += `<th class="py-1 text-[11px] font-bold text-slate-600 dark:text-slate-300">C${col}</th>`;
+        }
+        html += `</tr></thead><tbody>`;
+
+        for (let row = 0; row < k; row++) {
+          html += `<tr><td class="pr-1 text-[11px] font-bold text-slate-600 dark:text-slate-300">C${row}</td>`;
+          for (let col = 0; col < k; col++) {
+            const val = cm[row][col];
+            const isDiag = row === col;
+            const cellClass = isDiag
+              ? 'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-bold'
+              : val > 0
+                ? 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900 font-semibold'
+                : 'bg-slate-50 dark:bg-slate-950 text-slate-400 dark:text-slate-500 border border-slate-200/70 dark:border-slate-800';
+            html += `<td class="py-2.5 px-2 rounded-xl ${cellClass}">${val}</td>`;
+          }
+          html += `</tr>`;
+        }
+        html += `</tbody></table>`;
+        cmContainer.innerHTML = html;
+      }
+
+      function updateTestPredictionCard() {
+        if (!state.testPoint || !state.nn) {
+          testCoords.textContent = 'Haz clic en el gráfico';
+          testPredPlaceholder.classList.remove('hidden');
+          testPredContent.classList.add('hidden');
+          return;
+        }
+
+        const { x, y } = state.testPoint;
+        const probs = state.nn.predictProbs(x, y);
+        const pred = state.nn.predictClass(probs);
+
+        testCoords.textContent = `(${x.toFixed(2)}, ${y.toFixed(2)})`;
+        testPredPlaceholder.classList.add('hidden');
+        testPredContent.classList.remove('hidden');
+
+        testAssignedClass.textContent = CLASS_COLORS[pred].name;
+        testAssignedClass.className = `font-mono text-sm font-bold px-2.5 py-0.5 rounded-lg ${CLASS_COLORS[pred].badge}`;
+
+        let barsHtml = '';
+        for (let c = 0; c < probs.length; c++) {
+          const pct = (probs[c] * 100).toFixed(1);
+          barsHtml += `
+            <div>
+              <div class="flex justify-between text-xs font-mono mb-1">
+                <span class="font-semibold text-slate-700 dark:text-slate-300">${CLASS_COLORS[c].name}</span>
+                <span class="font-bold text-slate-900 dark:text-slate-100">${pct}%</span>
+              </div>
+              <div class="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                <div class="h-full rounded-full ${CLASS_COLORS[c].bar} transition-all duration-150" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }
+        confidenceBars.innerHTML = barsHtml;
+      }
+
+      function updateModeUI() {
+        if (state.numClasses === 2) {
+          modeBadge.className = 'inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-mono font-semibold self-start lg:self-auto';
+          modeDot.className = 'w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400';
+          modeBadgeText.textContent = 'Modo Binario · Salida Sigmoide (1 neurona)';
+          legendC2.classList.add('hidden');
+          svgOutLabel.textContent = 'Out (1)';
+        } else {
+          modeBadge.className = 'inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-mono font-semibold self-start lg:self-auto';
+          modeDot.className = 'w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400';
+          modeBadgeText.textContent = 'Modo Multiclase · Salida Softmax (3 neuronas)';
+          legendC2.classList.remove('hidden');
+          svgOutLabel.textContent = 'Out (3)';
+        }
+        svgHiddenLabel.textContent = `Oculta (${state.hiddenSize})`;
+      }
+
+      function renderAll(metrics) {
+        if (!state.nn) return;
+        const m = metrics || state.nn.evaluate(state.data);
+        metricEpoch.textContent = state.nn.epoch;
+        metricLoss.textContent = m.loss.toFixed(3);
+        metricAcc.textContent = `${Math.round(m.acc)}%`;
+
+        drawDecisionBoundary();
+        drawMetricsChart();
+        drawNetworkDiagram();
+        drawConfusionMatrix(m.cm);
+        updateTestPredictionCard();
+      }
+
+      /* =====================================================================
+         5. CONTROLADORES DE ENTRENAMIENTO E INTERACCIÓN
+         ===================================================================== */
+      function setTraining(running) {
+        state.isTraining = running;
+        if (running) {
+          btnTrainLabel.textContent = 'Pausar';
+          playIcon.innerHTML = '<rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect>';
+        } else {
+          btnTrainLabel.textContent = 'Entrenar';
+          playIcon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"></polygon>';
+        }
+      }
+
+      function resetSimulation(regenData = true) {
+        setTraining(false);
+        if (regenData) {
+          const ds = generateDataset(state.datasetType);
+          state.data = ds.points;
+          state.numClasses = ds.numClasses;
+          state.testPoint = null;
+        }
+        state.nn = new MLPClassifier(state.hiddenSize, state.numClasses);
+        const initM = state.nn.evaluate(state.data);
+        state.nn.lossHistory.push(initM.loss);
+        state.nn.accHistory.push(initM.acc);
+        updateModeUI();
+        renderAll(initM);
+      }
+
+      function loop() {
+        if (state.isTraining && state.nn) {
+          let m;
+          for (let i = 0; i < 4; i++) {
+            m = state.nn.trainEpoch(state.data, state.lr);
+          }
+          renderAll(m);
+        }
+        requestAnimationFrame(loop);
+      }
+
+      datasetSelect.addEventListener('change', (e) => {
+        state.datasetType = e.target.value;
+        resetSimulation(true);
+      });
+
+      neuronsSlider.addEventListener('input', (e) => {
+        state.hiddenSize = parseInt(e.target.value, 10);
+        neuronsValue.textContent = state.hiddenSize;
+        resetSimulation(false);
+      });
+
+      lrSlider.addEventListener('input', (e) => {
+        state.lr = parseFloat(e.target.value);
+        lrValue.textContent = state.lr.toFixed(2);
+      });
+
+      btnTrainToggle.addEventListener('click', () => setTraining(!state.isTraining));
+
+      btnStep.addEventListener('click', () => {
+        setTraining(false);
+        const m = state.nn.trainEpoch(state.data, state.lr);
+        renderAll(m);
+      });
+
+      btnReset.addEventListener('click', () => resetSimulation(true));
+
+      // Prueba interactiva con clic o toque en el Canvas
+      function handleTestPointSelect(clientX, clientY) {
+        const rect = decisionCanvas.getBoundingClientRect();
+        const x = clamp(((clientX - rect.left) / rect.width) * 2 - 1, -1, 1);
+        const y = clamp(1 - ((clientY - rect.top) / rect.height) * 2, -1, 1);
+        state.testPoint = { x, y };
+        drawDecisionBoundary();
+        updateTestPredictionCard();
+      }
+
+      decisionCanvas.addEventListener('click', (e) => handleTestPointSelect(e.clientX, e.clientY));
+      decisionCanvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          e.preventDefault();
+          handleTestPointSelect(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: false });
+
+      /* =====================================================================
+         6. PESTAÑAS DE CÓDIGO Y COPIADO AL PORTAPAPELES
+         ===================================================================== */
+      let activeTab = 'keras';
+      const codeTabs = document.querySelectorAll('.code-tab');
+      const codeKeras = document.getElementById('code-keras');
+      const codePytorch = document.getElementById('code-pytorch');
+      const btnCopyCode = document.getElementById('btnCopyCode');
+      const copyLabel = document.getElementById('copyLabel');
+
+      codeTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          activeTab = tab.dataset.tab;
+          codeKeras.classList.toggle('hidden', activeTab !== 'keras');
+          codePytorch.classList.toggle('hidden', activeTab !== 'pytorch');
+
+          codeTabs.forEach((t) => {
+            const active = t.dataset.tab === activeTab;
+            t.className = active
+              ? 'code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-indigo-600 text-white shadow-sm'
+              : 'code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700';
+          });
+        });
+      });
+
+      btnCopyCode.addEventListener('click', () => {
+        const text = (activeTab === 'keras' ? codeKeras : codePytorch).innerText;
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          copyLabel.textContent = '¡Copiado!';
+          setTimeout(() => { copyLabel.textContent = 'Copiar código'; }, 1800);
+        } catch (err) {
+          copyLabel.textContent = 'Error al copiar';
+        }
+        document.body.removeChild(ta);
+      });
+
+      /* =====================================================================
+         7. MODO CLARO / OSCURO, MENÚ MÓVIL Y NAVEGACIÓN DE EXPOSICIÓN
+         ===================================================================== */
+      const btnThemeToggle = document.getElementById('btnThemeToggle');
+      const iconMoon = document.getElementById('iconMoon');
+      const iconSun = document.getElementById('iconSun');
+      const themeLabel = document.getElementById('themeLabel');
+      const btnMobileMenu = document.getElementById('btnMobileMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      btnThemeToggle.addEventListener('click', () => {
+        const darkNow = document.documentElement.classList.toggle('dark');
+        iconMoon.classList.toggle('hidden', darkNow);
+        iconSun.classList.toggle('hidden', !darkNow);
+        themeLabel.textContent = darkNow ? 'Modo Claro' : 'Modo Oscuro';
+        renderAll();
+      });
+
+      btnMobileMenu.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      mobileMenu.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      });
+
+      // Navegación discreta por secciones (botones flotantes + Alt+Derecha / Alt+Izquierda)
+      const sections = Array.from(document.querySelectorAll('section[data-section]'));
+      const btnPrevSection = document.getElementById('btnPrevSection');
+      const btnNextSection = document.getElementById('btnNextSection');
+      const sectionBadge = document.getElementById('sectionBadge');
+      let currentSecIdx = 0;
+
+      function updateActiveSectionBadge() {
+        let idx = 0;
+        sections.forEach((sec, i) => {
+          if (sec.getBoundingClientRect().top <= window.innerHeight * 0.35) {
+            idx = i;
+          }
+        });
+        currentSecIdx = idx;
+        sectionBadge.textContent = `${idx + 1}/${sections.length} · ${sections[idx].dataset.section}`;
+      }
+
+      function scrollToSection(index) {
+        currentSecIdx = clamp(index, 0, sections.length - 1);
+        sections[currentSecIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        sectionBadge.textContent = `${currentSecIdx + 1}/${sections.length} · ${sections[currentSecIdx].dataset.section}`;
+      }
+
+      btnPrevSection.addEventListener('click', () => scrollToSection(currentSecIdx - 1));
+      btnNextSection.addEventListener('click', () => scrollToSection(currentSecIdx + 1));
+
+      window.addEventListener('keydown', (e) => {
+        if (e.altKey && e.key === 'ArrowRight') {
+          e.preventDefault();
+          scrollToSection(currentSecIdx + 1);
+        } else if (e.altKey && e.key === 'ArrowLeft') {
+          e.preventDefault();
+          scrollToSection(currentSecIdx - 1);
+        }
+      });
+
+      window.addEventListener('scroll', updateActiveSectionBadge, { passive: true });
+      window.addEventListener('resize', resizeCanvases);
+
+      /* =====================================================================
+         8. INICIALIZACIÓN INMEDIATA AL CARGAR
+         ===================================================================== */
+      window.addEventListener('load', () => {
+        resetSimulation(true);
+        resizeCanvases();
+        updateActiveSectionBadge();
+        requestAnimationFrame(loop);
+      });
+    })();
+  </script>
+</body>
+</html>
