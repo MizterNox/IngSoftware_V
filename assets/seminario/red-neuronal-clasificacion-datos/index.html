@@ -71,6 +71,148 @@
     .dark .tok-str { color: #34d399; }
     .dark .tok-num { color: #fbbf24; }
     .dark .tok-cm { color: #64748b; }
+    /* ============================================================
+       GLOSARIO · términos con subrayado punteado
+       ============================================================ */
+    .glossary-term {
+      color: inherit;
+      cursor: pointer;
+      text-decoration: underline dotted #6366f1;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+      border-radius: 3px;
+      padding: 0 1px;
+      transition: background .15s ease;
+    }
+    .glossary-term:hover, .glossary-term:focus-visible {
+      background: rgba(99, 102, 241, .14);
+      outline: none;
+    }
+    .dark .glossary-term { text-decoration-color: #a5b4fc; }
+    .dark .glossary-term:hover { background: rgba(129, 140, 248, .2); }
+
+    /* ============================================================
+       TOOLTIPS · globo emergente (data-tip)
+       ============================================================ */
+    [data-tip] { position: relative; }
+    [data-tip]:hover::after, [data-tip]:focus-visible::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 9px);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: max-content;
+      max-width: 230px;
+      white-space: normal;
+      text-align: center;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.4;
+      padding: 7px 11px;
+      border-radius: 10px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .35);
+      z-index: 95;
+      pointer-events: none;
+      animation: tipIn .18s ease-out;
+    }
+    .dark [data-tip]:hover::after, .dark [data-tip]:focus-visible::after {
+      background: #e2e8f0;
+      color: #0f172a;
+      box-shadow: 0 10px 24px rgba(2, 6, 23, .55);
+    }
+    @keyframes tipIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ============================================================
+       HOTSPOTS · puntos parpadeantes
+       ============================================================ */
+    .hotspot {
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      border-radius: 9999px;
+      background: #f43f5e;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 0 rgba(244, 63, 94, .55);
+      animation: hotspotPulse 1.6s infinite;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .hotspot.hidden { display: none; }
+    @keyframes hotspotPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(244, 63, 94, .5); }
+      70%  { box-shadow: 0 0 0 11px rgba(244, 63, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+    }
+
+    /* ============================================================
+       RECORRIDO (product tour) · anillo de enfoque
+       ============================================================ */
+    .tour-ring {
+      position: fixed;
+      z-index: 96;
+      border: 3px solid #f59e0b;
+      border-radius: 18px;
+      pointer-events: none;
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, .22), 0 0 44px rgba(245, 158, 11, .4);
+      animation: ringPulse 1.4s ease-in-out infinite;
+      display: none;
+    }
+    .tour-ring.active { display: block; }
+    .tour-ring::after {
+      content: '';
+      position: absolute;
+      inset: -13px;
+      border-radius: 26px;
+      border: 1.5px dashed rgba(245, 158, 11, .65);
+    }
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.035); }
+    }
+
+    /* ============================================================
+       CHECKLIST
+       ============================================================ */
+    .ck-item { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 5px; border-radius: 9999px;
+      background: #f8fafc; border: 1px solid #e2e8f0; font-size: 11px; font-weight: 600; color: #475569;
+      transition: all .3s ease; white-space: nowrap; }
+    .dark .ck-item { background: #0f172a; border-color: #1e293b; color: #94a3b8; }
+    .ck-box { width: 18px; height: 18px; border-radius: 9999px; border: 1.5px dashed #94a3b8; display: grid; place-items: center;
+      font-size: 11px; font-weight: 800; color: transparent; line-height: 1; flex: none; transition: all .25s ease; }
+    .ck-item.ck-done { border-color: rgba(16, 185, 129, .45); color: #059669; background: rgba(16, 185, 129, .1); }
+    .dark .ck-item.ck-done { color: #34d399; background: rgba(16, 185, 129, .12); }
+    .ck-item.ck-done .ck-box { background: #10b981; border-color: #10b981; color: #fff; border-style: solid; }
+
+    /* ============================================================
+       MODAL · GLOSARIO
+       ============================================================ */
+    .glossary-overlay { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .glossary-overlay.open { opacity: 1; pointer-events: auto; }
+    .glossary-card { transform: translateY(18px) scale(.97); opacity: 0;
+      transition: transform .28s cubic-bezier(.22, 1, .36, 1), opacity .28s ease; }
+    .glossary-overlay.open .glossary-card { transform: translateY(0) scale(1); opacity: 1; }
+    .gterm.flash { animation: gflash 1.7s ease; }
+    @keyframes gflash {
+      0%   { background: rgba(99, 102, 241, .25); box-shadow: 0 0 0 3px rgba(99, 102, 241, .45); border-radius: 14px; }
+      100% { background: transparent; box-shadow: 0 0 0 0 transparent; }
+    }
+    .glossary-scroll::-webkit-scrollbar { width: 8px; }
+    .glossary-scroll::-webkit-scrollbar-track { background: transparent; }
+    .glossary-scroll::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, .4); border-radius: 9999px; }
+
+    /* ============================================================
+       RECORRIDO · panel de fase
+       ============================================================ */
+    #tourPanel { animation: tipIn .3s ease; }
+    .tour-dot { width: 6px; height: 6px; border-radius: 9999px; background: #d6d3d1; transition: all .3s ease; }
+    .dark .tour-dot { background: #475569; }
+    .tour-dot.tour-dot-active { background: #f59e0b; transform: scale(1.5); }
+    .tour-dot.tour-dot-done { background: #10b981; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased transition-colors duration-300 selection:bg-indigo-500/20 selection:text-indigo-700 dark:selection:text-indigo-300 min-h-screen">
@@ -112,11 +254,23 @@
         <a href="#codigo" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Código</a>
       </nav>
 
-      <!-- Controles derecha: Volver al Portafolio + Switch Tema Claro/Oscuro + Menú Móvil -->
+      <!-- Controles derecha: Glosario + Volver al Portafolio + Switch Tema Claro/Oscuro + Menú Móvil -->
       <div class="flex items-center gap-2">
+        <!-- 📖 Glosario de términos -->
+        <button id="btnGlossary" type="button"
+          data-tip="Palabras técnicas explicadas en criollo"
+          aria-label="Abrir glosario de términos"
+          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 016.5 17H20V4a2 2 0 00-2-2H6.5A2.5 2.5 0 004 4.5v15z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8M8 13h6" />
+          </svg>
+          <span class="hidden lg:inline">Glosario</span>
+        </button>
         <!-- Pestaña: Volver al Portafolio -->
         <a href="../../../index.html"
           title="Volver al Portafolio principal"
+          data-tip="Volver al portafolio acá"
           aria-label="Volver al Portafolio principal"
           class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
@@ -125,6 +279,7 @@
           <span class="hidden lg:inline">Portafolio</span>
         </a>
         <button id="btnThemeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro"
+          data-tip="Cambiar tema claro / oscuro"
           class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer">
           <!-- Icono Luna (visible en modo claro) -->
           <svg id="iconMoon" class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -258,29 +413,31 @@
     <!-- ===================================================================== -->
     <!-- SECCIÓN 1: RESPUESTA TÉCNICA EN 3 PILARES (BENTO GRID 3 COLUMNAS)     -->
     <!-- ===================================================================== -->
+        <!-- ===================================================================== -->
+    <!-- SECCIÓN 1: LOS 3 PILARES EN PALABRAS SIMPLES                          -->
+    <!-- ===================================================================== -->
     <section id="fundamento" data-section="Fundamento" class="scroll-mt-24">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Respuesta Técnica</span>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Respuesta en criollo</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1">
-            Los 3 Pilares de la Implementación
+            Los 3 pilares, sin letra muerta
           </h2>
         </div>
         <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-          Implementar una red neuronal clasificadora se sintetiza en tres decisiones técnicas clave: cómo estructurar los datos y la red, cómo optimizar sus pesos y cómo validar su capacidad de generalización.
+          Implementar una red neuronal es como entrenar a un practicante: aprender qué datos mirar, cómo ajustar sus propios pesos
+          y comprobar que funciona con casos nuevos.
         </p>
       </div>
 
-      <!-- Bento Grid de EXACTAMENTE 3 Pilares -->
+      <!-- Bento Grid de 3 Pilares -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
 
-        <!-- PILAR 01: Datos, Arquitectura y Capa de Salida -->
-        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-300 dark:hover:border-indigo-700 flex flex-col justify-between gap-6">
+        <!-- PILAR 01: Datos y diseño -->
+        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col justify-between gap-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-300 dark:hover:border-indigo-700">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-                PILAR 01
-              </span>
+              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">PILAR 01</span>
               <div class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <rect x="3" y="4" width="7" height="7" rx="1.5" />
@@ -292,51 +449,71 @@
             </div>
 
             <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 leading-snug">
-              Datos, Arquitectura y Capa de Salida
+              Ingredientes y estructura
             </h3>
 
-            <div class="space-y-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              <p>
-                <strong class="text-slate-900 dark:text-slate-100">1. Preparación de entradas (X):</strong> Se normalizan o estandarizan las variables numéricas (Z-Score o Min-Max) para estabilizar los gradientes, y se codifican las etiquetas de clase (binaria o <em>One-Hot</em>).
-              </p>
-              <p>
-                <strong class="text-slate-900 dark:text-slate-100">2. Capas ocultas:</strong> Cada neurona calcula una combinación lineal seguida de una activación no lineal (<span class="font-mono font-semibold text-indigo-600 dark:text-indigo-400">ReLU</span> o <span class="font-mono font-semibold text-indigo-600 dark:text-indigo-400">tanh</span>) que permite trazar fronteras complejas:
-              </p>
-              <div class="font-mono text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-800 dark:text-slate-200 text-center">
-                a = ReLU(W · x + b) = max(0, z)
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Como una receta: necesitas <strong class="text-slate-900 dark:text-slate-100">ingredientes limpios y ordenados</strong> y un horno con la capacidad adecuada. Tus datos son los ingredientes: normalizarlos (que todas las medidas tengan la misma escala) evita que un dato grande lo domine todo.
+            </p>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              La red es el horno: una cadena de <button type="button" class="glossary-term" data-term="neuronas">neuronas</button> que procesa los datos capa por capa. Lo que aporta cada capa se puede enseñar como una fila de preguntas:
+            </p>
+
+            <!-- Visual: pregunta → red → respuesta -->
+            <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-3">
+              <p class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 text-center">Ejemplo: ¿es spam?</p>
+              <div class="flex flex-wrap items-center justify-center gap-2 text-[10px] font-semibold">
+                <div class="flex flex-col gap-1">
+                  <span class="px-2 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center">¿Tiene enlaces?</span>
+                  <span class="px-2 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center">¿Remitente conocido?</span>
+                  <span class="px-2 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center">¿Tono urgente?</span>
+                </div>
+                <svg class="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
+                <div class="flex-1 min-w-[96px] text-center rounded-xl bg-indigo-100 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 font-mono font-bold py-2.5 px-3">RED<br/>🧠</div>
+                <svg class="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
+                <div class="text-center rounded-xl bg-rose-100 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 font-mono font-bold py-2.5 px-3 whitespace-nowrap">SPAM<br/><span class="text-[9px] font-medium opacity-80">🎯 82%</span></div>
+              </div>
+            </div>
+
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              La <strong class="text-slate-900 dark:text-slate-100"><button type="button" class="glossary-term" data-term="capa-salida">capa de salida</button></strong> emite la predicción final. Dependiendo de la tarea, puede decidir:
+            </p>
+          </div>
+
+          <!-- Comparativo visual: binaria vs multiclase -->
+          <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 space-y-3">
+            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Dos tareas posibles</div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="rounded-xl bg-white dark:bg-slate-900 border border-indigo-200/80 dark:border-indigo-900/70 p-3">
+                <div class="text-xs font-bold text-indigo-700 dark:text-indigo-300">Sí / No (binaria)</div>
+                <div class="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">1 neurona</div>
+                <div class="font-mono text-[11px] font-semibold text-indigo-600 dark:text-indigo-400"><button type="button" class="glossary-term" data-term="sigmoide">Sigmoide</button></div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Salida: 0.0 – 1.0</div>
+              </div>
+              <div class="rounded-xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/70 p-3">
+                <div class="text-xs font-bold text-emerald-700 dark:text-emerald-300">Varias clases</div>
+                <div class="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">N neuronas</div>
+                <div class="font-mono text-[11px] font-semibold text-emerald-600 dark:text-emerald-400"><button type="button" class="glossary-term" data-term="softmax">Softmax</button></div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Las probabilidades suman 1.0</div>
               </div>
             </div>
           </div>
 
-          <!-- Bloque comparativo visual interno: Binaria vs Multiclase -->
-          <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 space-y-3">
-            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Diseño de la Capa de Salida
-            </div>
-            <div class="grid grid-cols-2 gap-2.5">
-              <div class="rounded-xl bg-white dark:bg-slate-900 border border-indigo-200/80 dark:border-indigo-900/70 p-3">
-                <div class="text-xs font-bold text-indigo-700 dark:text-indigo-300">Binaria</div>
-                <div class="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">1 neurona</div>
-                <div class="font-mono text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">Sigmoide</div>
-                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Rango: [0, 1]</div>
-              </div>
-              <div class="rounded-xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/70 p-3">
-                <div class="text-xs font-bold text-emerald-700 dark:text-emerald-300">Multiclase</div>
-                <div class="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">N neuronas</div>
-                <div class="font-mono text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Softmax</div>
-                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Σ P(cᵢ) = 1.0</div>
-              </div>
-            </div>
+          <!-- ¿Qué significa esto en código? -->
+          <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4">
+            <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1.5">¿Qué significa esto en código?</div>
+            <div class="font-mono text-[11px] text-slate-800 dark:text-slate-200 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 mb-2">a = ReLU(W · x + b) = max(0, z)</div>
+            <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+              En criollo: cada neurona hace una <strong>suma ponderada</strong> de sus entradas (<span class="font-mono">W · x</span>), les suma un sesgo (<span class="font-mono">b</span>) y aplica <strong><button type="button" class="glossary-term" data-term="relu">ReLU</button></strong>: deja pasar solo los valores positivos y corta los negativos a cero.
+            </p>
           </div>
         </article>
 
-        <!-- PILAR 02: Mecánica de Aprendizaje (Entrenamiento) -->
-        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300 dark:hover:border-emerald-700 flex flex-col justify-between gap-6">
+        <!-- PILAR 02: Entrenamiento -->
+        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col justify-between gap-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300 dark:hover:border-emerald-700">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                PILAR 02
-              </span>
+              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">PILAR 02</span>
               <div class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 0114.9-4M20 4v4h-4" />
@@ -346,61 +523,53 @@
             </div>
 
             <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 leading-snug">
-              Mecánica de Aprendizaje (Entrenamiento)
+              Entrenar la red (como repetir una lección)
             </h3>
 
             <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Los pesos sinápticos se ajustan automáticamente repitiendo un ciclo iterativo durante múltiples <strong class="text-slate-900 dark:text-slate-100">épocas</strong>:
+              Repetir un camino en cuatro pasos, hasta que el error baje. Es como practicar un himno: adivinas, notas dónde fallaste, corriges y lo practicas otra vez:
             </p>
 
-            <!-- 4 pasos iterativos claros -->
-            <ol class="space-y-2.5">
+            <!-- Los 4 pasos como ciclo visual -->
+            <ol class="grid grid-cols-2 gap-2.5">
               <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">1. Forward Propagation</span>
-                  <span class="font-mono text-[11px] text-indigo-600 dark:text-indigo-400">x → ŷ</span>
-                </div>
-                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Los datos atraviesan las capas para calcular la probabilidad estimada <span class="font-mono">ŷ</span>.</p>
+                <div class="text-xs font-bold text-slate-900 dark:text-slate-100">1. Adivinar</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">La red hace su mejor predicción posible.</div>
               </li>
-
               <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">2. Función de Pérdida (Loss)</span>
-                  <span class="font-mono text-[11px] text-rose-600 dark:text-rose-400">Cross-Entropy</span>
-                </div>
-                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Cuantifica el error entre la etiqueta real <span class="font-mono">y</span> y <span class="font-mono">ŷ</span> (BCE en binario, CCE en multiclase).</p>
+                <div class="text-xs font-bold text-slate-900 dark:text-slate-100">2. Medir el error</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5"><button type="button" class="glossary-term" data-term="loss">Pérdida</button>: qué tan lejos llegó de lo correcto.</div>
               </li>
-
               <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">3. Backpropagation</span>
-                  <span class="font-mono text-[11px] text-amber-600 dark:text-amber-400">∂L / ∂W</span>
-                </div>
-                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Aplica la regla de la cadena desde la salida hacia atrás para hallar los gradientes de error.</p>
+                <div class="text-xs font-bold text-slate-900 dark:text-slate-100">3. Ajustar</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5"><button type="button" class="glossary-term" data-term="backprop">Backpropagation</button> y el <button type="button" class="glossary-term" data-term="optimizador">optimizador</button> corrigen los <button type="button" class="glossary-term" data-term="pesos">pesos</button>.</div>
               </li>
-
               <li class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-slate-900 dark:text-slate-100">4. Optimizador (Adam / SGD)</span>
-                  <span class="font-mono text-[11px] text-emerald-600 dark:text-emerald-400">W ← W − η∇L</span>
-                </div>
-                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Actualiza pesos y sesgos en la dirección que reduce la pérdida según el Learning Rate (<span class="font-mono">η</span>).</p>
+                <div class="text-xs font-bold text-slate-900 dark:text-slate-100">4. Repetir</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5"><button type="button" class="glossary-term" data-term="epoca">Época</button> tras época, hasta que la pérdida se estabilice.</div>
               </li>
             </ol>
+
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Con <button type="button" class="glossary-term" data-term="learning-rate">Learning Rate</button> controlas el "tamaño del paso": demasiado grande salta del objetivo; demasiado pequeño tarda mucho.
+            </p>
           </div>
 
-          <div class="font-mono text-[11px] bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-700 dark:text-slate-300 text-center">
-            L<sub>BCE</sub> = −[ y·log(ŷ) + (1−y)·log(1−ŷ) ]
+          <!-- ¿Qué significa esto en código? -->
+          <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4">
+            <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1.5">¿Qué significa esto en código?</div>
+            <div class="font-mono text-[11px] text-slate-800 dark:text-slate-200 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 mb-2">L = −[ y·log(ŷ) + (1−y)·log(1−ŷ) ]</div>
+            <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+              En criollo: la <strong>pérdida binaria</strong> mide qué tan lejos estuvo la predicción (<span class="font-mono">ŷ</span>) de la respuesta correcta (<span class="font-mono">y</span>). 0 = acertaste perfecto; cuanto más alto, peor.
+            </p>
           </div>
         </article>
 
-        <!-- PILAR 03: Generalización y Evaluación del Modelo -->
-        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-rose-300 dark:hover:border-rose-700 flex flex-col justify-between gap-6">
+        <!-- PILAR 03: Generalización -->
+        <article class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col justify-between gap-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-rose-300 dark:hover:border-rose-700">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
-                PILAR 03
-              </span>
+              <span class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">PILAR 03</span>
               <div class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-rose-600 dark:text-rose-400">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
@@ -410,62 +579,69 @@
             </div>
 
             <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 leading-snug">
-              Generalización y Evaluación del Modelo
+              ¿Sirve en la vida real?
             </h3>
 
-            <!-- Control del Overfitting -->
-            <div class="space-y-2.5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              <p>
-                <strong class="text-slate-900 dark:text-slate-100">Control del Overfitting:</strong> Una red útil no memoriza, sino que generaliza. Se divide el dataset en <span class="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">Train / Val / Test</span> y se aplican técnicas como <strong class="text-slate-900 dark:text-slate-100">Dropout</strong> (apagado aleatorio de neuronas) y <strong class="text-slate-900 dark:text-slate-100">Early Stopping</strong>.
-              </p>
-              <!-- Barra visual Train/Val/Test -->
-              <div class="pt-1">
-                <div class="flex justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 mb-1">
-                  <span>Train (70%)</span>
-                  <span>Val (15%)</span>
-                  <span>Test (15%)</span>
-                </div>
-                <div class="h-2 w-full rounded-full overflow-hidden flex bg-slate-200 dark:bg-slate-800">
-                  <div class="bg-indigo-500 w-[70%]"></div>
-                  <div class="bg-emerald-500 w-[15%]"></div>
-                  <div class="bg-rose-500 w-[15%]"></div>
-                </div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Solo funciona si <strong class="text-slate-900 dark:text-slate-100">no solo memoriza</strong> la tarea: debe generalizar a datos que nunca vio. Por eso los datos se dividen en tres tercios:
+            </p>
+
+            <!-- Visual Train/Val/Test -->
+            <div class="pt-1">
+              <div class="flex justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 mb-1">
+                <span>Entrenar (70%)</span>
+                <span>Validar (15%)</span>
+                <span>Probar (15%)</span>
+              </div>
+              <div class="h-2.5 w-full rounded-full overflow-hidden flex bg-slate-200 dark:bg-slate-800">
+                <div class="bg-indigo-500 w-[70%]"></div>
+                <div class="bg-emerald-500 w-[15%]"></div>
+                <div class="bg-rose-500 w-[15%]"></div>
+              </div>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5"><button type="button" class="glossary-term" data-term="train-test">Train · Val · Test</button>: aprender → afinar → probar.</p>
+            </div>
+
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Dos técnicas evitan que memorice: <button type="button" class="glossary-term" data-term="dropout">Dropout</button> (apagar aleatoriamente neuronas) y <button type="button" class="glossary-term" data-term="early-stopping">Early Stopping</button> (detenerlo si la pérdida deja de bajar).
+            </p>
+
+            <!-- Visual: matriz de confusión -->
+            <div class="rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-3">
+              <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 text-center">La tabla de aciertos · Ejemplo: ¿spam?</div>
+              <div class="grid grid-cols-2 gap-1.5 text-center text-[10px] font-semibold">
+                <div class="rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 p-1.5">✓ TP: spam detectado</div>
+                <div class="rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800 text-rose-800 dark:text-rose-300 p-1.5">⚠ FP: inocente marcado</div>
+                <div class="rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800 text-amber-800 dark:text-amber-300 p-1.5">⚠ FN: spam ignorado</div>
+                <div class="rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 p-1.5">✓ TN: inocente correcto</div>
               </div>
             </div>
 
-            <!-- Métricas Clave -->
-            <div class="space-y-2 pt-1">
-              <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                Métricas desde la Matriz de Confusión (TP, FP, FN, TN)
+            <!-- Métricas claras -->
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
+                <div class="font-mono font-bold text-indigo-600 dark:text-indigo-400">Accuracy</div>
+                <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Porcentaje total de aciertos. Bien si las clases están balanceadas.</p>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
-                  <div class="font-mono font-bold text-indigo-600 dark:text-indigo-400">Accuracy</div>
-                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Aciertos totales. Ideal solo si las clases están balanceadas.</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
-                  <div class="font-mono font-bold text-emerald-600 dark:text-emerald-400">Precision</div>
-                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Priorizar cuando un falso positivo es costoso (ej. filtro de spam).</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
-                  <div class="font-mono font-bold text-amber-600 dark:text-amber-400">Recall</div>
-                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Priorizar cuando omitir un positivo es crítico (ej. diagnóstico médico).</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
-                  <div class="font-mono font-bold text-rose-600 dark:text-rose-400">F1-Score</div>
-                  <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Media armónica entre Precision y Recall para datos desbalanceados.</p>
-                </div>
+              <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800">
+                <div class="font-mono font-bold text-emerald-600 dark:text-emerald-400">Precision / Recall</div>
+                <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">De los marcados como "sí", cuántos eran reales / de los reales, cuántos encontró.</p>
               </div>
             </div>
           </div>
 
-          <div class="font-mono text-[11px] bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-700 dark:text-slate-300 text-center">
-            F1 = 2 · (Precision · Recall) / (Precision + Recall)
+          <!-- ¿Qué significa esto en código? -->
+          <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4">
+            <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 mb-1.5">¿Qué significa esto en código?</div>
+            <div class="font-mono text-[11px] text-slate-800 dark:text-slate-200 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 mb-2">F1 = 2 · (P · R) / (P + R)</div>
+            <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+              En criollo: la <strong>media armónica</strong> entre precisión y recall. 1.0 = equilibrio perfecto; cuanto más bajo, más se queda corto a un lado.
+            </p>
           </div>
         </article>
 
       </div>
     </section>
+
 
     <!-- ===================================================================== -->
     <!-- SECCIÓN 2: SIMULACIÓN INTERACTIVA EN VIVO (MLP REAL EN JAVASCRIPT)    -->
@@ -487,11 +663,11 @@
       </div>
 
       <!-- Barra de Controles Superior (Bento Card) -->
-      <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm mb-6">
+      <div id="controlsBar" class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm mb-6">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
 
           <!-- Selector de Dataset -->
-          <div class="md:col-span-3">
+          <div class="md:col-span-3" data-tip="El ejemplo de datos que usará la red: cambia siempre según el reto">
             <label for="datasetSelect" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Dataset</label>
             <select id="datasetSelect"
               class="w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm font-medium px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
@@ -503,7 +679,7 @@
           </div>
 
           <!-- Slider Neuronas Ocultas -->
-          <div class="md:col-span-2">
+          <div class="md:col-span-2" data-tip="Cuántas neuronas tiene la capa oculta: más = más capacidad de aprender, pero lentas" id="neuronsBlock">
             <div class="flex justify-between items-center mb-1.5">
               <label for="neuronsSlider" class="text-xs font-bold text-slate-700 dark:text-slate-300">Neuronas (H)</label>
               <span id="neuronsValue" class="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded-md">6</span>
@@ -512,7 +688,7 @@
           </div>
 
           <!-- Slider Learning Rate -->
-          <div class="md:col-span-2">
+          <div class="md:col-span-2" data-tip="El tamaño del paso de aprendizaje: bajo = lento, alto = salta">
             <div class="flex justify-between items-center mb-1.5">
               <label for="lrSlider" class="text-xs font-bold text-slate-700 dark:text-slate-300">Learning Rate (η)</label>
               <span id="lrValue" class="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded-md">0.15</span>
@@ -522,20 +698,35 @@
 
           <!-- Botones de Acción -->
           <div class="md:col-span-5 flex flex-wrap items-center justify-start md:justify-end gap-2.5 pt-1 md:pt-4">
+            <button id="btnTour" type="button"
+              data-tip="Guía interactiva paso a paso: te muestra dónde presionar y qué verás"
+              class="relative inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 dark:bg-amber-500 dark:hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 cursor-pointer">
+              <span id="hotspotTour" class="hotspot" style="top:-5px;right:-5px;"></span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
+                <circle cx="12" cy="12" r="9" />
+              </svg>
+              Tutorial
+            </button>
+
             <button id="btnTrainToggle" type="button"
-              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white dark:text-slate-950 font-bold text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 cursor-pointer min-w-[125px]">
-              <svg id="playIcon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              data-tip="Inicia el entrenamiento automáticamente y observa cómo la pérdida baja"
+              class="relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white dark:text-slate-950 font-bold text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 cursor-pointer min-w-[125px]">
+              <span id="hotspotTrain" class="hotspot" style="top:-5px;right:-5px;"></span>
+              <svg id="playIcon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <polygon points="6 4 20 12 6 20 6 4"></polygon>
               </svg>
               <span id="btnTrainLabel">Entrenar</span>
             </button>
 
             <button id="btnStep" type="button"
+              data-tip="Avanza exactamente una época: pésimo contraste entre adivinar y ajustar"
               class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 font-semibold text-xs transition-all duration-200 cursor-pointer">
               +1 Época
             </button>
 
             <button id="btnReset" type="button"
+              data-tip="Reinicia con pesos nuevos y datos nuevos: repite el ciclo"
               class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-rose-950/60 text-slate-700 hover:text-rose-700 dark:text-slate-200 dark:hover:text-rose-300 border border-slate-200 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-800 font-semibold text-xs transition-all duration-200 cursor-pointer">
               Reiniciar
             </button>
@@ -543,6 +734,40 @@
 
         </div>
       </div>
+
+      <!-- Panel del Recorrido (Product Tour + Walkthrough) -->
+      <div id="tourPanel" class="hidden mb-6 rounded-3xl border border-amber-300/80 dark:border-amber-500/40 bg-amber-50/70 dark:bg-amber-950/20 p-4 sm:p-5 shadow-sm" role="region" aria-label="Recorrido guiado">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="flex-none w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950 border border-amber-300 dark:border-amber-700 grid place-items-center text-amber-600 dark:text-amber-300" aria-hidden="true">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" /></svg>
+            </span>
+            <div class="min-w-0">
+              <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-amber-700 dark:text-amber-300">Recorrido guiado · <span id="tourPhaseLabel">Fase 1 / 6</span></div>
+              <div id="tourTitle" class="text-base font-extrabold text-slate-900 dark:text-slate-100 truncate">Bienvenido</div>
+            </div>
+          </div>
+          <button id="tourClose" type="button" aria-label="Cerrar recorrido"
+            class="flex-none p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-amber-100 dark:hover:bg-amber-950 transition-colors cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+
+        <p id="tourBody" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mt-3"></p>
+
+        <div id="tourChecklist" class="flex flex-wrap items-center gap-1.5 mt-3.5"></div>
+
+        <div class="flex items-center justify-between gap-3 mt-4">
+          <div id="tourDots" class="flex items-center gap-1.5"></div>
+          <div class="flex items-center gap-2">
+            <button id="tourPrev" type="button" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">← Atrás</button>
+            <button id="tourNext" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-400 text-slate-950 shadow-sm transition-colors cursor-pointer">Siguiente →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Anillo de enfoque (anclado dinámicamente por JS) -->
+      <div id="tourRing" class="tour-ring" aria-hidden="true"></div>
 
       <!-- Bento Grid Principal de Simulación: Canvas (Izq) + Telemetría (Der) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -552,7 +777,7 @@
 
           <!-- Canvas 2D Principal -->
           <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3" data-tip="Haz clic en cualquier punto del plano para predecir la clase de un dato nuevo">
               <div>
                 <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Frontera de Decisión en Vivo</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Haz clic en cualquier punto del plano para probar una predicción</p>
@@ -572,7 +797,7 @@
             </div>
 
             <!-- Contenedor cuadrado responsivo -->
-            <div class="relative w-full aspect-square rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-950 cursor-crosshair">
+            <div id="canvasWrap" class="relative w-full aspect-square rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-950 cursor-crosshair">
               <canvas id="decisionCanvas" class="block w-full h-full"></canvas>
               <span class="absolute bottom-2 right-3 text-[11px] font-mono font-semibold text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-slate-900/80 px-1.5 py-0.5 rounded pointer-events-none">x₁</span>
               <span class="absolute top-2 left-3 text-[11px] font-mono font-semibold text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-slate-900/80 px-1.5 py-0.5 rounded pointer-events-none">x₂</span>
@@ -696,36 +921,66 @@
     <!-- ===================================================================== -->
     <!-- SECCIÓN 3: IMPLEMENTACIÓN EN CÓDIGO (REFERENCIA PRÁCTICA)             -->
     <!-- ===================================================================== -->
+        <!-- ===================================================================== -->
+    <!-- SECCIÓN 3: DEL CONCEPTO A LA PRÁCTICA (REGLA DE 5 PASOS + CÓDIGO SIMPLE) -->
+    <!-- ===================================================================== -->
     <section id="codigo" data-section="Código" class="scroll-mt-24">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
         <div>
-          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Referencia Práctica</span>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Del concepto a la práctica</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1">
-            Implementación en Código Python
+            ¿Qué significa esto en código?
           </h2>
         </div>
         <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-          Traducción directa de los 3 pilares a código real utilizando los dos frameworks estándar de la industria.
+          La misma receta, traducida a unas líneas de Python. Un esqueleto, no un libro de texto.
         </p>
       </div>
 
+      <!-- Receta visual en 5 pasos -->
+      <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
+        <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
+          <span class="block text-2xl mb-1" aria-hidden="true">📥</span>
+          <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">1</div>
+          <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Datos</div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Ejemplos con su etiqueta real.</p>
+        </li>
+        <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
+          <span class="block text-2xl mb-1" aria-hidden="true">🧹</span>
+          <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">2</div>
+          <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Preparar</div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Ordenar y dividir: aprender · afinar · probar.</p>
+        </li>
+        <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
+          <span class="block text-2xl mb-1" aria-hidden="true">🏗️</span>
+          <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">3</div>
+          <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Diseñar</div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Capas, neuronas y tipo de salida.</p>
+        </li>
+        <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
+          <span class="block text-2xl mb-1" aria-hidden="true">🔁</span>
+          <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">4</div>
+          <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Entrenar</div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Adivinar → medir error → ajustar → repetir.</p>
+        </li>
+        <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
+          <span class="block text-2xl mb-1" aria-hidden="true">✅</span>
+          <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">5</div>
+          <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Evaluar</div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Comprobar en datos nunca vistos.</p>
+        </li>
+      </ol>
+
+      <!-- Esqueleto de código simplificado (TensorFlow / Keras) -->
       <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
-        <!-- Barra superior de pestañas + Copiar -->
         <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <div class="flex items-center gap-2">
-            <button type="button" data-tab="keras"
-              class="code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-indigo-600 text-white shadow-sm">
-              TensorFlow / Keras
-            </button>
-            <button type="button" data-tab="pytorch"
-              class="code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700">
-              PyTorch
-            </button>
+            <span class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 dark:bg-indigo-500 text-white dark:text-slate-950 shadow-sm">Python · TensorFlow / Keras</span>
           </div>
 
           <button id="btnCopyCode" type="button"
             class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-all duration-200 cursor-pointer">
-            <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="9" y="9" width="13" height="13" rx="2" />
               <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
             </svg>
@@ -733,92 +988,72 @@
           </button>
         </div>
 
-        <!-- Bloque Keras -->
-        <div id="code-keras" class="p-5 sm:p-6 overflow-x-auto bg-slate-50/50 dark:bg-slate-950/80">
-<pre class="font-mono text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-200"><code><span class="tok-cm"># 1. Preparación de datos: división Train/Test y estandarización Z-Score</span>
-<span class="tok-kw">import</span> tensorflow <span class="tok-kw">as</span> tf
+        <pre id="codeText" class="p-5 sm:p-6 overflow-x-auto bg-slate-50/50 dark:bg-slate-950/80 font-mono text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-200"><code><span class="tok-cm"># 1 · Preparar los datos: dividir y escalar</span>
 <span class="tok-kw">from</span> sklearn.model_selection <span class="tok-kw">import</span> train_test_split
 <span class="tok-kw">from</span> sklearn.preprocessing <span class="tok-kw">import</span> StandardScaler
 
-X_train, X_test, y_train, y_test = <span class="tok-fn">train_test_split</span>(X, y, test_size=<span class="tok-num">0.2</span>, random_state=<span class="tok-num">42</span>)
-scaler = <span class="tok-fn">StandardScaler</span>()
-X_train = scaler.<span class="tok-fn">fit_transform</span>(X_train)
+X_train, X_test, y_train, y_test = <span class="tok-fn">train_test_split</span>(X, y, test_size=<span class="tok-num">0.2</span>)
+scaler = <span class="tok-fn">StandardScaler</span>().<span class="tok-fn">fit</span>(X_train)
+X_train = scaler.<span class="tok-fn">transform</span>(X_train)
 X_test  = scaler.<span class="tok-fn">transform</span>(X_test)
 
-<span class="tok-cm"># 2. Arquitectura: capas ocultas con ReLU + Dropout + salida Sigmoide (o Softmax)</span>
+<span class="tok-cm"># 2 · Diseñar la red: 1 capa + dropout + salida binaria</span>
 modelo = tf.keras.<span class="tok-fn">Sequential</span>([
-    tf.keras.layers.<span class="tok-fn">Input</span>(shape=(X_train.shape[<span class="tok-num">1</span>],)),
+    tf.keras.layers.<span class="tok-fn">Input</span>(shape=(n_features,)),
     tf.keras.layers.<span class="tok-fn">Dense</span>(<span class="tok-num">16</span>, activation=<span class="tok-str">'relu'</span>),
-    tf.keras.layers.<span class="tok-fn">Dropout</span>(<span class="tok-num">0.2</span>),                    <span class="tok-cm"># Previene overfitting</span>
-    tf.keras.layers.<span class="tok-fn">Dense</span>(<span class="tok-num">8</span>,  activation=<span class="tok-str">'relu'</span>),
-    tf.keras.layers.<span class="tok-fn">Dense</span>(<span class="tok-num">1</span>,  activation=<span class="tok-str">'sigmoid'</span>)  <span class="tok-cm"># Binaria (usar 'softmax' para N clases)</span>
+    tf.keras.layers.<span class="tok-fn">Dropout</span>(<span class="tok-num">0.2</span>),
+    tf.keras.layers.<span class="tok-fn">Dense</span>(<span class="tok-num">1</span>, activation=<span class="tok-str">'sigmoid'</span>),
 ])
 
-<span class="tok-cm"># 3. Compilación: pérdida Binary Cross-Entropy y optimizador Adam</span>
-modelo.<span class="tok-fn">compile</span>(
-    optimizer=tf.keras.optimizers.<span class="tok-fn">Adam</span>(learning_rate=<span class="tok-num">0.01</span>),
-    loss=<span class="tok-str">'binary_crossentropy'</span>,
-    metrics=[<span class="tok-str">'accuracy'</span>]
-)
-
-<span class="tok-cm"># 4. Entrenamiento con validación y Early Stopping</span>
-early_stop = tf.keras.callbacks.<span class="tok-fn">EarlyStopping</span>(patience=<span class="tok-num">5</span>, restore_best_weights=<span class="tok-kw">True</span>)
-modelo.<span class="tok-fn">fit</span>(X_train, y_train, epochs=<span class="tok-num">60</span>, batch_size=<span class="tok-num">32</span>, validation_split=<span class="tok-num">0.15</span>, callbacks=[early_stop])
-
-<span class="tok-cm"># 5. Evaluación final en datos de prueba</span>
-loss, acc = modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)
-<span class="tok-fn">print</span>(<span class="tok-str">f"Accuracy en Test: {acc * 100:.2f}%"</span>)</code></pre>
-        </div>
-
-        <!-- Bloque PyTorch -->
-        <div id="code-pytorch" class="hidden p-5 sm:p-6 overflow-x-auto bg-slate-50/50 dark:bg-slate-950/80">
-<pre class="font-mono text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-200"><code><span class="tok-cm"># 1. Definición de la arquitectura del clasificador en PyTorch</span>
-<span class="tok-kw">import</span> torch
-<span class="tok-kw">import</span> torch.nn <span class="tok-kw">as</span> nn
-<span class="tok-kw">import</span> torch.optim <span class="tok-kw">as</span> optim
-
-<span class="tok-kw">class</span> <span class="tok-fn">ClasificadorMLP</span>(nn.Module):
-    <span class="tok-kw">def</span> <span class="tok-fn">__init__</span>(self, num_features, num_clases=<span class="tok-num">1</span>):
-        <span class="tok-fn">super</span>().__init__()
-        self.red = nn.<span class="tok-fn">Sequential</span>(
-            nn.<span class="tok-fn">Linear</span>(num_features, <span class="tok-num">16</span>),
-            nn.<span class="tok-fn">ReLU</span>(),
-            nn.<span class="tok-fn">Dropout</span>(<span class="tok-num">0.2</span>),                         <span class="tok-cm"># Regularización</span>
-            nn.<span class="tok-fn">Linear</span>(<span class="tok-num">16</span>, <span class="tok-num">8</span>),
-            nn.<span class="tok-fn">ReLU</span>(),
-            nn.<span class="tok-fn">Linear</span>(<span class="tok-num">8</span>, num_clases),
-            nn.<span class="tok-fn">Sigmoid</span>()                             <span class="tok-cm"># Salida probabilística binaria</span>
-        )
-
-    <span class="tok-kw">def</span> <span class="tok-fn">forward</span>(self, x):
-        <span class="tok-kw">return</span> self.<span class="tok-fn">red</span>(x)
-
-<span class="tok-cm"># 2. Instanciación, función de pérdida y optimizador</span>
-modelo = <span class="tok-fn">ClasificadorMLP</span>(num_features=X_train_t.shape[<span class="tok-num">1</span>])
-criterio = nn.<span class="tok-fn">BCELoss</span>()                              <span class="tok-cm"># Usar CrossEntropyLoss para multiclase</span>
-optimizador = optim.<span class="tok-fn">Adam</span>(modelo.<span class="tok-fn">parameters</span>(), lr=<span class="tok-num">0.01</span>)
-
-<span class="tok-cm"># 3. Ciclo explícito: Forward -> Loss -> Backpropagation -> Update</span>
-<span class="tok-kw">for</span> epoca <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">60</span>):
-    modelo.<span class="tok-fn">train</span>()
-    pred = <span class="tok-fn">modelo</span>(X_train_t)
-    loss = <span class="tok-fn">criterio</span>(pred, y_train_t)
-
-    optimizador.<span class="tok-fn">zero_grad</span>()
-    loss.<span class="tok-fn">backward</span>()                                  <span class="tok-cm"># Cálculo de gradientes</span>
-    optimizador.<span class="tok-fn">step</span>()                               <span class="tok-cm"># Actualización de pesos</span>
-
-<span class="tok-cm"># 4. Evaluación sin cálculo de gradientes</span>
-modelo.<span class="tok-fn">eval</span>()
-<span class="tok-kw">with</span> torch.<span class="tok-fn">no_grad</span>():
-    preds = (<span class="tok-fn">modelo</span>(X_test_t) &gt;= <span class="tok-num">0.5</span>).<span class="tok-fn">float</span>()
-    acc = (preds == y_test_t).<span class="tok-fn">float</span>().<span class="tok-fn">mean</span>()
-    <span class="tok-fn">print</span>(<span class="tok-str">f"Accuracy en Test: {acc.item() * 100:.2f}%"</span>)</code></pre>
-        </div>
+<span class="tok-cm"># 3 · Preparar, entrenar y evaluar</span>
+modelo.<span class="tok-fn">compile</span>(optimizer=<span class="tok-str">'adam'</span>, loss=<span class="tok-str">'binary_crossentropy'</span>, metrics=[<span class="tok-str">'accuracy'</span>])
+modelo.<span class="tok-fn">fit</span>(X_train, y_train, epochs=<span class="tok-num">50</span>, validation_split=<span class="tok-num">0.15</span>)
+modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
       </div>
+
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-3">
+        Esqueleto educativo para el caso binario: para clasificaciones con varias clases cambia <span class="font-mono">'sigmoid'</span> por <span class="font-mono">'softmax'</span> y la pérdida por <span class="font-mono">'categorical_crossentropy'</span>.
+      </p>
     </section>
 
+
   </main>
+
+  <!-- ======================================================================= -->
+  <!-- MODAL DE GLOSARIO · PALABRAS TÉCNICAS EXPLICADAS EN CRISOL            -->
+  <!-- ======================================================================= -->
+  <div id="glossaryOverlay" class="glossary-overlay fixed inset-0 z-[100] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="glossaryTitle" aria-hidden="true">
+    <div class="fixed inset-0 bg-slate-900/60 dark:bg-black/75 backdrop-blur-sm" data-glossary-close="true"></div>
+    <div class="relative min-h-full flex items-start sm:items-center justify-center p-4 sm:p-6 py-6">
+      <div id="glossaryCard" class="glossary-card relative w-full max-w-3xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[82vh] flex flex-col overflow-hidden">
+        <div class="flex-none px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/70">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Aprender · Glosario</div>
+              <h2 id="glossaryTitle" class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-0.5">Palabras técnicas, contadas en criollo</h2>
+            </div>
+            <button id="btnGlossaryClose" type="button" aria-label="Cerrar glosario"
+              class="flex-none p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+          <div class="relative mt-3">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.3-4.3" /></svg>
+            <input id="glossarySearch" type="search" placeholder="Buscar una palabra: perceptron, dropout, pérdida..."
+              class="w-full rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              aria-label="Buscar en el glosario" />
+          </div>
+        </div>
+
+        <div id="glossaryList" class="glossary-scroll flex-1 overflow-y-auto px-5 sm:px-7 py-5"></div>
+
+        <div class="flex-none px-5 sm:px-7 py-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/70 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between gap-2">
+          <span>Pulsa sobre palabras subrayadas (<span class="glossary-term" data-term="perceptron" role="button" tabindex="0">perceptron</span>, por ejemplo) para saltar a su definición.</span>
+          <span class="hidden sm:inline font-mono">Esc cierra</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer Limpio -->
   <footer class="border-t border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 backdrop-blur-sm">
@@ -1624,32 +1859,14 @@ modelo.<span class="tok-fn">eval</span>()
       }, { passive: false });
 
       /* =====================================================================
-         6. PESTAÑAS DE CÓDIGO Y COPIADO AL PORTAPAPELES
+         6. COPIADO AL PORTAPAPELES
          ===================================================================== */
-      let activeTab = 'keras';
-      const codeTabs = document.querySelectorAll('.code-tab');
-      const codeKeras = document.getElementById('code-keras');
-      const codePytorch = document.getElementById('code-pytorch');
       const btnCopyCode = document.getElementById('btnCopyCode');
       const copyLabel = document.getElementById('copyLabel');
-
-      codeTabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-          activeTab = tab.dataset.tab;
-          codeKeras.classList.toggle('hidden', activeTab !== 'keras');
-          codePytorch.classList.toggle('hidden', activeTab !== 'pytorch');
-
-          codeTabs.forEach((t) => {
-            const active = t.dataset.tab === activeTab;
-            t.className = active
-              ? 'code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-indigo-600 text-white shadow-sm'
-              : 'code-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700';
-          });
-        });
-      });
+      const codeText = document.getElementById('codeText');
 
       btnCopyCode.addEventListener('click', () => {
-        const text = (activeTab === 'keras' ? codeKeras : codePytorch).innerText;
+        const text = codeText.innerText;
         const ta = document.createElement('textarea');
         ta.value = text;
         ta.style.position = 'fixed';
@@ -1740,5 +1957,566 @@ modelo.<span class="tok-fn">eval</span>()
       });
     })();
   </script>
+  <script>
+(function () {
+  'use strict';
+
+  /* ========================================================================
+     01 · GLOSARIO · significado de las palabras técnicas
+     ======================================================================== */
+  var GLOSSARY = [
+    {
+      id: 'perceptron', cat: 'A grandes rasgos', name: 'Perceptrón',
+      what: 'La unidad artificial más simple: recibe varias entradas, las multiplica por unos números (pesos), les suma un sesgo y entrega una salida mediante una función.',
+      example: 'Imagina un semáforo personal: mira la lluvia, la hora y decide si salir o quedarte.',
+      formula: null, aliases: ['perceptron']
+    },
+    {
+      id: 'mlp', cat: 'A grandes rasgos', name: 'Perceptrón multicapa (MLP)',
+      what: 'Una red de varias capas de perceptrones conectados: capas de entrada, capas ocultas y una capa de salida. Aprende patrones complejos que una capa sola no puede ver.',
+      example: 'Un equipo de gerentes donde cada grupo observa lo que le pasa al grupo siguiente.',
+      aliases: ['mlp', 'red neuronal', 'red multicapa', 'perceptron multicapa']
+    },
+    {
+      id: 'neuronas', cat: 'A grandes rasgos', name: 'Neuronas',
+      what: 'Unidades elementales que procesan su información: cada una hace una combinación ponderada de sus entradas y entrega un valor.',
+      example: 'Una fila de personas en un panel: cada una vota según su especialidad.',
+      aliases: ['neurona', 'neuronas ocultas']
+    },
+    {
+      id: 'capas-ocultas', cat: 'A grandes rasgos', name: 'Capas ocultas',
+      what: 'Las capas intermedias donde ocurre la mayor parte del aprendizaje. No son visibles desde fuera, pero son donde la red aprende patrones.',
+      example: 'Los escalones intermedios de un escalón: nadie ve en qué piso están todas las ideas, solo en la cima.',
+      aliases: ['capa oculta', 'capa intermedia']
+    },
+    {
+      id: 'capa-salida', cat: 'A grandes rasgos', name: 'Capa de salida',
+      what: 'La última capa: emite la decisión final o la probabilidad de cada clase.',
+      example: 'El resultado de un examen: "spam" o "no es spam".',
+      aliases: ['salida']
+    },
+    {
+      id: 'pesos', cat: 'A grandes rasgos', name: 'Pesos',
+      what: 'Los números que dicen qué tan importante es cada entrada. El entrenamiento los ajusta para acertar.',
+      example: 'Al decidir si ir al festival: la lluvia importa mucho, el sábado un poco.',
+      aliases: ['peso', 'weights']
+    },
+    {
+      id: 'sesgo', cat: 'A grandes rasgos', name: 'Sesgo (bias)',
+      what: 'Un ajuste constante que suma cada neurona para empujar la salida hacia un lado u otro (hacia "sí" o hacia "no").',
+      example: 'Una perilla que empuja un poco la decisión hacia "sí" aunque el dato sea neutral.',
+      aliases: ['bias']
+    },
+    {
+      id: 'clasificacion', cat: 'A grandes rasgos', name: 'Clasificación',
+      what: 'Categorizar datos en grupos según sus características.',
+      example: 'Separar correos en "spam" y "no spam".',
+      aliases: ['clasificador', 'clasificacion']
+    },
+    {
+      id: 'binaria-multiclase', cat: 'A grandes rasgos', name: 'Clasificación binaria / multiclase',
+      what: 'Binaria: 2 opciones (sí/no). Multiclase: más de 2 opciones (elegir una de varias clases).',
+      example: '"¿Es spam?" (binaria) vs. "¿Qué flor es esta?" (multiclase).',
+      aliases: ['binaria', 'multiclase']
+    },
+    {
+      id: 'relu', cat: 'A grandes rasgos', name: 'ReLU',
+      what: 'Función de activación que deja pasar solo los valores positivos y corta los negativos a cero. Es la más usada en capas ocultas.',
+      example: 'Un filtro que solo deja pasar la mitad "buena" de la señal.',
+      formula: 'ReLU(z) = max(0, z)    ·    a = ReLU(W · x + b) = max(0, z)',
+      formulaMeaning: 'Cada neurona hace una suma ponderada de sus entradas (W · x), les suma un sesgo (b) y aplica ReLU: deja pasar solo los valores positivos y corta los negativos a cero.',
+      aliases: ['relu']
+    },
+    {
+      id: 'sigmoide', cat: 'A grandes rasgos', name: 'Sigmoide',
+      what: 'Función que convierte cualquier número en una probabilidad entre 0 y 1.',
+      example: '0.82 = "82% seguro".',
+      formula: 'σ(z) = 1 / (1 + e^(-z))',
+      formulaMeaning: 'Convierte la suma ponderada en una probabilidad. Si z es muy grande → cerca de 1; si es muy negativo → cerca de 0.',
+      aliases: ['sigmoid']
+    },
+    {
+      id: 'softmax', cat: 'A grandes rasgos', name: 'Softmax',
+      what: 'Función que convierte las salidas de un multiclase en probabilidades que suman exactamente 1.',
+      example: 'De 3 opciones: 60% naranja, 30% manzana, 10% pera.',
+      aliases: ['softmax']
+    },
+    {
+      id: 'epoca', cat: 'Entrenamiento', name: 'Época (Epoch)',
+      what: 'Una pasada completa de toda la base de datos durante el entrenamiento.',
+      example: 'Un ciclo completo de estudiar todas las lecciones.',
+      aliases: ['epoch', 'epocas']
+    },
+    {
+      id: 'learning-rate', cat: 'Entrenamiento', name: 'Learning Rate (η)',
+      what: 'El tamaño del paso que la red da en cada actualización de pesos.',
+      example: 'Bajar una escalera: si el paso es grande resbalas; si es pequeño, tardas pero llegas seguro.',
+      aliases: ['eta', 'tasa de aprendizaje']
+    },
+    {
+      id: 'loss', cat: 'Entrenamiento', name: 'Pérdida (Loss)',
+      what: 'La medida numérica de qué tan lejos estuvo la predicción de la respuesta correcta.',
+      example: 'La "nota" del examen: 0 = perfecto, más alto = peor.',
+      formula: 'L = −[ y·log(ŷ) + (1−y)·log(1−ŷ) ]',
+      formulaMeaning: 'La pérdida binaria mide qué tan lejos estuvo la predicción (ŷ) de la respuesta correcta (y). 0 = acertaste perfecto; cuanto más alto, peor.',
+      aliases: ['loss', 'perdida']
+    },
+    {
+      id: 'backprop', cat: 'Entrenamiento', name: 'Backpropagation',
+      what: 'El algoritmo que reparte el error hacia atrás, capa por capa, para ajustar los pesos en la dirección correcta.',
+      example: 'Un diccionario de aciertos y errores que retrocede para corregir a cada miembro del equipo.',
+      aliases: ['backpropagation']
+    },
+    {
+      id: 'optimizador', cat: 'Entrenamiento', name: 'Optimizador (Adam / SGD)',
+      what: 'El método que aplica el ajuste de pesos según el gradiente. Adam es el estándar más usado.',
+      example: 'El "aprendiz" que decide dónde moverse para bajar la pérdida.',
+      aliases: ['adam', 'sgd', 'optimizador']
+    },
+    {
+      id: 'gradiente', cat: 'Entrenamiento', name: 'Gradiente',
+      what: 'La dirección en que la pérdida es más empinada; permite saber cómo moverse para reducir el error.',
+      example: 'La pendiente de una montaña: la dirección más empinada hacia el valle.',
+      aliases: ['gradient', 'gradiente descendente']
+    },
+    {
+      id: 'overfitting', cat: 'Entrenamiento', name: 'Overfitting (sobreajuste)',
+      what: 'Cuando el modelo memoriza el entrenamiento: lo hace bien en él, pero mal en datos nuevos que nunca vio.',
+      example: 'Alguien que estudia de memoria un examen y falla cuando cambia el formato.',
+      aliases: ['sobreajuste', 'overfitting']
+    },
+    {
+      id: 'dropout', cat: 'Entrenamiento', name: 'Dropout',
+      what: 'Apaga aleatoriamente algunas neuronas en cada época para obligar a la red a no depender de una sola vía.',
+      example: 'Un equipo que se pierde parte del entrenamiento para que nadie confíe únicamente en un compañero.',
+      aliases: ['dropout']
+    },
+    {
+      id: 'early-stopping', cat: 'Entrenamiento', name: 'Early Stopping',
+      what: 'Detener el entrenamiento cuando la pérdida deja de bajar (más esfuerzo no sirve para nada).',
+      example: 'Terminar una tarea cuando el progreso deja de mostrarse útil.',
+      aliases: ['early stopping']
+    },
+    {
+      id: 'train-test', cat: 'Datos y evaluación', name: 'Train / Val / Test',
+      what: 'Tres conjuntos: ~70% para aprender, ~15% para afinar y ~15% para probar. La parte de prueba nunca se usa para entrenar.',
+      example: 'Exámenes de práctica, exámenes de diagnóstico y un examen real que nunca se habrá visto.',
+      aliases: ['train test', 'train test split', 'dividir datos']
+    },
+    {
+      id: 'normalizacion', cat: 'Datos y evaluación', name: 'Normalización / Estandarización',
+      what: 'Ajustar las medidas a una escala común para que todos los datos se comparan a la misma altura.',
+      example: 'Mezclar kilos y gramos sin convertir hace decisiones ilógicas.',
+      aliases: ['normalizacion', 'estandarizacion', 'z-score']
+    },
+    {
+      id: 'accuracy', cat: 'Datos y evaluación', name: 'Accuracy',
+      what: 'Porcentaje total de aciertos.',
+      example: 'Si 9 correos eran inocentes y 1 spam, 90% de "aciertos" — pero no dice nada de la rareza de los casos.',
+      aliases: ['precision total', 'accuracy']
+    },
+    {
+      id: 'precision', cat: 'Datos y evaluación', name: 'Precision (Precisión)',
+      what: 'De todo lo que marcó como "positivo", ¿cuántos eran realmente correctos?',
+      example: 'De los correos marcados como spam, ¿cuántos eran realmente spam?',
+      aliases: ['precision']
+    },
+    {
+      id: 'recall', cat: 'Datos y evaluación', name: 'Recall (Sensibilidad)',
+      what: 'De todo lo positivo en realidad, ¿cuántos encontró?',
+      example: 'De todos los spams verdaderos, ¿cuántos fueron etiquetados?',
+      aliases: ['recall']
+    },
+    {
+      id: 'f1', cat: 'Datos y evaluación', name: 'F1-Score',
+      what: 'La media armónica entre precisión y recall: mide el equilibrio entre ambos.',
+      example: 'Un promedio que castiga que una lo haga bien y otra pobre.',
+      formula: 'F1 = 2 · (P · R) / (P + R)',
+      formulaMeaning: '1.0 = equilibrio perfecto entre precisión y recall; cuanto más bajo, más se queda corto a un lado.',
+      aliases: ['f1-score', 'f1']
+    },
+    {
+      id: 'matriz-confusion', cat: 'Datos y evaluación', name: 'Matriz de confusión',
+      what: 'La tabla que compara lo esperado con lo predicho: TP, FP, FN y TN.',
+      example: 'La tabla de un examen: aciertos, falsos positivos y falsos negativos.',
+      aliases: ['matriz de confusion', 'confusion matrix']
+    },
+    {
+      id: 'one-hot', cat: 'Datos y evaluación', name: 'One-Hot Encoding',
+      what: 'Codificar una categoría como un vector de ceros con un solo 1.',
+      example: 'Si el modelo solo puede tomar números, "naranja" se convierte en una fila de ceros con un solo 1.',
+      aliases: ['one-hot', 'codificacion one-hot']
+    },
+    {
+      id: 'tf', cat: 'Herramientas de código', name: 'TensorFlow / Keras',
+      what: 'Una biblioteca de código en Python para construir redes neuronales. Keras es la capa de encima que hace el ensamblado fácil.',
+      example: 'Una caja de herramientas lista para armar el horno.',
+      aliases: ['tensorflow', 'keras', 'pytorch', 'torch']
+    },
+    {
+      id: 'xor', cat: 'Herramientas de código', name: 'XOR',
+      what: 'Un problema de difícil separación: las clases están en los esquinas opuestas y una sola línea no puede separarlas. Sirve para probar que una red entrena bien.',
+      example: 'El "uno o el otro" de un juego de cartas: solo hay 2 puntos donde sí y 2 donde no.',
+      aliases: ['xor']
+    }
+  ];
+
+  var glossaryList = document.getElementById('glossaryList');
+  var glossaryOverlay = document.getElementById('glossaryOverlay');
+  var glossarySearch = document.getElementById('glossarySearch');
+  var btnGlossary = document.getElementById('btnGlossary');
+  var btnGlossaryClose = document.getElementById('btnGlossaryClose');
+  var lastFocus = null;
+
+  /* Renderizado inicial del glosario */
+  function renderGlossary() {
+    if (!glossaryList) return;
+    var cats = [];
+    GLOSSARY.forEach(function (g) {
+      if (cats.indexOf(g.cat) === -1) cats.push(g.cat);
+    });
+    var html = '';
+    cats.forEach(function (cat) {
+      html += '<h3 class="text-[11px] font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mt-5 mb-2.5 first:mt-0" data-cat="' + cat + '">' + cat + '</h3>';
+      GLOSSARY.forEach(function (g) {
+        if (g.cat !== cat) return;
+        html += '<div class="gterm rounded-2xl border border-slate-200 dark:border-slate-800 p-4 mb-3" data-term-id="' + g.id + '" data-cat="' + cat + '">';
+        html += '<div class="flex items-center justify-between gap-2 flex-wrap">';
+        html += '<span class="font-bold text-sm text-slate-900 dark:text-slate-100">' + g.name + '</span>';
+        html += '</div>';
+        html += '<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mt-1.5">' + g.what + '</p>';
+        html += '<p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 italic">Ejemplo ' + g.example + '</p>';
+        if (g.formula) {
+          html += '<div class="mt-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 font-mono text-[11px] text-slate-800 dark:text-slate-200 px-3 py-2">' + g.formula + '</div>';
+          html += '<p class="text-[11px] text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">' + g.formulaMeaning + '</p>';
+        }
+        html += '</div>';
+      });
+    });
+    glossaryList.innerHTML = html;
+  }
+  renderGlossary();
+
+  function openGlossary(termId) {
+    if (!glossaryOverlay) return;
+    if (!glossaryOverlay.classList.contains('open')) {
+      lastFocus = document.activeElement;
+      glossaryOverlay.classList.add('open');
+      glossaryOverlay.setAttribute('aria-hidden', 'false');
+      glossarySearch.value = '';
+      filterGlossary('');
+      if (glossarySearch) glossarySearch.focus();
+    }
+    if (termId) {
+      filterGlossary('');
+      var el = document.querySelector('.gterm[data-term-id="' + termId + '"]');
+      if (el) {
+        setTimeout(function () {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.classList.remove('flash');
+          void el.offsetWidth;
+          el.classList.add('flash');
+          setTimeout(function () { el.classList.remove('flash'); }, 1800);
+        }, 60);
+      }
+    }
+  }
+
+  function closeGlossary() {
+    if (!glossaryOverlay) return;
+    glossaryOverlay.classList.remove('open');
+    glossaryOverlay.setAttribute('aria-hidden', 'true');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function filterGlossary(query) {
+    var q = (query || '').trim().toLowerCase();
+    var terms = glossaryList.querySelectorAll('.gterm');
+    var anyVisible = false;
+    terms.forEach(function (el) {
+      var id = el.getAttribute('data-term-id');
+      var g = GLOSSARY.find(function (x) { return x.id === id; });
+      if (!g) return;
+      var hay = (g.name + ' ' + g.what + ' ' + g.example + ' ' + (g.aliases || []).join(' ')).toLowerCase();
+      var match = !q || hay.indexOf(q) !== -1;
+      el.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+    glossaryList.querySelectorAll('h3').forEach(function (h) {
+      var cat = h.getAttribute('data-cat');
+      var hasVisible = Array.prototype.some.call(glossaryList.querySelectorAll('.gterm'), function (el) {
+        return el.getAttribute('data-cat') === cat && el.style.display !== 'none';
+      });
+      h.style.display = hasVisible ? '' : 'none';
+    });
+  }
+
+  if (btnGlossary) btnGlossary.addEventListener('click', function () { openGlossary(); });
+  if (btnGlossaryClose) btnGlossaryClose.addEventListener('click', closeGlossary);
+  if (glossarySearch) glossarySearch.addEventListener('input', function () { filterGlossary(glossarySearch.value); });
+  document.addEventListener('click', function (e) {
+    var closeEl = e.target.closest('[data-glossary-close]');
+    if (closeEl) closeGlossary();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      if (glossaryOverlay && glossaryOverlay.classList.contains('open')) closeGlossary();
+      else if (tourOpen) closeTour();
+    }
+  });
+
+  function openGlossaryFor(id) { openGlossary(id); }
+
+  /* Delegación de clics sobre términos inline */
+  document.addEventListener('click', function (e) {
+    var term = e.target.closest('.glossary-term');
+    if (!term) return;
+    var id = term.getAttribute('data-term');
+    e.preventDefault();
+    if (id) openGlossaryFor(id);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var term = e.target.closest && e.target.closest('.glossary-term');
+    if (!term) return;
+    e.preventDefault();
+    var id = term.getAttribute('data-term');
+    if (id) openGlossaryFor(id);
+  });
+
+  /* ========================================================================
+     02 · CHECKLIST AUTOMÁTICO DEL RECORRIDO
+     ======================================================================== */
+  var CHECKLIST_ITEMS = [
+    { id: 'dataset', label: 'Elige un dataset' },
+    { id: 'adjust',  label: 'Ajusta neuronas y tasa' },
+    { id: 'train',   label: 'Entrena y observa la curva' },
+    { id: 'test',    label: 'Haz clic en el gráfico' },
+    { id: 'compare', label: 'Reinicia para comparar' }
+  ];
+  var checklistState = {};
+  var checklistEl = document.getElementById('tourChecklist');
+
+  function renderChecklist() {
+    if (!checklistEl) return;
+    checklistEl.innerHTML = CHECKLIST_ITEMS.map(function (it) {
+      var done = !!checklistState[it.id];
+      return '<span class="ck-item' + (done ? ' ck-done' : '') + '" data-ck="' + it.id + '"><span class="ck-box">' + (done ? '✓' : '') + '</span>' + it.label + '</span>';
+    }).join('');
+  }
+
+  function tickChecklist(id) {
+    if (checklistState[id]) return;
+    checklistState[id] = true;
+    renderChecklist();
+  }
+
+  /* ========================================================================
+     03 · PRODUCT TOUR + WALKTHROUGH POR FASES
+     ======================================================================== */
+  var TOUR = [
+    {
+      id: 'intro', target: null,
+      title: 'Bienvenido al recorrido',
+      body: 'Estás frente a una <button type="button" class="glossary-term" data-term="mlp">red neuronal</button> real que aprende a clasificar puntos en el plano. En 6 fases recorremos el proceso paso a paso — tú presionas y la red aprende.'
+    },
+    {
+      id: 'dataset', target: 'datasetSelect',
+      title: 'Elige el dataset',
+      body: '¿Qué quiere demostrar la red? Selecciona <b>Círculos</b> (frontera ondulada), <b>XOR</b> (difícil para una sola línea) o <b>3 Clústeres</b> (multiclase). Los puntos se regeneran al cambiar.',
+      ck: 'dataset'
+    },
+    {
+      id: 'adjust', target: 'controlsBar',
+      title: 'Ajusta neuronas y la tasa de paso',
+      body: 'Mueve <button type="button" class="glossary-term" data-term="neuronas">Neuronas (H)</button>: más neuronas = más capacidad de aprender, pero más lento. Luego ajusta <button type="button" class="glossary-term" data-term="learning-rate">Learning Rate</button>: demasiado grande salta del óptimo; demasiado pequeño entrena lento.',
+      ck: 'adjust'
+    },
+    {
+      id: 'train', target: 'btnTrainToggle',
+      title: 'Entrena y observa lo que pasa',
+      body: 'Presiona <b>Entrenar</b>. Verás: la curva de <button type="button" class="glossary-term" data-term="loss">pérdida</button> baja, la frontera se curva, la accuracy sube, y la <b>arquitectura y pesos</b> dibujándose. Con <b>+1 Época</b> ves cada paso con calma. <b>Avanza a la fase siguiente cuando entiendas lo que ves.</b>',
+      ck: 'train', noAuto: true
+    },
+    {
+      id: 'test', target: 'canvasWrap',
+      title: 'Haz clic en el gráfico: prueba un dato nuevo',
+      body: 'Haz clic en cualquier punto del plano. La red dice la clase que cree y el nivel de confianza. ¿Coincide con los colores reales del entorno?',
+      ck: 'test'
+    },
+    {
+      id: 'compare', target: 'btnReset',
+      title: 'Reinicia y compara',
+      body: 'Presiona <b>Reiniciar</b>: los puntos y pesos se regeneran y la red empieza de cero. Ese es el ciclo completo: datos → entrenamiento → prueba.',
+      ck: 'compare'
+    }
+  ];
+
+  var tourState = {
+    open: false,
+    phase: 0,
+    autoTimer: null
+  };
+
+  var tourPanel = document.getElementById('tourPanel');
+  var tourRing = document.getElementById('tourRing');
+  var tourTitle = document.getElementById('tourTitle');
+  var tourBody = document.getElementById('tourBody');
+  var tourPhaseLabel = document.getElementById('tourPhaseLabel');
+  var tourDots = document.getElementById('tourDots');
+  var tourNextBtn = document.getElementById('tourNext');
+  var tourPrevBtn = document.getElementById('tourPrev');
+  var tourCloseBtn = document.getElementById('tourClose');
+  var hotspotTour = document.getElementById('hotspotTour');
+  var hotspotTrain = document.getElementById('hotspotTrain');
+  var hotspotTrainTrained = false;
+  if (hotspotTour) hotspotTour.classList.remove('hidden');
+  if (hotspotTrain) hotspotTrain.classList.remove('hidden');
+
+  function tourDotsHTML() {
+    var dots = '';
+    for (var i = 0; i < TOUR.length; i++) {
+      var cls = 'tour-dot';
+      if (i < tourState.phase) cls += ' tour-dot-done';
+      else if (i === tourState.phase) cls += ' tour-dot-active';
+      dots += '<span class="' + cls + '"></span>';
+    }
+    if (tourDots) tourDots.innerHTML = dots;
+  }
+
+  function renderTour() {
+    if (!tourPanel) return;
+    var phase = TOUR[tourState.phase];
+    if (tourTitle) tourTitle.textContent = phase.title;
+    if (tourPhaseLabel) tourPhaseLabel.textContent = 'Fase ' + (tourState.phase + 1) + ' / ' + TOUR.length;
+    if (tourBody) tourBody.innerHTML = phase.body;
+    tourDotsHTML();
+    if (tourPrevBtn) tourPrevBtn.disabled = tourState.phase === 0;
+    if (tourPrevBtn) tourPrevBtn.style.opacity = tourState.phase === 0 ? '0.4' : '1';
+    if (tourNextBtn) tourNextBtn.textContent = tourState.phase === TOUR.length - 1 ? 'Cerrar ✓' : 'Siguiente →';
+    renderChecklist();
+    // Anillo
+    if (tourRing) {
+      if (phase.target) {
+        var el = document.getElementById(phase.target);
+        if (el) {
+          tourRing.classList.add('active');
+          setTimeout(function () { positionRing(); }, 60);
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(function () { positionRing(); }, 700);
+        } else {
+          tourRing.classList.remove('active');
+        }
+      } else {
+        tourRing.classList.remove('active');
+      }
+    }
+  }
+
+  function positionRing() {
+    if (!tourState.open) return;
+    var phase = TOUR[tourState.phase];
+    if (!phase || !phase.target || !tourRing) return;
+    var el = document.getElementById(phase.target);
+    if (!el) { tourRing.classList.remove('active'); return; }
+    var r = el.getBoundingClientRect();
+    tourRing.style.top = (r.top - 10) + 'px';
+    tourRing.style.left = (r.left - 10) + 'px';
+    tourRing.style.width = (r.width + 20) + 'px';
+    tourRing.style.height = (r.height + 20) + 'px';
+  }
+
+  function openTour() {
+    tourState.open = true;
+    tourState.phase = 0;
+    tourOpenedOnce = true;
+    checklistState = {};
+    if (tourPanel) tourPanel.classList.remove('hidden');
+    if (hotspotTour) hotspotTour.classList.add('hidden');
+    renderTour();
+  }
+
+  function closeTour() {
+    tourState.open = false;
+    if (tourState.autoTimer) { clearTimeout(tourState.autoTimer); tourState.autoTimer = null; }
+    if (tourPanel) tourPanel.classList.add('hidden');
+    if (tourRing) tourRing.classList.remove('active');
+    if (hotspotTrain && !hotspotTrainTrained) hotspotTrain.classList.remove('hidden');
+    checklistState = {};
+    renderChecklist();
+  }
+
+  function nextPhase() {
+    if (tourState.phase >= TOUR.length - 1) { closeTour(); return; }
+    tourState.phase++;
+    renderTour();
+  }
+
+  function prevPhase() {
+    if (tourState.phase > 0) {
+      tourState.phase--;
+      renderTour();
+    }
+  }
+
+  function handleActionDuringPhase(ckId) {
+    tickChecklist(ckId);
+    // Auto-avanzar si estamos en la fase que corresponde
+    var phase = TOUR[tourState.phase];
+    if (tourState.open && phase && phase.ck === ckId && !phase.noAuto) {
+      if (tourState.autoTimer) clearTimeout(tourState.autoTimer);
+      tourState.autoTimer = setTimeout(function () {
+        if (tourState.open && TOUR[tourState.phase] && TOUR[tourState.phase].ck === ckId) {
+          nextPhase();
+        }
+      }, 800);
+    }
+  }
+
+  /* Botón Tutorial */
+  var tourOpenedOnce = false;
+  var btnTour = document.getElementById('btnTour');
+  if (btnTour) btnTour.addEventListener('click', function () {
+    if (tourState.open) closeTour(); else openTour();
+  });
+  if (tourCloseBtn) tourCloseBtn.addEventListener('click', closeTour);
+  if (tourNextBtn) tourNextBtn.addEventListener('click', nextPhase);
+  if (tourPrevBtn) tourPrevBtn.addEventListener('click', prevPhase);
+
+  /* Detectores de acciones */
+  var datasetSelect = document.getElementById('datasetSelect');
+  var neuronsSlider = document.getElementById('neuronsSlider');
+  var lrSlider = document.getElementById('lrSlider');
+  var btnStep = document.getElementById('btnStep');
+  var btnTrainToggle = document.getElementById('btnTrainToggle');
+  var btnReset = document.getElementById('btnReset');
+  var decisionCanvas = document.getElementById('decisionCanvas');
+  var btnTrainLabel = document.getElementById('btnTrainLabel');
+
+  if (datasetSelect) datasetSelect.addEventListener('change', function () { handleActionDuringPhase('dataset'); });
+  if (neuronsSlider) neuronsSlider.addEventListener('change', function () { handleActionDuringPhase('adjust'); });
+  if (lrSlider) lrSlider.addEventListener('change', function () { handleActionDuringPhase('adjust'); });
+  if (btnStep) btnStep.addEventListener('click', function () {
+    hotspotTrainTrained = true;
+    if (hotspotTrain) hotspotTrain.classList.add('hidden');
+    handleActionDuringPhase('train');
+  });
+  if (btnTrainToggle) btnTrainToggle.addEventListener('click', function () {
+    // Si el botón acaba de cambiar el label a "Pausar", el entrenamiento inició
+    if (btnTrainLabel && btnTrainLabel.textContent.trim() === 'Pausar') {
+      hotspotTrainTrained = true;
+      if (hotspotTrain) hotspotTrain.classList.add('hidden');
+      handleActionDuringPhase('train');
+    }
+  });
+  if (decisionCanvas) decisionCanvas.addEventListener('click', function () { handleActionDuringPhase('test'); });
+  if (btnReset) btnReset.addEventListener('click', function () { handleActionDuringPhase('compare'); });
+
+  /* Reposicionar anillo en scroll/resize */
+  window.addEventListener('scroll', function () { positionRing(); }, { passive: true });
+  window.addEventListener('resize', positionRing);
+
+})();
+</script>
 </body>
 </html>
