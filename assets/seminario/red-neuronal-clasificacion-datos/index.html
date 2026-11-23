@@ -213,9 +213,44 @@
     .dark .tour-dot { background: #475569; }
     .tour-dot.tour-dot-active { background: #f59e0b; transform: scale(1.5); }
     .tour-dot.tour-dot-done { background: #10b981; }
+
+    /* ============================================================
+       ACTIVACIONES · pestañas
+       ============================================================ */
+    .act-tab { padding: .4rem .85rem; border-radius: .75rem; font-size: 11px; font-weight: 800;
+      color: #475569; border: 1px solid #e2e8f0; background: #ffffff; transition: all .2s ease; cursor: pointer; }
+    .dark .act-tab { color: #94a3b8; border-color: #1e293b; background: #0f172a; }
+    .act-tab:hover { border-color: #a5b4fc; }
+    .act-tab[aria-selected="true"] { background: #4f46e5; color: #ffffff; border-color: #4f46e5; }
+    .dark .act-tab[aria-selected="true"] { background: #6366f1; color: #0f172a; border-color: #6366f1; }
+
+    /* ============================================================
+       MÉTRICAS · pulso de actualización
+       ============================================================ */
+    @keyframes metricPulse {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+    .metric-card.metric-pulse { animation: metricPulse .35s ease; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased transition-colors duration-300 selection:bg-indigo-500/20 selection:text-indigo-700 dark:selection:text-indigo-300 min-h-screen">
+  <!-- Sprite de iconos SVG (reusable, stroke-based) -->
+  <svg aria-hidden="true" class="hidden" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-brain" viewBox="0 0 24 24"><circle cx="5" cy="7" r="2"/><circle cx="5" cy="17" r="2"/><circle cx="12" cy="12" r="2.4"/><circle cx="19" cy="7" r="2"/><circle cx="19" cy="17" r="2"/><path d="M7 8l3.5 2.8M7 16l3.5-2.8M13.7 10.6L17 8M13.7 13.4L17 16"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z" opacity="0.7"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><line x1="9" y1="8" x2="9" y2="8.01"/><line x1="15" y1="8" x2="15" y2="8.01"/><line x1="9" y1="13" x2="9" y2="13.01"/><line x1="15" y1="13" x2="15" y2="13.01"/><line x1="9" y1="18" x2="9" y2="18.01"/><line x1="15" y1="18" x2="15" y2="18.01"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></symbol>
+  </svg>
+
 
   <!-- Fondo sutil geométrico -->
   <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
@@ -251,14 +286,15 @@
       <nav class="hidden md:flex items-center gap-1 bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-full px-1.5 py-1">
         <a href="#fundamento" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Fundamento</a>
         <a href="#simulacion" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Simulación</a>
+        <a href="#activaciones" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Activaciones</a>
         <a href="#codigo" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-all duration-200">Código</a>
       </nav>
 
       <!-- Controles derecha: Glosario + Volver al Portafolio + Switch Tema Claro/Oscuro + Menú Móvil -->
       <div class="flex items-center gap-2">
-        <!-- 📖 Glosario de términos -->
+        <!-- Glosario de términos -->
         <button id="btnGlossary" type="button"
-          data-tip="Palabras técnicas explicadas en criollo"
+          data-tip="Palabras técnicas, explicadas"
           aria-label="Abrir glosario de términos"
           class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
@@ -306,21 +342,22 @@
     <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md px-4 py-3 space-y-1">
       <a href="#fundamento" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Fundamento (3 Pilares)</a>
       <a href="#simulacion" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Simulación en Vivo</a>
+      <a href="#activaciones" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Activaciones</a>
       <a href="#codigo" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Implementación en Código</a>
-      <a href="../../../index.html" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/60">← Volver al Portafolio</a>
+      <a href="../../../index.html" class="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/60"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-left" /></svg>Volver al Portafolio</a>
     </div>
   </header>
 
-  <!-- Controles flotantes discretos para navegar entre secciones durante la exposición (Alt + ← / →) -->
+  <!-- Controles flotantes discretos para navegar entre secciones durante la exposición (Alt + flechas) -->
   <div class="fixed bottom-4 right-4 z-40 flex items-center gap-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-1.5 shadow-lg shadow-slate-900/5 dark:shadow-black/30">
-    <button id="btnPrevSection" type="button" title="Sección anterior (Alt + ←)"
+    <button id="btnPrevSection" type="button" title="Sección anterior (Alt + flecha izquierda)"
       class="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
       </svg>
     </button>
     <span id="sectionBadge" class="px-2 text-[11px] font-mono font-semibold text-slate-600 dark:text-slate-300 select-none">1/4 · Portada</span>
-    <button id="btnNextSection" type="button" title="Siguiente sección (Alt + →)"
+    <button id="btnNextSection" type="button" title="Siguiente sección (Alt + flecha derecha)"
       class="p-2 rounded-xl text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 transition-colors cursor-pointer">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -419,9 +456,9 @@
     <section id="fundamento" data-section="Fundamento" class="scroll-mt-24">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Respuesta en criollo</span>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Fundamento</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1">
-            Los 3 pilares, sin letra muerta
+            Los 3 pilares
           </h2>
         </div>
         <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
@@ -459,7 +496,7 @@
               La red es el horno: una cadena de <button type="button" class="glossary-term" data-term="neuronas">neuronas</button> que procesa los datos capa por capa. Lo que aporta cada capa se puede enseñar como una fila de preguntas:
             </p>
 
-            <!-- Visual: pregunta → red → respuesta -->
+            <!-- Visual: pregunta / red / respuesta -->
             <div class="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-3">
               <p class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 text-center">Ejemplo: ¿es spam?</p>
               <div class="flex flex-wrap items-center justify-center gap-2 text-[10px] font-semibold">
@@ -469,9 +506,9 @@
                   <span class="px-2 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center">¿Tono urgente?</span>
                 </div>
                 <svg class="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
-                <div class="flex-1 min-w-[96px] text-center rounded-xl bg-indigo-100 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 font-mono font-bold py-2.5 px-3">RED<br/>🧠</div>
+                <div class="flex-1 min-w-[96px] text-center rounded-xl bg-indigo-100 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 font-mono font-bold py-2.5 px-3">RED<br/><svg class="w-4 h-4 mx-auto mt-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-brain" /></svg></div>
                 <svg class="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
-                <div class="text-center rounded-xl bg-rose-100 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 font-mono font-bold py-2.5 px-3 whitespace-nowrap">SPAM<br/><span class="text-[9px] font-medium opacity-80">🎯 82%</span></div>
+                <div class="text-center rounded-xl bg-rose-100 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 font-mono font-bold py-2.5 px-3 whitespace-nowrap">SPAM<br/><span class="text-[9px] font-medium opacity-80 inline-flex items-center gap-1 justify-center mt-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-target" /></svg><span>82%</span></span></div>
               </div>
             </div>
 
@@ -598,7 +635,7 @@
                 <div class="bg-emerald-500 w-[15%]"></div>
                 <div class="bg-rose-500 w-[15%]"></div>
               </div>
-              <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5"><button type="button" class="glossary-term" data-term="train-test">Train · Val · Test</button>: aprender → afinar → probar.</p>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5"><button type="button" class="glossary-term" data-term="train-test">Train · Val · Test</button>: aprender <svg class="w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right" /></svg> afinar <svg class="w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right" /></svg> probar.</p>
             </div>
 
             <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -609,10 +646,10 @@
             <div class="rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-3">
               <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 text-center">La tabla de aciertos · Ejemplo: ¿spam?</div>
               <div class="grid grid-cols-2 gap-1.5 text-center text-[10px] font-semibold">
-                <div class="rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 p-1.5">✓ TP: spam detectado</div>
-                <div class="rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800 text-rose-800 dark:text-rose-300 p-1.5">⚠ FP: inocente marcado</div>
-                <div class="rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800 text-amber-800 dark:text-amber-300 p-1.5">⚠ FN: spam ignorado</div>
-                <div class="rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 p-1.5">✓ TN: inocente correcto</div>
+                <div class="rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 p-1.5 inline-flex items-center justify-center gap-1.5 w-full"><svg class="w-3.5 h-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check" /></svg>TP: spam detectado</div>
+                <div class="rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800 text-rose-800 dark:text-rose-300 p-1.5 inline-flex items-center justify-center gap-1.5 w-full"><svg class="w-3.5 h-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert" /></svg>FP: inocente marcado</div>
+                <div class="rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800 text-amber-800 dark:text-amber-300 p-1.5 inline-flex items-center justify-center gap-1.5 w-full"><svg class="w-3.5 h-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert" /></svg>FN: spam ignorado</div>
+                <div class="rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 p-1.5 inline-flex items-center justify-center gap-1.5 w-full"><svg class="w-3.5 h-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check" /></svg>TN: inocente correcto</div>
               </div>
             </div>
 
@@ -676,6 +713,7 @@
               <option value="xor">XOR (Binario · No Lineal)</option>
               <option value="clusters">3 Clústeres (Multiclase · Softmax)</option>
             </select>
+            <p id="datasetExample" class="mt-2 text-[11px] leading-snug text-slate-500 dark:text-slate-400"></p>
           </div>
 
           <!-- Slider Neuronas Ocultas -->
@@ -730,6 +768,13 @@
               class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-rose-950/60 text-slate-700 hover:text-rose-700 dark:text-slate-200 dark:hover:text-rose-300 border border-slate-200 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-800 font-semibold text-xs transition-all duration-200 cursor-pointer">
               Reiniciar
             </button>
+
+            <button id="btnSlowToggle" type="button" aria-pressed="false"
+              data-tip="Marcha lenta: entrena una época a la vez con pausa, para la presentación en vivo"
+              class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-semibold text-xs transition-all duration-200 cursor-pointer hover:border-emerald-300 dark:hover:border-emerald-800">
+              <span id="slowDot" class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 transition-colors"></span>
+              Marcha lenta
+            </button>
           </div>
 
         </div>
@@ -743,7 +788,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" /></svg>
             </span>
             <div class="min-w-0">
-              <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-amber-700 dark:text-amber-300">Recorrido guiado · <span id="tourPhaseLabel">Fase 1 / 6</span></div>
+              <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-amber-700 dark:text-amber-300">Recorrido guiado · <span id="tourPhaseLabel">Fase 1 / 7</span></div>
               <div id="tourTitle" class="text-base font-extrabold text-slate-900 dark:text-slate-100 truncate">Bienvenido</div>
             </div>
           </div>
@@ -760,8 +805,8 @@
         <div class="flex items-center justify-between gap-3 mt-4">
           <div id="tourDots" class="flex items-center gap-1.5"></div>
           <div class="flex items-center gap-2">
-            <button id="tourPrev" type="button" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">← Atrás</button>
-            <button id="tourNext" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-400 text-slate-950 shadow-sm transition-colors cursor-pointer">Siguiente →</button>
+            <button id="tourPrev" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-left" /></svg>Atrás</button>
+            <button id="tourNext" type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-400 text-slate-950 shadow-sm transition-colors cursor-pointer"><span id="tourNextLabel">Siguiente</span><svg id="tourNextChev" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right" /></svg><svg id="tourNextCheck" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check" /></svg></button>
           </div>
         </div>
       </div>
@@ -826,8 +871,8 @@
                 <span id="testAssignedClass" class="font-mono text-sm font-bold px-2.5 py-0.5 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">Clase 0</span>
               </div>
 
-              <!-- Barras de confianza -->
-              <div id="confidenceBars" class="space-y-2"></div>
+              <!-- Donut de confianza -->
+              <div id="confidenceDonut" class="flex flex-wrap items-center gap-4"></div>
             </div>
           </div>
 
@@ -838,15 +883,15 @@
 
           <!-- 1. Indicadores Numéricos -->
           <div class="grid grid-cols-3 gap-3.5">
-            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
+            <div id="cardEpoch" class="metric-card bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
               <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Época</div>
               <div id="metricEpoch" class="text-2xl font-mono font-extrabold text-slate-900 dark:text-slate-100 mt-1">0</div>
             </div>
-            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
+            <div id="cardLoss" class="metric-card bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
               <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Pérdida (Loss)</div>
               <div id="metricLoss" class="text-2xl font-mono font-extrabold text-rose-600 dark:text-rose-400 mt-1">0.693</div>
             </div>
-            <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
+            <div id="cardAcc" class="metric-card bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm text-center">
               <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Accuracy</div>
               <div id="metricAcc" class="text-2xl font-mono font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">50%</div>
             </div>
@@ -855,13 +900,20 @@
           <!-- 2. Mini Gráfico en Vivo: Curva de Loss y Accuracy -->
           <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-              <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Curva de Entrenamiento</h3>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Curva de Entrenamiento</h3>
+                <span id="overfitBadge" class="hidden text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border"></span>
+              </div>
               <div class="flex items-center gap-3 text-[11px] font-mono">
                 <span class="flex items-center gap-1.5 text-rose-600 dark:text-rose-400">
                   <span class="w-2.5 h-0.5 bg-rose-500 inline-block"></span> Loss
                 </span>
                 <span class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                   <span class="w-2.5 h-0.5 bg-emerald-500 inline-block"></span> Accuracy
+                </span>
+                <span class="flex items-center gap-1 pl-2 border-l border-slate-200 dark:border-slate-700" data-tip="Datos de entrenamiento o validación: la validación revela sobreajuste">
+                  <button id="metricTrainBtn" type="button" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-indigo-600 text-white dark:bg-indigo-500 dark:text-slate-950">Train</button>
+                  <button id="metricValBtn" type="button" class="px-2.5 py-1 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">Val</button>
                 </span>
               </div>
             </div>
@@ -883,7 +935,12 @@
                 <span class="text-rose-600 dark:text-rose-400">― w &lt; 0</span>
                 <span>(grosor = |w|)</span>
               </div>
-              <div class="w-full h-44 flex items-center justify-center">
+              <div class="flex flex-wrap items-center justify-center gap-1.5 mb-1.5 text-[9px] font-mono">
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">Entrada · 2 datos</span>
+                <span id="actChipHidden" class="px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300">Oculta · tanh</span>
+                <span id="actChipOut" class="px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300">Salida · Sigmoide</span>
+              </div>
+              <div class="w-full h-44 flex items-center justify-center" data-tip="Pasa el cursor sobre los pesos y nodos para ver sus valores numéricos">
                 <svg id="networkSvg" viewBox="0 0 280 180" class="w-full h-full overflow-visible"></svg>
               </div>
               <div class="flex justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 px-2 pt-1">
@@ -918,6 +975,99 @@
       </div>
     </section>
 
+
+    <!-- ===================================================================== -->
+    <!-- SECCIÓN 2b: SIMULACIÓN INTERACTIVA DE ACTIVACIONES (ReLU / SIGMOIDE / SOFTMAX) -->
+    <!-- ===================================================================== -->
+    <section id="activaciones" data-section="Activaciones" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Simulación interactiva · Parte 2</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1">
+            Funciones de Activación
+          </h2>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
+          Cada neurona transforma su entrada con una función. Aquí la dibujas y la juegas en tiempo real:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- PANEL DE GRÁFICO -->
+        <div class="lg:col-span-7 bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
+          <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Gráfico interactivo</h3>
+            <div class="flex items-center gap-1.5" role="tablist" aria-label="Función de activación">
+              <button type="button" id="actTabRelu" role="tab" aria-selected="true" data-act="relu" class="act-tab">ReLU</button>
+              <button type="button" id="actTabSigmo" role="tab" aria-selected="false" data-act="sigmo" class="act-tab">Sigmoide</button>
+              <button type="button" id="actTabSoft" role="tab" aria-selected="false" data-act="softmax" class="act-tab">Softmax</button>
+            </div>
+          </div>
+          <div class="relative w-full h-64 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <canvas id="actCanvas" class="block w-full h-full"></canvas>
+          </div>
+          <!-- Softmax panel: barras de probabilidad -->
+          <div id="actSoftmaxPanel" class="hidden mt-4 grid grid-cols-3 gap-3">
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-3 text-center">
+              <div class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 mb-1">C0 · manzana</div>
+              <div class="h-24 flex items-end justify-center rounded-lg bg-slate-100 dark:bg-slate-800/70 overflow-hidden">
+                <div id="actBar0" class="w-full bg-indigo-500 dark:bg-indigo-400 transition-all duration-200" style="height:33%"></div>
+              </div>
+              <div id="actPct0" class="mt-1.5 font-mono text-sm font-extrabold text-slate-900 dark:text-slate-100">33%</div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-3 text-center">
+              <div class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 mb-1">C1 · naranja</div>
+              <div class="h-24 flex items-end justify-center rounded-lg bg-slate-100 dark:bg-slate-800/70 overflow-hidden">
+                <div id="actBar1" class="w-full bg-emerald-500 dark:bg-emerald-400 transition-all duration-200" style="height:33%"></div>
+              </div>
+              <div id="actPct1" class="mt-1.5 font-mono text-sm font-extrabold text-slate-900 dark:text-slate-100">33%</div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-3 text-center">
+              <div class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 mb-1">C2 · pera</div>
+              <div class="h-24 flex items-end justify-center rounded-lg bg-slate-100 dark:bg-slate-800/70 overflow-hidden">
+                <div id="actBar2" class="w-full bg-rose-500 dark:bg-rose-400 transition-all duration-200" style="height:33%"></div>
+              </div>
+              <div id="actPct2" class="mt-1.5 font-mono text-sm font-extrabold text-slate-900 dark:text-slate-100">33%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL DE CONTROLES Y EXPLICACIÓN -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Controles</h3>
+            <div id="actScalarControls">
+              <div class="flex justify-between items-center mb-1.5">
+                <label for="actZSlider" class="text-xs font-bold text-slate-700 dark:text-slate-300">Entrada z</label>
+                <span id="actZLabel" class="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded-md">1.00</span>
+              </div>
+              <input id="actZSlider" type="range" min="-6" max="6" step="0.1" value="1" class="w-full bg-slate-200 dark:bg-slate-800" />
+              <div class="mt-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-3 text-center">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Salida</div>
+                <div id="actOutLabel" class="font-mono text-2xl font-extrabold text-slate-900 dark:text-slate-100">—</div>
+              </div>
+            </div>
+            <div id="actSoftmaxControls" class="hidden">
+              <label for="actLogit0" class="text-xs font-bold text-slate-700 dark:text-slate-300">Logit C0 · <span id="actLogit0Label" class="font-mono text-indigo-600 dark:text-indigo-400">1.0</span></label>
+              <input id="actLogit0" type="range" min="-4" max="4" step="0.1" value="1" class="w-full bg-slate-200 dark:bg-slate-800 mt-1 mb-2.5" />
+              <label for="actLogit1" class="text-xs font-bold text-slate-700 dark:text-slate-300">Logit C1 · <span id="actLogit1Label" class="font-mono text-emerald-600 dark:text-emerald-400">1.0</span></label>
+              <input id="actLogit1" type="range" min="-4" max="4" step="0.1" value="1" class="w-full bg-slate-200 dark:bg-slate-800 mt-1 mb-2.5" />
+              <label for="actLogit2" class="text-xs font-bold text-slate-700 dark:text-slate-300">Logit C2 · <span id="actLogit2Label" class="font-mono text-rose-600 dark:text-rose-400">1.0</span></label>
+              <input id="actLogit2" type="range" min="-4" max="4" step="0.1" value="1" class="w-full bg-slate-200 dark:bg-slate-800 mt-1" />
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 mb-2">Por qué están ahí</h3>
+            <p id="actExplain" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"></p>
+            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-3">Las redes neuronas necesitan esta función para decidir si una neurona “se activa”. Sin ella, todas las capas serían una única multiplicación de matrices — y nunca podrían aprender patrones complejos.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- ===================================================================== -->
     <!-- SECCIÓN 3: IMPLEMENTACIÓN EN CÓDIGO (REFERENCIA PRÁCTICA)             -->
     <!-- ===================================================================== -->
@@ -940,31 +1090,31 @@
       <!-- Receta visual en 5 pasos -->
       <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
         <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
-          <span class="block text-2xl mb-1" aria-hidden="true">📥</span>
+          <span class="block mb-1 text-indigo-600 dark:text-indigo-400" aria-hidden="true"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-download" /></svg></span>
           <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">1</div>
           <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Datos</div>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Ejemplos con su etiqueta real.</p>
         </li>
         <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
-          <span class="block text-2xl mb-1" aria-hidden="true">🧹</span>
+          <span class="block mb-1 text-teal-600 dark:text-teal-400" aria-hidden="true"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sparkles" /></svg></span>
           <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">2</div>
           <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Preparar</div>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Ordenar y dividir: aprender · afinar · probar.</p>
         </li>
         <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
-          <span class="block text-2xl mb-1" aria-hidden="true">🏗️</span>
+          <span class="block mb-1 text-amber-600 dark:text-amber-400" aria-hidden="true"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-building" /></svg></span>
           <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">3</div>
           <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Diseñar</div>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Capas, neuronas y tipo de salida.</p>
         </li>
         <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
-          <span class="block text-2xl mb-1" aria-hidden="true">🔁</span>
+          <span class="block mb-1 text-rose-600 dark:text-rose-400" aria-hidden="true"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-refresh" /></svg></span>
           <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">4</div>
           <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Entrenar</div>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Adivinar → medir error → ajustar → repetir.</p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Adivinar <svg class="w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right" /></svg> medir error <svg class="w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right" /></svg> ajustar <svg class="w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right" /></svg> repetir.</p>
         </li>
         <li class="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 text-center shadow-sm">
-          <span class="block text-2xl mb-1" aria-hidden="true">✅</span>
+          <span class="block mb-1 text-emerald-600 dark:text-emerald-400" aria-hidden="true"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check-circle" /></svg></span>
           <div class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">5</div>
           <div class="text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">Evaluar</div>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Comprobar en datos nunca vistos.</p>
@@ -1030,7 +1180,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
           <div class="flex items-center justify-between gap-3">
             <div>
               <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Aprender · Glosario</div>
-              <h2 id="glossaryTitle" class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-0.5">Palabras técnicas, contadas en criollo</h2>
+              <h2 id="glossaryTitle" class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-0.5">Palabras técnicas, explicadas</h2>
             </div>
             <button id="btnGlossaryClose" type="button" aria-label="Cerrar glosario"
               class="flex-none p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
@@ -1082,6 +1232,8 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
           this.epoch = 0;
           this.lossHistory = [];
           this.accHistory = [];
+          this.valLossHistory = [];
+          this.valAccHistory = [];
           this.initWeights();
         }
 
@@ -1109,6 +1261,8 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
           this.epoch = 0;
           this.lossHistory = [];
           this.accHistory = [];
+          this.valLossHistory = [];
+          this.valAccHistory = [];
         }
 
         sigmoid(z) {
@@ -1161,7 +1315,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
           return bestIdx;
         }
 
-        trainEpoch(data, lr) {
+        trainEpoch(data, lr, valData) {
           const n = data.length;
           if (n === 0) return this.evaluate(data);
 
@@ -1246,6 +1400,17 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
             this.accHistory.shift();
           }
 
+          // Historial de validación (separado) — usado por la curva y el badge de sobreajuste
+          if (valData && valData.length) {
+            const v = this.evaluate(valData);
+            this.valLossHistory.push(v.loss);
+            this.valAccHistory.push(v.acc);
+            if (this.valLossHistory.length > 260) {
+              this.valLossHistory.shift();
+              this.valAccHistory.shift();
+            }
+          }
+
           return { loss: avgLoss, acc, cm };
         }
 
@@ -1276,6 +1441,21 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
 
           return { loss: totalLoss / n, acc: (correct / n) * 100, cm };
         }
+      }
+
+      /* =====================================================================
+         2a. EJEMPLOS COTIDIANO DE CADA DATASET
+         ===================================================================== */
+      const DATASET_EXAMPLES = {
+        linear: '¿Lluvia o sol? Dos rasgos: horas de sol y temperatura. Un corte recto decide «va a llover» vs «va a salir».',
+        circles: '¿Dentro del radio seguro a pie de la escuela? El centro del círculo es «cerca de la escuela»; el anillo exterior, «lejos».',
+        xor: '¿Salgo a correr? Dos rasgos: tengo tiempo y el día es agradable. XOR: solo uno de los dos debe ser verdadero.',
+        clusters: '¿Qué tipo de fruta es? Manzana, naranja o pera: una sola categoría por punto y el Softmax decide la clase.'
+      };
+
+      function updateDatasetExample() {
+        if (!datasetExampleEl) return;
+        datasetExampleEl.textContent = DATASET_EXAMPLES[state.datasetType] || '';
       }
 
       /* =====================================================================
@@ -1378,6 +1558,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
       const heatImg = offCtx.createImageData(heatRes, heatRes);
 
       const datasetSelect = document.getElementById('datasetSelect');
+      const datasetExampleEl = document.getElementById('datasetExample');
       const neuronsSlider = document.getElementById('neuronsSlider');
       const neuronsValue = document.getElementById('neuronsValue');
       const lrSlider = document.getElementById('lrSlider');
@@ -1396,15 +1577,23 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
       const svgOutLabel = document.getElementById('svgOutLabel');
       const cmSizeBadge = document.getElementById('cmSizeBadge');
 
-      const metricEpoch = document.getElementById('metricEpoch');
-      const metricLoss = document.getElementById('metricLoss');
-      const metricAcc = document.getElementById('metricAcc');
+      const metricEpochEl = document.getElementById('metricEpoch');
+      const metricLossEl = document.getElementById('metricLoss');
+      const metricAccEl = document.getElementById('metricAcc');
+      const cardEpochEl = document.getElementById('cardEpoch');
+      const cardLossEl = document.getElementById('cardLoss');
+      const cardAccEl = document.getElementById('cardAcc');
+      const overfitBadgeEl = document.getElementById('overfitBadge');
+      const actChipHidden = document.getElementById('actChipHidden');
+      const actChipOut = document.getElementById('actChipOut');
+      const metricTrainBtn = document.getElementById('metricTrainBtn');
+      const metricValBtn = document.getElementById('metricValBtn');
 
       const testCoords = document.getElementById('testCoords');
       const testPredPlaceholder = document.getElementById('testPredPlaceholder');
       const testPredContent = document.getElementById('testPredContent');
       const testAssignedClass = document.getElementById('testAssignedClass');
-      const confidenceBars = document.getElementById('confidenceBars');
+      const confidenceDonut = document.getElementById('confidenceDonut');
 
       let state = {
         datasetType: 'circles',
@@ -1413,8 +1602,13 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
         numClasses: 2,
         isTraining: false,
         data: [],
+        trainData: [],
+        valData: [],
         nn: null,
-        testPoint: null // { x, y } seleccionado por clic
+        testPoint: null, // { x, y } seleccionado por clic
+        metricSplit: 'train', // 'train' | 'val'
+        slowMotion: false,
+        slowLastStep: 0
       };
 
       function isDarkMode() {
@@ -1563,12 +1757,13 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
           metricsCtx.stroke();
         }
 
-        const losses = state.nn.lossHistory;
-        const accs = state.nn.accHistory;
+        const isVal = state.metricSplit === 'val';
+        const losses = isVal ? state.nn.valLossHistory : state.nn.lossHistory;
+        const accs = isVal ? state.nn.valAccHistory : state.nn.accHistory;
         if (losses.length < 2) {
           metricsCtx.fillStyle = dark ? '#94a3b8' : '#64748b';
           metricsCtx.font = '11px "JetBrains Mono", monospace';
-          metricsCtx.fillText('Presiona "Entrenar" o "+1 Época" para graficar...', 6, h / 2 + 4);
+          metricsCtx.fillText(isVal ? 'Las historias de Validación aparecen al entrenar con el entrenamiento principal…' : 'Presiona "Entrenar" o "+1 Época" para graficar...', 6, h / 2 + 4);
           return;
         }
 
@@ -1640,7 +1835,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
             const color = w >= 0 ? '#2563eb' : '#e11d48';
             const sw = clamp(Math.abs(w) * 1.1, 0.6, 3.6);
             const op = clamp(Math.abs(w) * 0.45, 0.22, 0.92);
-            svg += `<line x1="${inNodes[i].x}" y1="${inNodes[i].y}" x2="${hidNodes[j].x}" y2="${hidNodes[j].y}" stroke="${color}" stroke-width="${sw.toFixed(2)}" stroke-opacity="${op.toFixed(2)}" stroke-linecap="round" />`;
+            svg += `<line x1="${inNodes[i].x}" y1="${inNodes[i].y}" x2="${hidNodes[j].x}" y2="${hidNodes[j].y}" stroke="${color}" stroke-width="${sw.toFixed(2)}" stroke-opacity="${op.toFixed(2)}" stroke-linecap="round"><title>Entrada ${i + 1} a oculta ${j + 1} · w = ${w.toFixed(3)}</title></line>`;
           }
         }
 
@@ -1651,25 +1846,31 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
             const color = w >= 0 ? '#2563eb' : '#e11d48';
             const sw = clamp(Math.abs(w) * 1.1, 0.6, 3.6);
             const op = clamp(Math.abs(w) * 0.45, 0.22, 0.92);
-            svg += `<line x1="${hidNodes[j].x}" y1="${hidNodes[j].y}" x2="${outNodes[k].x}" y2="${outNodes[k].y}" stroke="${color}" stroke-width="${sw.toFixed(2)}" stroke-opacity="${op.toFixed(2)}" stroke-linecap="round" />`;
+            svg += `<line x1="${hidNodes[j].x}" y1="${hidNodes[j].y}" x2="${outNodes[k].x}" y2="${outNodes[k].y}" stroke="${color}" stroke-width="${sw.toFixed(2)}" stroke-opacity="${op.toFixed(2)}" stroke-linecap="round"><title>Oculta ${j + 1} a salida ${k + 1} · w = ${w.toFixed(3)}</title></line>`;
           }
         }
 
         // Nodos Entrada
-        inNodes.forEach((n) => {
-          svg += `<circle cx="${n.x}" cy="${n.y}" r="12" fill="${nodeFill}" stroke="#4f46e5" stroke-width="2" />`;
+        inNodes.forEach((n, idx) => {
+          svg += `<circle cx="${n.x}" cy="${n.y}" r="12" fill="${nodeFill}" stroke="#4f46e5" stroke-width="2"><title>Entrada ${idx + 1} (${n.label}): el dato inicial que llega a la red</title></circle>`;
           svg += `<text x="${n.x}" y="${n.y + 4}" text-anchor="middle" fill="${textFill}" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="600">${n.label}</text>`;
         });
 
         // Nodos Ocultos
         const hRadius = hCount > 8 ? 6.5 : 8.5;
-        hidNodes.forEach((n) => {
-          svg += `<circle cx="${n.x}" cy="${n.y}" r="${hRadius}" fill="${nodeFill}" stroke="#6366f1" stroke-width="1.8" />`;
+        const testForward = state.testPoint ? nn.forward(state.testPoint.x, state.testPoint.y) : null;
+        hidNodes.forEach((n, j) => {
+          const bias = nn.b1[j];
+          let actTip = bias.toFixed(3);
+          if (testForward) actTip += ' · activación ' + testForward.h[j].toFixed(3);
+          svg += `<circle cx="${n.x}" cy="${n.y}" r="${hRadius}" fill="${nodeFill}" stroke="#6366f1" stroke-width="1.8"><title>Oculta ${j + 1} · sesgo b = ${bias.toFixed(3)}${testForward ? ' · activación ' + testForward.h[j].toFixed(3) : ''}</title></circle>`;
         });
 
         // Nodos Salida
-        outNodes.forEach((n) => {
-          svg += `<circle cx="${n.x}" cy="${n.y}" r="12.5" fill="${nodeFill}" stroke="${n.color}" stroke-width="2.2" />`;
+        outNodes.forEach((n, k) => {
+          const logits = state.testPoint ? nn.forward(state.testPoint.x, state.testPoint.y).rawOut : null;
+          const tip = nn.outSize === 1 ? 'salida Σ' : 'clase ' + k;
+          svg += `<circle cx="${n.x}" cy="${n.y}" r="12.5" fill="${nodeFill}" stroke="${n.color}" stroke-width="2.2"><title>Salida ${k + 1} · ${tip}${logits ? ' · valor ' + logits[k].toFixed(3) : ''}</title></circle>`;
           svg += `<text x="${n.x}" y="${n.y + 4}" text-anchor="middle" fill="${textFill}" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="700">${n.label}</text>`;
         });
 
@@ -1724,22 +1925,46 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
         testAssignedClass.textContent = CLASS_COLORS[pred].name;
         testAssignedClass.className = `font-mono text-sm font-bold px-2.5 py-0.5 rounded-lg ${CLASS_COLORS[pred].badge}`;
 
-        let barsHtml = '';
+        confidenceDonut.innerHTML = buildDonut(probs, pred);
+      }
+
+      function buildDonut(probs, pred) {
+        const predPct = probs[pred] * 100;
+        let offset = 0;
+        let arcs = '';
+        for (let c = 0; c < probs.length; c++) {
+          const pct = probs[c] * 100;
+          if (pct < 1.5) continue;
+          const len = Math.max(pct - 2.2, 0.9);
+          arcs += `<circle cx="60" cy="60" r="46" fill="none" stroke="${CLASS_COLORS[c].hex}" stroke-width="15" pathLength="100" stroke-dasharray="${len.toFixed(2)} ${(100 - len).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" stroke-linecap="round" opacity="0.95" />`;
+          offset += pct;
+        }
+
+        let legend = '';
         for (let c = 0; c < probs.length; c++) {
           const pct = (probs[c] * 100).toFixed(1);
-          barsHtml += `
-            <div>
-              <div class="flex justify-between text-xs font-mono mb-1">
-                <span class="font-semibold text-slate-700 dark:text-slate-300">${CLASS_COLORS[c].name}</span>
-                <span class="font-bold text-slate-900 dark:text-slate-100">${pct}%</span>
-              </div>
-              <div class="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                <div class="h-full rounded-full ${CLASS_COLORS[c].bar} transition-all duration-150" style="width: ${pct}%"></div>
+          legend += `<div class="flex items-center justify-between text-xs font-mono">
+            <span class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
+              <span class="w-2.5 h-2.5 rounded-full inline-block" style="background:${CLASS_COLORS[c].hex}"></span>${CLASS_COLORS[c].name}
+            </span>
+            <span class="font-bold text-slate-900 dark:text-slate-100">${pct}%</span>
+          </div>`;
+        }
+
+        return `
+          <div class="relative w-24 h-24 flex-none" role="img" aria-label="Donut de confianza: ${CLASS_COLORS[pred].name} ${predPct.toFixed(1)}%">
+            <svg viewBox="0 0 120 120" class="w-full h-full -rotate-90" aria-hidden="true">
+              <circle cx="60" cy="60" r="46" fill="none" stroke="currentColor" stroke-width="15" pathLength="100" stroke-dasharray="100 100" class="text-slate-200 dark:text-slate-700" opacity="0.45" />
+              ${arcs}
+            </svg>
+            <div class="absolute inset-0 grid place-items-center text-center">
+              <div>
+                <div class="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Confianza</div>
+                <div class="font-mono text-xl font-extrabold leading-none" style="color:${CLASS_COLORS[pred].hex}">${predPct.toFixed(1)}%</div>
               </div>
             </div>
-          `;
-        }
-        confidenceBars.innerHTML = barsHtml;
+          </div>
+          <div class="space-y-1.5 flex-1 min-w-[140px]">${legend}</div>`;
       }
 
       function updateModeUI() {
@@ -1757,20 +1982,76 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
           svgOutLabel.textContent = 'Out (3)';
         }
         svgHiddenLabel.textContent = `Oculta (${state.hiddenSize})`;
+        if (actChipHidden) actChipHidden.textContent = `Oculta · tanh (${state.hiddenSize})`;
+        if (actChipOut) actChipOut.textContent = state.numClasses === 2 ? 'Salida · Sigmoide (1)' : 'Salida · Softmax (3)';
       }
 
-      function renderAll(metrics) {
+      function renderAll() {
         if (!state.nn) return;
-        const m = metrics || state.nn.evaluate(state.data);
-        metricEpoch.textContent = state.nn.epoch;
-        metricLoss.textContent = m.loss.toFixed(3);
-        metricAcc.textContent = `${Math.round(m.acc)}%`;
+        const metricData = state.metricSplit === 'val' ? state.valData : state.trainData;
+        const m = state.nn.evaluate(metricData);
+        animateMetric(metricEpochEl, state.nn.epoch, function (v) { return String(Math.round(v)); });
+        animateMetric(metricLossEl, m.loss, function (v) { return v.toFixed(3); });
+        animateMetric(metricAccEl, m.acc, function (v) { return Math.round(v) + '%'; });
+        pulseCard(cardEpochEl);
+        pulseCard(cardLossEl);
+        pulseCard(cardAccEl);
+
+        updateOverfitBadge();
 
         drawDecisionBoundary();
         drawMetricsChart();
         drawNetworkDiagram();
         drawConfusionMatrix(m.cm);
         updateTestPredictionCard();
+      }
+
+      const animMap = new Map();
+      function animateMetric(el, target, fmt) {
+        if (!el) return;
+        var prev = animMap.get(el.id);
+        var from = prev ? prev.value : target;
+        var token = (prev ? prev.token : 0) + 1;
+        var anim = { value: from, token: token };
+        animMap.set(el.id, anim);
+        var start = performance.now();
+        var dur = 240;
+        function tick() {
+          if (animMap.get(el.id) !== anim || anim.token !== token) return;
+          var t = Math.min(1, (performance.now() - start) / dur);
+          var eased = 1 - Math.pow(1 - t, 3);
+          anim.value = from + (target - from) * eased;
+          el.textContent = fmt(anim.value);
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        tick();
+      }
+
+      function pulseCard(cardEl) {
+        if (!cardEl) return;
+        cardEl.classList.remove('metric-pulse');
+        void cardEl.offsetWidth;
+        cardEl.classList.add('metric-pulse');
+      }
+
+      function updateOverfitBadge() {
+        if (!state.nn || !overfitBadgeEl) return;
+        var trainM = state.nn.evaluate(state.trainData);
+        var valM = state.nn.evaluate(state.valData);
+        var accGap = trainM.acc - valM.acc;
+        var lossGap = valM.loss - trainM.loss;
+        var overfit = (accGap > 12) || (trainM.loss > 0.05 && lossGap / trainM.loss > 0.35);
+        if (overfit) {
+          overfitBadgeEl.textContent = 'Sobreajuste';
+          overfitBadgeEl.className = 'text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700';
+          overfitBadgeEl.classList.remove('hidden');
+          overfitBadgeEl.setAttribute('data-tip', 'Train gana mucho a Val: la red está memorizando. Reduce neuronas o aumenta Learning Rate.');
+        } else {
+          overfitBadgeEl.textContent = 'Bien ajustado';
+          overfitBadgeEl.className = 'text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700';
+          overfitBadgeEl.classList.remove('hidden');
+          overfitBadgeEl.setAttribute('data-tip', 'Train y Val van de la mano: la red generaliza.');
+        }
       }
 
       /* =====================================================================
@@ -1795,21 +2076,45 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
           state.numClasses = ds.numClasses;
           state.testPoint = null;
         }
+        if (regenData) splitTrainVal();
         state.nn = new MLPClassifier(state.hiddenSize, state.numClasses);
-        const initM = state.nn.evaluate(state.data);
+        const initM = state.nn.evaluate(state.trainData);
         state.nn.lossHistory.push(initM.loss);
         state.nn.accHistory.push(initM.acc);
         updateModeUI();
-        renderAll(initM);
+        updateDatasetExample();
+        renderAll();
+      }
+
+      function splitTrainVal() {
+        // Dividir aleatoriamente en ~75% entrenamiento / 25% validación
+        const pts = state.data.slice();
+        for (let i = pts.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const t = pts[i]; pts[i] = pts[j]; pts[j] = t;
+        }
+        const cut = Math.max(1, Math.floor(pts.length * 0.75));
+        state.trainData = pts.slice(0, cut);
+        state.valData = pts.slice(cut);
       }
 
       function loop() {
         if (state.isTraining && state.nn) {
-          let m;
-          for (let i = 0; i < 4; i++) {
-            m = state.nn.trainEpoch(state.data, state.lr);
+          var now = performance.now();
+          var steps = 4;
+          if (state.slowMotion) {
+            if (now - state.slowLastStep < 160) {
+              requestAnimationFrame(loop);
+              return;
+            }
+            state.slowLastStep = now;
+            steps = 1;
           }
-          renderAll(m);
+          var m;
+          for (var i = 0; i < steps; i++) {
+            m = state.nn.trainEpoch(state.trainData, state.lr, state.valData);
+          }
+          renderAll();
         }
         requestAnimationFrame(loop);
       }
@@ -1834,11 +2139,46 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
 
       btnStep.addEventListener('click', () => {
         setTraining(false);
-        const m = state.nn.trainEpoch(state.data, state.lr);
-        renderAll(m);
+        const m = state.nn.trainEpoch(state.trainData, state.lr, state.valData);
+        renderAll();
       });
 
       btnReset.addEventListener('click', () => resetSimulation(true));
+
+      // Toggle Train / Val (badge + curvas siguen el split activo)
+      function setMetricSplit(split) {
+        state.metricSplit = split;
+        if (metricTrainBtn && metricValBtn) {
+          var trainOn = split === 'train';
+          metricTrainBtn.className = trainOn ? 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-indigo-600 text-white dark:bg-indigo-500 dark:text-slate-950' : 'px-2.5 py-1 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800';
+          metricValBtn.className = trainOn ? 'px-2.5 py-1 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800' : 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950';
+        }
+        renderAll();
+      }
+      if (metricTrainBtn) metricTrainBtn.addEventListener('click', function () { setMetricSplit('train'); });
+      if (metricValBtn) metricValBtn.addEventListener('click', function () { setMetricSplit('val'); });
+
+      // Marcha lenta (modo demo para presentación en vivo)
+      var btnSlowToggle = document.getElementById('btnSlowToggle');
+      var slowDot = document.getElementById('slowDot');
+      if (btnSlowToggle) {
+        btnSlowToggle.addEventListener('click', function () {
+          state.slowMotion = !state.slowMotion;
+          btnSlowToggle.setAttribute('aria-pressed', String(state.slowMotion));
+          if (slowDot) slowDot.className = 'w-2 h-2 rounded-full transition-colors ' + (state.slowMotion ? 'bg-emerald-500 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600');
+          btnSlowToggle.classList.toggle('bg-emerald-50', state.slowMotion);
+          btnSlowToggle.classList.toggle('dark:bg-emerald-950/60', state.slowMotion);
+          btnSlowToggle.classList.toggle('border-emerald-300', state.slowMotion);
+          btnSlowToggle.classList.toggle('dark:border-emerald-800', state.slowMotion);
+          btnSlowToggle.classList.toggle('text-emerald-700', state.slowMotion);
+          btnSlowToggle.classList.toggle('dark:text-emerald-300', state.slowMotion);
+          btnSlowToggle.classList.toggle('bg-white', !state.slowMotion);
+          btnSlowToggle.classList.toggle('dark:bg-slate-800', !state.slowMotion);
+          btnSlowToggle.classList.toggle('text-slate-600', !state.slowMotion);
+          btnSlowToggle.classList.toggle('dark:text-slate-300', !state.slowMotion);
+          state.slowLastStep = 0;
+        });
+      }
 
       // Prueba interactiva con clic o toque en el Canvas
       function handleTestPointSelect(clientX, clientY) {
@@ -1899,6 +2239,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
         iconSun.classList.toggle('hidden', !darkNow);
         themeLabel.textContent = darkNow ? 'Modo Claro' : 'Modo Oscuro';
         renderAll();
+        if (window.refreshActivations) window.refreshActivations();
       });
 
       btnMobileMenu.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -1956,6 +2297,264 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
         requestAnimationFrame(loop);
       });
     })();
+  </script>
+  <script>
+(function () {
+  'use strict';
+
+  /* ========================================================================
+     SIMULACIÓN 2 · ACTIVACIONES (ReLU / Sigmoide / Softmax)
+     ======================================================================== */
+  var canvas = document.getElementById('actCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var canvasWrap = canvas.parentElement;
+  var softmaxPanel = document.getElementById('actSoftmaxPanel');
+  var scalarControls = document.getElementById('actScalarControls');
+  var softmaxControls = document.getElementById('actSoftmaxControls');
+  var zSlider = document.getElementById('actZSlider');
+  var zLabel = document.getElementById('actZLabel');
+  var outLabel = document.getElementById('actOutLabel');
+  var actExplain = document.getElementById('actExplain');
+  var tabs = {
+    relu: document.getElementById('actTabRelu'),
+    sigmo: document.getElementById('actTabSigmo'),
+    softmax: document.getElementById('actTabSoft')
+  };
+  var logitSliders = [
+    document.getElementById('actLogit0'),
+    document.getElementById('actLogit1'),
+    document.getElementById('actLogit2')
+  ];
+  var logitLabels = [
+    document.getElementById('actLogit0Label'),
+    document.getElementById('actLogit1Label'),
+    document.getElementById('actLogit2Label')
+  ];
+  var pctLabels = [
+    document.getElementById('actPct0'),
+    document.getElementById('actPct1'),
+    document.getElementById('actPct2')
+  ];
+  var bars = [
+    document.getElementById('actBar0'),
+    document.getElementById('actBar1'),
+    document.getElementById('actBar2')
+  ];
+
+  var explain = {
+    relu: 'ReLU (rectificar lineal) corta los negativos a cero y deja pasar los positivos tal cual. Es la función más usada en capas ocultas: simple, computa rápido y evita que el gradiente se desvanezca.',
+    sigmo: 'La sigmoide convierte cualquier número en una probabilidad entre 0 y 1. Es la función clásica de salida para clasificaciones binarias: habla «sí» o «no».',
+    softmax: 'Softmax toma los logits y convierte la entrada en probabilidades que suman exactamente 1 (elige entre 3 clases). Es la función de salida para clasificaciones multiclase.'
+  };
+
+  var actState = { mode: 'relu', z: 1, logits: [1, 1, 1] };
+
+  function sigmoid(z) {
+    if (z > 35) return 1 - 1e-15;
+    if (z < -35) return 1e-15;
+    return 1 / (1 + Math.exp(-z));
+  }
+
+  function relu(z) { return Math.max(0, z); }
+
+  function softmax(logits) {
+    var maxL = Math.max.apply(null, logits);
+    var exps = logits.map(function (v) { return Math.exp(v - maxL); });
+    var sum = exps.reduce(function (a, b) { return a + b; }, 0);
+    return exps.map(function (v) { return v / sum; });
+  }
+
+  function currentFn() {
+    return actState.mode === 'relu' ? relu : sigmoid;
+  }
+
+  function resizeCanvas() {
+    var rect = canvasWrap.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.max(10, Math.floor(rect.width * dpr));
+    canvas.height = Math.max(10, Math.floor(rect.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    render();
+  }
+
+  function render() {
+    var rect = canvasWrap.getBoundingClientRect();
+    var w = rect.width, h = rect.height;
+    if (!w || !h) return;
+
+    var dark = document.documentElement.classList.contains('dark');
+    var bg = dark ? '#0f172a' : '#f8fafc';
+    var grid = dark ? 'rgba(148, 163, 184, 0.16)' : 'rgba(15, 23, 42, 0.09)';
+    var axis = dark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(15, 23, 42, 0.35)';
+    var text = dark ? '#94a3b8' : '#64748b';
+
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+
+    var padL = 40, padR = 18, padT = 16, padB = 30;
+    var plotW = w - padL - padR;
+    var plotH = h - padT - padB;
+    var zMin = -6, zMax = 6;
+    var yMin, yMax;
+    if (actState.mode === 'relu') { yMin = -0.6; yMax = 6.4; }
+    else { yMin = -0.08; yMax = 1.08; }
+
+    var xOf = function (z) { return padL + ((z - zMin) / (zMax - zMin)) * plotW; };
+    var yOf = function (v) { return padT + (1 - (v - yMin) / (yMax - yMin)) * plotH; };
+
+    // Cuadrícula
+    ctx.strokeStyle = grid;
+    ctx.lineWidth = 1;
+    ctx.fillStyle = text;
+    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    for (var gx = zMin; gx <= zMax; gx += 2) {
+      var gxPos = xOf(gx);
+      ctx.beginPath();
+      ctx.moveTo(gxPos, padT);
+      ctx.lineTo(gxPos, padT + plotH);
+      ctx.stroke();
+      ctx.fillText(String(gx), gxPos, padT + plotH + 16);
+    }
+    ctx.textAlign = 'right';
+    var yTicks = actState.mode === 'relu' ? [0, 2, 4, 6] : [0, 0.5, 1];
+    ctx.textAlign = 'center';
+    for (var i = 0; i < yTicks.length; i++) {
+      var gy = yTicks[i];
+      var gyPos = yOf(gy);
+      ctx.beginPath();
+      ctx.moveTo(padL, gyPos);
+      ctx.lineTo(padL + plotW, gyPos);
+      ctx.stroke();
+      ctx.fillText(String(gy), padL - 8, gyPos + 3);
+    }
+
+    // Ejes
+    ctx.strokeStyle = axis;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), padT);
+    ctx.lineTo(xOf(0), padT + plotH);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(padL, yOf(0));
+    ctx.lineTo(padL + plotW, yOf(0));
+    ctx.stroke();
+
+    // Curva
+    var fn = currentFn();
+    var n = 220;
+    var curveColor = actState.mode === 'relu' ? '#f97316' : '#4f46e5';
+    ctx.beginPath();
+    for (var i2 = 0; i2 <= n; i2++) {
+      var z = zMin + (i2 / n) * (zMax - zMin);
+      var v = fn(z);
+      var cx = xOf(z), cy = yOf(v);
+      if (i2 === 0) ctx.moveTo(cx, cy);
+      else ctx.lineTo(cx, cy);
+    }
+    ctx.strokeStyle = curveColor;
+    ctx.lineWidth = 2.6;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    // Área bajo la curva (suave)
+    ctx.beginPath();
+    var first = true;
+    for (var i3 = 0; i3 <= n; i3++) {
+      var z2 = zMin + (i3 / n) * (zMax - zMin);
+      var v2 = fn(z2);
+      if (first) { ctx.moveTo(xOf(z2), yOf(v2)); first = false; }
+      else ctx.lineTo(xOf(z2), yOf(v2));
+    }
+    ctx.lineTo(xOf(zMax), yOf(0));
+    ctx.lineTo(xOf(zMin), yOf(0));
+    ctx.closePath();
+    ctx.fillStyle = actState.mode === 'relu' ? 'rgba(249, 115, 22, 0.12)' : 'rgba(79, 70, 229, 0.12)';
+    ctx.fill();
+
+    // Punto actual
+    var z = actState.z;
+    var val = fn(z);
+    var dx = xOf(z), dy = yOf(val);
+    ctx.beginPath();
+    ctx.arc(dx, dy, 14, 0, Math.PI * 2);
+    ctx.fillStyle = actState.mode === 'relu' ? 'rgba(249, 115, 22, 0.18)' : 'rgba(79, 70, 229, 0.18)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(dx, dy, 6, 0, Math.PI * 2);
+    ctx.fillStyle = curveColor;
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Etiqueta flotante
+    var label = 'f(' + z.toFixed(1) + ') = ' + val.toFixed(3);
+    ctx.font = 'bold 11px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = text;
+    ctx.fillText(label, Math.min(Math.max(dx, padL + 52), padL + plotW - 52), Math.max(padT + 6, dy - 22));
+
+    zLabel.textContent = z.toFixed(1);
+    outLabel.textContent = val.toFixed(3);
+  }
+
+  function renderSoftmax() {
+    var logits = actState.logits;
+    var probs = softmax(logits);
+    for (var i = 0; i < 3; i++) {
+      logitLabels[i].textContent = logits[i].toFixed(1);
+      pctLabels[i].textContent = Math.round(probs[i] * 100) + '%';
+      bars[i].style.height = Math.max(4, Math.round(probs[i] * 100)) + '%';
+    }
+  }
+
+  function setMode(mode) {
+    actState.mode = mode;
+    Object.keys(tabs).forEach(function (key) {
+      var tab = tabs[key];
+      if (tab) tab.setAttribute('aria-selected', String(key === mode));
+    });
+    var isSoftmax = mode === 'softmax';
+    if (softmaxPanel) softmaxPanel.classList.toggle('hidden', !isSoftmax);
+    if (canvasWrap) canvasWrap.classList.toggle('hidden', isSoftmax);
+    if (scalarControls) scalarControls.classList.toggle('hidden', isSoftmax);
+    if (softmaxControls) softmaxControls.classList.toggle('hidden', !isSoftmax);
+    if (actExplain) actExplain.textContent = explain[mode];
+    if (isSoftmax) renderSoftmax();
+    else render();
+  }
+
+  if (zSlider) zSlider.addEventListener('input', function () {
+    actState.z = parseFloat(zSlider.value);
+    render();
+  });
+
+  logitSliders.forEach(function (slider, i) {
+    if (!slider) return;
+    slider.addEventListener('input', function () {
+      actState.logits[i] = parseFloat(slider.value);
+      renderSoftmax();
+    });
+  });
+
+  Object.keys(tabs).forEach(function (key) {
+    if (!tabs[key]) return;
+    tabs[key].addEventListener('click', function () { setMode(key); });
+  });
+
+  window.addEventListener('resize', function () { if (actState.mode !== 'softmax') resizeCanvas(); });
+
+  window.refreshActivations = function () {
+    if (actState.mode === 'softmax') renderSoftmax();
+    else resizeCanvas();
+  };
+
+  setMode('relu');
+  window.addEventListener('load', function () { resizeCanvas(); renderSoftmax(); });
+})();
   </script>
   <script>
 (function () {
@@ -2032,7 +2631,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
       what: 'Función que convierte cualquier número en una probabilidad entre 0 y 1.',
       example: '0.82 = "82% seguro".',
       formula: 'σ(z) = 1 / (1 + e^(-z))',
-      formulaMeaning: 'Convierte la suma ponderada en una probabilidad. Si z es muy grande → cerca de 1; si es muy negativo → cerca de 0.',
+      formulaMeaning: 'Convierte la suma ponderada en una probabilidad. Si z es muy grande <svg class=\'w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\' viewBox=\'0 0 24 24\' aria-hidden=\'true\'><use href=\'#i-chevron-right\' /></svg> cerca de 1; si es muy negativo <svg class=\'w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\' viewBox=\'0 0 24 24\' aria-hidden=\'true\'><use href=\'#i-chevron-right\' /></svg> cerca de 0.',
       aliases: ['sigmoid']
     },
     {
@@ -2301,7 +2900,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
     if (!checklistEl) return;
     checklistEl.innerHTML = CHECKLIST_ITEMS.map(function (it) {
       var done = !!checklistState[it.id];
-      return '<span class="ck-item' + (done ? ' ck-done' : '') + '" data-ck="' + it.id + '"><span class="ck-box">' + (done ? '✓' : '') + '</span>' + it.label + '</span>';
+      return '<span class="ck-item' + (done ? ' ck-done' : '') + '" data-ck="' + it.id + '"><span class="ck-box" aria-hidden="true">' + (done ? '<svg class=\"w-3 h-3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" viewBox=\"0 0 24 24\"><use href=\"#i-check\" /></svg>' : '') + '</span>' + it.label + '</span>';
     }).join('');
   }
 
@@ -2318,7 +2917,7 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
     {
       id: 'intro', target: null,
       title: 'Bienvenido al recorrido',
-      body: 'Estás frente a una <button type="button" class="glossary-term" data-term="mlp">red neuronal</button> real que aprende a clasificar puntos en el plano. En 6 fases recorremos el proceso paso a paso — tú presionas y la red aprende.'
+      body: 'Estás frente a una <button type="button" class="glossary-term" data-term="mlp">red neuronal</button> real que aprende a clasificar puntos en el plano. En 7 fases recorremos el proceso paso a paso — tú presionas y la red aprende.'
     },
     {
       id: 'dataset', target: 'datasetSelect',
@@ -2347,9 +2946,15 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
     {
       id: 'compare', target: 'btnReset',
       title: 'Reinicia y compara',
-      body: 'Presiona <b>Reiniciar</b>: los puntos y pesos se regeneran y la red empieza de cero. Ese es el ciclo completo: datos → entrenamiento → prueba.',
+      body: "Presiona <b>Reiniciar</b>: los puntos y pesos se regeneran y la red empieza de cero. Ese es el ciclo completo: datos <svg class='w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' aria-hidden='true'><use href='#i-chevron-right' /></svg> entrenamiento <svg class='w-3 h-3 inline-block align-[-2px] text-indigo-500 dark:text-indigo-400' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' aria-hidden='true'><use href='#i-chevron-right' /></svg> prueba.",
       ck: 'compare'
-    }
+    },
+    {
+      id: 'curves', target: 'confusionMatrixContainer',
+      title: 'Lee las curvas y la matriz',
+      body: 'Abajo tienes la <b>curva de entrenamiento</b>: la <b>pérdida</b> baja y la <b>accuracy</b> sube mientras la red mejora. La <b>matriz de confusión</b> muestra qué clase predijo la red por cada clase real: la <b>diagonal</b> son aciertos, las celdas fuera de ella son errores.',
+      noAuto: true
+    },
   ];
 
   var tourState = {
@@ -2365,6 +2970,9 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
   var tourPhaseLabel = document.getElementById('tourPhaseLabel');
   var tourDots = document.getElementById('tourDots');
   var tourNextBtn = document.getElementById('tourNext');
+  var tourNextLabel = document.getElementById('tourNextLabel');
+  var tourNextChev = document.getElementById('tourNextChev');
+  var tourNextCheck = document.getElementById('tourNextCheck');
   var tourPrevBtn = document.getElementById('tourPrev');
   var tourCloseBtn = document.getElementById('tourClose');
   var hotspotTour = document.getElementById('hotspotTour');
@@ -2393,7 +3001,10 @@ modelo.<span class="tok-fn">evaluate</span>(X_test, y_test)</code></pre>
     tourDotsHTML();
     if (tourPrevBtn) tourPrevBtn.disabled = tourState.phase === 0;
     if (tourPrevBtn) tourPrevBtn.style.opacity = tourState.phase === 0 ? '0.4' : '1';
-    if (tourNextBtn) tourNextBtn.textContent = tourState.phase === TOUR.length - 1 ? 'Cerrar ✓' : 'Siguiente →';
+    var lastPhase = tourState.phase === TOUR.length - 1;
+    if (tourNextLabel) tourNextLabel.textContent = lastPhase ? 'Cerrar' : 'Siguiente';
+    if (tourNextChev) tourNextChev.classList.toggle('hidden', lastPhase);
+    if (tourNextCheck) tourNextCheck.classList.toggle('hidden', !lastPhase);
     renderChecklist();
     // Anillo
     if (tourRing) {
